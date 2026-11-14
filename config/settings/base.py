@@ -17,7 +17,19 @@ if env_file.exists():
 
 SECRET_KEY = env("DJANGO_SECRET_KEY", default="insecure-hadena-default-dev-key")
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["localhost", "127.0.0.1"])
+ALLOWED_HOSTS = env.list(
+    "DJANGO_ALLOWED_HOSTS",
+    default=["localhost", "127.0.0.1", "hadena.net", "www.hadena.net", "node24-eu.n0c.com"],
+)
+CSRF_TRUSTED_ORIGINS = env.list(
+    "DJANGO_CSRF_TRUSTED_ORIGINS",
+    default=[
+        "https://hadena.net",
+        "https://www.hadena.net",
+        "http://localhost",
+        "http://127.0.0.1",
+    ],
+)
 
 INSTALLED_APPS = [
     "django.contrib.admin",

@@ -21,25 +21,42 @@
     </a>
 
     <div class="flex items-center gap-2">
-      <!-- Formulaire Refuser -->
-      <form method="post" action="{% url 'showcase:set_cookie_consent' %}" class="inline">
-        {% csrf_token %}
-        <input type="hidden" name="consent" value="rejected">
-        <button type="submit" class="btn btn-ghost btn-xs text-slate-400 hover:text-white font-medium">
-          Refuser
-        </button>
-      </form>
+      <!-- Bouton Refuser -->
+      <button type="button" onclick="setHadenaCookieConsent('rejected')" class="btn btn-ghost btn-xs text-slate-400 hover:text-white font-medium">
+        Refuser
+      </button>
 
-      <!-- Formulaire Accepter -->
-      <form method="post" action="{% url 'showcase:set_cookie_consent' %}" class="inline">
-        {% csrf_token %}
-        <input type="hidden" name="consent" value="accepted">
-        <button type="submit" class="btn btn-primary btn-xs text-white font-bold px-3 shadow">
-          Accepter
-        </button>
-      </form>
+      <!-- Bouton Accepter -->
+      <button type="button" onclick="setHadenaCookieConsent('accepted')" class="btn btn-primary btn-xs text-white font-bold px-3 shadow">
+        Accepter
+      </button>
     </div>
   </div>
 </div>
-{% endif %}
 
+<script>
+  function setHadenaCookieConsent(choice) {
+    // 1. Stocker immédiatement le consentement dans le cookie navigateur
+    var maxAge = 365 * 24 * 3600;
+    document.cookie = "hadena_cookie_consent=" + encodeURIComponent(choice) + "; path=/; max-age=" + maxAge + "; SameSite=Lax";
+
+    // 2. Notifier discrètement le serveur en arrière-plan sans bloquer
+    try {
+      fetch("{% url 'showcase:set_cookie_consent' %}?consent=" + encodeURIComponent(choice), {
+        method: "GET",
+        headers: { "X-Requested-With": "XMLHttpRequest" }
+      }).catch(function() {});
+    } catch(e) {}
+
+    // 3. Masquer immédiatement le bandeau avec une animation fluide
+    var banner = document.getElementById("cookie-consent-banner");
+    if (banner) {
+      banner.style.opacity = "0";
+      banner.style.transform = "translateY(20px)";
+      setTimeout(function() {
+        banner.remove();
+      }, 300);
+    }
+  }
+</script>
+{% endif %}

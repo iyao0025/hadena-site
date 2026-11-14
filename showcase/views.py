@@ -3,9 +3,11 @@ import logging
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import send_mail
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 
 from .forms import ContactForm
 
@@ -401,23 +403,40 @@ class ContactView(View):
             return render(request, "showcase/contact.html", {"form": form})
 
 
+@method_decorator(csrf_exempt, name="dispatch")
 class SetCookieConsentView(View):
-    """Action AJAX ou formulaire pour enregistrer le choix du visiteur sur les cookies (RGPD)."""
+    """Enregistre le choix du visiteur sur les cookies (RGPD). Supporte GET, POST et AJAX."""
 
-    def post(self, request):
-        consent_choice = request.POST.get("consent", "accepted")
-        redirect_url = request.META.get("HTTP_REFERER", "/")
+    def _handle_consent(self, request, consent_choice):
+        choice = "rejected" if consent_choice == "rejected" else "accepted"
+        is_ajax = (
+            request.headers.get("x-requested-with") == "XMLHttpRequest"
+            or "application/json" in request.headers.get("accept", "")
+        )
 
-        response = HttpResponseRedirect(redirect_url)
-        # Cookie persistant 1 an, SameSite Lax, HttpOnly False pour lecture éventuelle côté client
+        if is_ajax:
+            response = JsonResponse({"status": "ok", "consent": choice})
+        else:
+            redirect_url = request.META.get("HTTP_REFERER") or "/"
+            response = HttpResponseRedirect(redirect_url)
+
+        # Cookie persistant 1 an, SameSite Lax, HttpOnly False pour interopérabilité JS
         response.set_cookie(
             "hadena_cookie_consent",
-            consent_choice,
+            choice,
             max_age=365 * 24 * 3600,
             samesite="Lax",
-            secure=not settings.DEBUG,
+            secure=False,
         )
         return response
+
+    def get(self, request):
+        consent_choice = request.GET.get("consent", "accepted")
+        return self._handle_consent(request, consent_choice)
+
+    def post(self, request):
+        consent_choice = request.POST.get("consent") or request.GET.get("consent", "accepted")
+        return self._handle_consent(request, consent_choice)
 
 
 class MentionsLegalesView(View):

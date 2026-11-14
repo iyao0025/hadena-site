@@ -90,3 +90,20 @@ class ShowcaseViewsTest(TestCase):
         response = self.client.get("/sitemap.xml")
         self.assertEqual(response.status_code, 200)
         self.assertIn("<urlset", response.content.decode())
+
+    def test_cookie_consent_get_and_post(self):
+        # Test GET
+        url = reverse("showcase:set_cookie_consent")
+        resp_get = self.client.get(f"{url}?consent=accepted", HTTP_REFERER="/")
+        self.assertEqual(resp_get.status_code, 302)
+        self.assertEqual(resp_get.cookies.get("hadena_cookie_consent").value, "accepted")
+
+        # Test POST
+        resp_post = self.client.post(url, data={"consent": "rejected"}, HTTP_REFERER="/qui-sommes-nous/")
+        self.assertEqual(resp_post.status_code, 302)
+        self.assertEqual(resp_post.cookies.get("hadena_cookie_consent").value, "rejected")
+
+        # Test AJAX
+        resp_ajax = self.client.get(f"{url}?consent=accepted", headers={"x-requested-with": "XMLHttpRequest"})
+        self.assertEqual(resp_ajax.status_code, 200)
+        self.assertEqual(resp_ajax.json(), {"status": "ok", "consent": "accepted"})

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Service Desk & Maintenance - Support/Headset -->
+  <!-- Head circle -->
+  <circle cx="100" cy="85" r="35" fill="#304B9B" opacity="0.12"/>
+  <!-- Person silhouette -->
+  <circle cx="100" cy="75" r="22" fill="#304B9B"/>
+  <!-- Headset band -->
+  <path d="M62 85 Q62 52 100 52 Q138 52 138 85" fill="none" stroke="#423E3C" stroke-width="4" stroke-linecap="round"/>
+  <!-- Left ear piece -->
+  <rect x="54" y="78" width="14" height="24" rx="7" fill="#423E3C"/>
+  <!-- Right ear piece -->
+  <rect x="132" y="78" width="14" height="24" rx="7" fill="#423E3C"/>
+  <!-- Microphone -->
+  <path d="M132 96 Q132 112 118 116" fill="none" stroke="#423E3C" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="116" cy="117" r="5" fill="#F59E0B"/>
+  <!-- Support desk -->
+  <rect x="40" y="140" width="120" height="6" rx="3" fill="#304B9B"/>
+  <!-- Wrench icon on desk -->
+  <path d="M75 155 L70 175 M75 155 L80 175" stroke="#423E3C" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="75" cy="153" r="6" fill="#F59E0B"/>
+  <!-- Screen on desk -->
+  <rect x="105" y="148" width="30" height="22" rx="2" fill="#304B9B"/>
+  <rect x="108" y="151" width="24" height="14" rx="1" fill="white" opacity="0.3"/>
+  <rect x="115" y="170" width="10" height="5" fill="#423E3C"/>
+  <rect x="110" y="175" width="20" height="3" rx="1.5" fill="#423E3C"/>
+</svg>

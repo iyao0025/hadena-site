@@ -1,0 +1,45 @@
+<!-- Partial: Bannière de Consentement Cookies (RGPD) -->
+{% if not COOKIE_CONSENT %}
+<div id="cookie-consent-banner" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:max-w-md bg-slate-900/95 backdrop-blur-xl text-white p-5 rounded-2xl shadow-2xl border border-slate-800 z-50 transition-all duration-300">
+  <div class="flex items-start gap-3.5 mb-3">
+    <div class="w-8 h-8 rounded-lg bg-primary/20 text-sky-400 flex items-center justify-center shrink-0 mt-0.5">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+      </svg>
+    </div>
+    <div>
+      <h2 class="text-sm font-extrabold text-white">Respect de votre vie privée</h2>
+      <p class="text-xs text-slate-300 leading-relaxed mt-1">
+        Nous utilisons des cookies techniques nécessaires pour assurer la sécurité et le bon fonctionnement de notre site web conformément au RGPD.
+      </p>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-between gap-3 pt-2 border-t border-slate-800">
+    <a href="{% url 'showcase:privacy' %}" class="text-[11px] text-sky-400 hover:underline">
+      En savoir plus
+    </a>
+
+    <div class="flex items-center gap-2">
+      <!-- Formulaire Refuser -->
+      <form method="post" action="{% url 'showcase:set_cookie_consent' %}" class="inline">
+        {% csrf_token %}
+        <input type="hidden" name="consent" value="rejected">
+        <button type="submit" class="btn btn-ghost btn-xs text-slate-400 hover:text-white font-medium">
+          Refuser
+        </button>
+      </form>
+
+      <!-- Formulaire Accepter -->
+      <form method="post" action="{% url 'showcase:set_cookie_consent' %}" class="inline">
+        {% csrf_token %}
+        <input type="hidden" name="consent" value="accepted">
+        <button type="submit" class="btn btn-primary btn-xs text-white font-bold px-3 shadow">
+          Accepter
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endif %}
+

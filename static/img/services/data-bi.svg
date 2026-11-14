@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Data Analytics & BI - Charts/Dashboard -->
+  <!-- Dashboard frame -->
+  <rect x="25" y="25" width="150" height="110" rx="8" fill="white" stroke="#304B9B" stroke-width="2.5"/>
+  <rect x="25" y="25" width="150" height="18" rx="8" fill="#304B9B"/>
+  <rect x="25" y="35" width="150" height="8" fill="#304B9B"/>
+  <!-- Title bar dots -->
+  <circle cx="38" cy="34" r="3" fill="white" opacity="0.5"/>
+  <circle cx="48" cy="34" r="3" fill="white" opacity="0.5"/>
+  <circle cx="58" cy="34" r="3" fill="white" opacity="0.5"/>
+  <!-- Bar chart -->
+  <rect x="40" y="100" width="14" height="25" rx="2" fill="#304B9B" opacity="0.5"/>
+  <rect x="58" y="85" width="14" height="40" rx="2" fill="#304B9B" opacity="0.7"/>
+  <rect x="76" y="70" width="14" height="55" rx="2" fill="#304B9B"/>
+  <rect x="94" y="90" width="14" height="35" rx="2" fill="#F59E0B"/>
+  <!-- Line chart on the right side -->
+  <polyline points="115,110 125,95 135,100 145,75 155,65" fill="none" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="115" cy="110" r="3" fill="#F59E0B"/>
+  <circle cx="125" cy="95" r="3" fill="#F59E0B"/>
+  <circle cx="135" cy="100" r="3" fill="#F59E0B"/>
+  <circle cx="145" cy="75" r="3" fill="#F59E0B"/>
+  <circle cx="155" cy="65" r="3" fill="#F59E0B"/>
+  <!-- Bottom metrics cards -->
+  <rect x="30" y="150" width="42" height="35" rx="5" fill="#304B9B" opacity="0.1"/>
+  <rect x="37" y="157" width="28" height="4" rx="2" fill="#304B9B"/>
+  <rect x="37" y="167" width="20" height="8" rx="2" fill="#F59E0B"/>
+  <rect x="80" y="150" width="42" height="35" rx="5" fill="#304B9B" opacity="0.1"/>
+  <rect x="87" y="157" width="28" height="4" rx="2" fill="#304B9B"/>
+  <rect x="87" y="167" width="20" height="8" rx="2" fill="#F59E0B"/>
+  <rect x="130" y="150" width="42" height="35" rx="5" fill="#304B9B" opacity="0.1"/>
+  <rect x="137" y="157" width="28" height="4" rx="2" fill="#304B9B"/>
+  <rect x="137" y="167" width="20" height="8" rx="2" fill="#F59E0B"/>
+</svg>

@@ -1,0 +1,86 @@
+{% load static %}
+<!-- Partial: Footer Institutionnel 4 Colonnes -->
+<footer class="bg-[#0B0F19] text-slate-400 text-sm pt-16 pb-12 border-t border-slate-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-12 border-b border-slate-800/80">
+      
+      <!-- COLONNE 1 : LOGO & MISSION -->
+      <div class="lg:col-span-4 flex flex-col items-start">
+        <a href="{% url 'showcase:home' %}" class="inline-block mb-5 group focus:outline-none" aria-label="Hadena Limited - Accueil">
+          <img src="{% static 'img/logo-hadena.svg' %}" alt="Hadena Limited" class="h-10 w-auto brightness-0 invert group-hover:opacity-80 transition-opacity duration-200">
+        </a>
+
+        <p class="text-xs text-slate-400 leading-relaxed max-w-sm mb-6">
+          Un monde au potentiel illimité. Conseil, infrastructures, sécurité, data et développement pour les entreprises de Côte d'Ivoire.
+        </p>
+
+        <!-- Réseaux Sociaux -->
+        <div class="flex items-center gap-3">
+          <a href="{{ FACEBOOK_URL }}" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-slate-800/80 hover:bg-primary text-slate-300 hover:text-white flex items-center justify-center transition-colors duration-150" aria-label="Facebook">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+          </a>
+          <a href="{{ LINKEDIN_URL }}" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-lg bg-slate-800/80 hover:bg-primary text-slate-300 hover:text-white flex items-center justify-center transition-colors duration-150" aria-label="LinkedIn">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 8.76a1.53 1.53 0 0 0 1.54-1.53c0-.85-.69-1.54-1.54-1.54a1.54 1.54 0 0 0-1.54 1.54c0 .84.69 1.53 1.54 1.53m1.39 9.74v-8.37H5.07v8.37h2.78z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- COLONNE 2 : SERVICES  -->
+      <div class="lg:col-span-3">
+        <h2 class="text-xs font-black uppercase tracking-widest text-white mb-4">
+          Services
+        </h2>
+        <ul class="space-y-2.5 text-xs">
+          <li><a href="{% url 'showcase:services' %}#gouvernance" class="hover:text-white transition-colors">Gouvernance IT</a></li>
+          <li><a href="{% url 'showcase:services' %}#reseaux" class="hover:text-white transition-colors">Systèmes & Réseaux</a></li>
+          <li><a href="{% url 'showcase:services' %}#securite" class="hover:text-white transition-colors">Sécurité</a></li>
+          <li><a href="{% url 'showcase:services' %}#audit" class="hover:text-white transition-colors">Audit</a></li>
+          <li><a href="{% url 'showcase:services' %}#data_bi" class="hover:text-white transition-colors">Data & BI</a></li>
+        </ul>
+      </div>
+
+      <!-- COLONNE 3 : ENTREPRISE -->
+      <div class="lg:col-span-2">
+        <h2 class="text-xs font-black uppercase tracking-widest text-white mb-4">
+          Entreprise
+        </h2>
+        <ul class="space-y-2.5 text-xs">
+          <li><a href="{% url 'showcase:about' %}" class="hover:text-white transition-colors">Qui sommes-nous</a></li>
+          <li><a href="{% url 'showcase:about' %}#mot-du-gerant" class="hover:text-white transition-colors">Mot de la gérante</a></li>
+          <li><a href="{% url 'showcase:home' %}#references" class="hover:text-white transition-colors">Références</a></li>
+          <li><a href="{% url 'showcase:training' %}" class="hover:text-white transition-colors">Formation</a></li>
+          <li><a href="{% url 'showcase:products' %}" class="hover:text-white transition-colors">Produits</a></li>
+        </ul>
+      </div>
+
+      <!-- COLONNE 4 : CONTACT -->
+      <div class="lg:col-span-3">
+        <h2 class="text-xs font-black uppercase tracking-widest text-white mb-4">
+          Contact
+        </h2>
+        <ul class="space-y-2.5 text-xs">
+          <li class="leading-relaxed">{{ CONTACT_ADDRESS }}</li>
+          <li><a href="tel:{{ CONTACT_PHONE_PRIMARY|cut:' ' }}" class="hover:text-white transition-colors">{{ CONTACT_PHONE_PRIMARY }}</a></li>
+          <li><a href="mailto:{{ CONTACT_EMAIL }}" class="hover:text-white transition-colors">{{ CONTACT_EMAIL }}</a></li>
+          <li><a href="{{ FACEBOOK_URL }}" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">facebook.com/hadena.limited</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- COPYRIGHT & RGPD -->
+    <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div>
+        © {{ CURRENT_YEAR }} Hadena Limited. Tous droits réservés.
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="{% url 'showcase:mentions_legales' %}" class="hover:text-slate-300 transition-colors">Mentions légales</a>
+        <span>•</span>
+        <a href="{% url 'showcase:privacy' %}" class="hover:text-slate-300 transition-colors">Politique de confidentialité</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+

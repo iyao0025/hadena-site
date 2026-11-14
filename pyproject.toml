@@ -1,0 +1,16 @@
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+exclude = [
+    ".venv",
+    "hadena_utils",
+    "migrations",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "DJ"]
+ignore = ["DJ001", "F403", "F405", "E501"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings.dev"
+python_files = ["test_*.py", "*_test.py"]

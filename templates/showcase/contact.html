@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Contact & Devis | Hadena Limited{% endblock %}
+{% block meta_description %}Contactez Hadena Limited à Abidjan pour un devis ou un conseil personnalisé. Cocody Washington, Téléphone : +225 07 09 779 787.{% endblock %}
+
+{% block content %}
+<!-- HEADER CONTACT -->
+<section class="bg-gradient-to-br from-[#0B1A3B] via-[#162D63] to-[#254C9E] text-white py-16 lg:py-20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
+    <span class="inline-block text-xs font-bold tracking-widest uppercase text-sky-300 bg-sky-500/20 px-3 py-1 rounded-full mb-4">
+      À votre écoute
+    </span>
+    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
+      Contactez nos Experts
+    </h1>
+    <p class="text-base sm:text-lg text-slate-200 leading-relaxed">
+      Notre équipe est à votre disposition pour analyser vos besoins et vous proposer des solutions concrètes et adaptées.
+    </p>
+  </div>
+</section>
+
+<!-- SECTION FORMULAIRE -->
+{% include "partials/_contact_form.html" %}
+{% endblock %}
+

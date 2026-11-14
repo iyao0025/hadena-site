@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr" data-theme="hadena" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
+  <!-- SEO & Référencement -->
+  <title>{% block title %}{{ page_title|default:"Hadena Limited | Services informatiques & Solutions IT à Abidjan" }}{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}{{ meta_description|default:'Conseil, infrastructures, sécurité, data et développement : Hadena Limited, votre partenaire IT en Côte d’Ivoire.' }}{% endblock %}">
+  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+  <!-- OpenGraph / Réseaux sociaux -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% block og_title %}{{ page_title|default:'Hadena Limited | Solutions IT' }}{% endblock %}">
+  <meta property="og:description" content="{% block og_desc %}{{ meta_description|default:'Des systèmes d’information fiables, sécurisés et prêts pour demain.' }}{% endblock %}">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:image" content="{% static 'img/logo-hadena.svg' %}">
+  
+  <!-- Favicon officiel Hadena -->
+  <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">
+
+  <!-- Polices Google Fonts pour le Design System Corporate B2B -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- DaisyUI & Tailwind CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <style>
+    /* Typographie globale */
+    body {
+      font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #1E293B;
+      background-color: #FFFFFF;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    }
+  </style>
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="min-h-screen flex flex-col bg-base-100 text-base-content antialiased">
+
+  <!-- TOP BAR -->
+  {% include "partials/_topbar.html" %}
+
+  <!-- NAVBAR -->
+  {% include "partials/_navbar.html" %}
+
+  <!-- MESSAGES & MODAL POPUP -->
+  {% if messages %}
+    {% for message in messages %}
+      {% if message.tags == 'success' %}
+        <!-- POPUP MODAL SUCCÈS -->
+        <dialog id="success_modal" class="modal modal-open modal-bottom sm:modal-middle bg-slate-950/60 backdrop-blur-sm z-50">
+          <div class="modal-box bg-white text-slate-800 rounded-3xl p-6 sm:p-8 max-w-md shadow-2xl border border-slate-100 text-center relative overflow-hidden">
+            <!-- Décoration icône succès -->
+            <div class="w-20 h-20 rounded-full bg-emerald-50 text-emerald-600 mx-auto flex items-center justify-center mb-5 shadow-inner">
+              <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+
+            <!-- Titre -->
+            <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight mb-2">
+              Demande envoyée avec succès !
+            </h3>
+
+            <!-- Message -->
+            <p class="text-sm text-slate-600 leading-relaxed mb-6">
+              {{ message }}
+            </p>
+
+            <!-- Actions -->
+            <div class="flex justify-center">
+              <button type="button" onclick="document.getElementById('success_modal').remove()" class="btn btn-primary text-white font-bold px-8 rounded-xl shadow-md shadow-primary/25 hover:shadow-lg hover:shadow-primary/35 transition-all">
+                Compris, merci !
+              </button>
+            </div>
+
+            <!-- Bouton de fermeture d'angle -->
+            <button type="button" onclick="document.getElementById('success_modal').remove()" class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3 text-slate-400 hover:text-slate-600" aria-label="Fermer">✕</button>
+          </div>
+          <form method="dialog" class="modal-backdrop">
+            <button type="button" onclick="document.getElementById('success_modal').remove()">Fermer</button>
+          </form>
+        </dialog>
+      {% else %}
+        <!-- ALERTE STANDARD (ERREUR OU INFO) -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 w-full">
+          <div class="alert {% if message.tags == 'error' %}alert-error text-white font-semibold{% else %}alert-info text-white font-semibold{% endif %} shadow-lg rounded-2xl flex items-center justify-between py-3 mb-3">
+            <div class="flex items-center gap-2">
+              <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+              <span>{{ message }}</span>
+            </div>
+            <button onclick="this.parentElement.remove()" class="btn btn-ghost btn-xs btn-circle text-white">✕</button>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
+  <!-- CONTENU PRINCIPAL -->
+  <main class="flex-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- FOOTER -->
+  {% include "partials/_footer.html" %}
+
+  <!-- BANNIÈRE COOKIES RGPD -->
+  {% include "partials/_cookie_consent.html" %}
+
+  <script>
+    // Fermeture automatique des alertes flash après 6 secondes
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        document.querySelectorAll('.alert').forEach(el => {
+          el.style.transition = 'opacity 0.4s ease';
+          el.style.opacity = '0';
+          setTimeout(() => el.remove(), 400);
+        });
+      }, 6000);
+    });
+  </script>
+
+  <!-- BOUTON SCROLL TO TOP -->
+  <button id="scroll-to-top" class="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-primary text-white shadow-lg shadow-primary/30 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 hover:bg-primary/90 hover:shadow-xl hover:scale-110" aria-label="Retour en haut">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
+  </button>
+
+  <script>
+    (() => {
+      const btn = document.getElementById('scroll-to-top');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) {
+          btn.classList.remove('opacity-0', 'pointer-events-none');
+          btn.classList.add('opacity-100');
+        } else {
+          btn.classList.add('opacity-0', 'pointer-events-none');
+          btn.classList.remove('opacity-100');
+        }
+      });
+      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    })();
+  </script>
+
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>
+

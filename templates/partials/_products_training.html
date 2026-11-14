@@ -1,0 +1,89 @@
+<!-- Partial: Split Produits / Formation -->
+<section class="py-16 sm:py-20 bg-base-200/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      
+      <!-- CARTE GAUCHE : NOS PRODUITS -->
+      <div class="bg-base-100 rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-md flex flex-col justify-between hover:shadow-xl transition-all duration-300">
+        <div>
+          <span class="text-xs font-black tracking-widest text-primary uppercase inline-block mb-3">
+            Nos produits
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-4">
+            Matériels & logiciels professionnels
+          </h2>
+          <p class="text-sm sm:text-base text-slate-600 leading-relaxed mb-6">
+            Ordinateurs portables et de bureau, serveurs, équipements réseau, licences logicielles et progiciels : nous vous conseillons, fournissons et installons.
+          </p>
+
+          <!-- Badges produits -->
+          <div class="flex flex-wrap gap-2 mb-8">
+            <span class="badge badge-lg bg-slate-100 text-slate-700 font-semibold border-slate-200 text-xs py-3 px-3.5">
+              Ordinateurs portables
+            </span>
+            <span class="badge badge-lg bg-slate-100 text-slate-700 font-semibold border-slate-200 text-xs py-3 px-3.5">
+              Serveurs
+            </span>
+            <span class="badge badge-lg bg-slate-100 text-slate-700 font-semibold border-slate-200 text-xs py-3 px-3.5">
+              Réseau & Wi-Fi
+            </span>
+            <span class="badge badge-lg bg-slate-100 text-slate-700 font-semibold border-slate-200 text-xs py-3 px-3.5">
+              Licences logicielles
+            </span>
+            <span class="badge badge-lg bg-slate-100 text-slate-700 font-semibold border-slate-200 text-xs py-3 px-3.5">
+              Progiciels
+            </span>
+          </div>
+        </div>
+
+        <div>
+          <a href="{% url 'showcase:products' %}" class="btn btn-primary text-white font-bold rounded-xl px-7 shadow hover:shadow-md transition-all duration-200">
+            Voir le catalogue
+          </a>
+        </div>
+      </div>
+
+      <!-- CARTE DROITE : FORMATION -->
+      <div class="bg-[#0B1E3B] text-white rounded-3xl p-8 sm:p-10 border border-slate-800 shadow-xl flex flex-col justify-between relative overflow-hidden group hover:shadow-2xl transition-all duration-300">
+        <!-- Lueur de fond -->
+        <div class="absolute -right-20 -top-20 w-72 h-72 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10">
+          <span class="text-xs font-black tracking-widest text-sky-400 uppercase inline-block mb-3">
+            Formation
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-4">
+            Montez en compétences avec nos experts
+          </h2>
+          <p class="text-sm sm:text-base text-slate-300 leading-relaxed mb-6">
+            Des formations pratiques pour rendre vos équipes autonomes sur leurs outils et renforcer la culture numérique de votre organisation.
+          </p>
+
+          <!-- Badges formations -->
+          <div class="flex flex-wrap gap-2 mb-8">
+            <span class="badge badge-lg bg-white/10 text-slate-200 font-semibold border-white/15 text-xs py-3 px-3.5">
+              Bureautique
+            </span>
+            <span class="badge badge-lg bg-white/10 text-slate-200 font-semibold border-white/15 text-xs py-3 px-3.5">
+              Sécurité & bonnes pratiques
+            </span>
+            <span class="badge badge-lg bg-white/10 text-slate-200 font-semibold border-white/15 text-xs py-3 px-3.5">
+              Data & BI
+            </span>
+            <span class="badge badge-lg bg-white/10 text-slate-200 font-semibold border-white/15 text-xs py-3 px-3.5">
+              Administration système
+            </span>
+          </div>
+        </div>
+
+        <div class="relative z-10">
+          <a href="{% url 'showcase:training' %}" class="btn btn-accent text-slate-950 font-bold rounded-xl px-7 shadow-lg shadow-amber-500/20 hover:brightness-105 transition-all duration-200">
+            Découvrir les formations
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+

@@ -1,0 +1,92 @@
+from django.test import Client, TestCase
+from django.urls import reverse
+
+from showcase.models import ContactMessage
+
+
+class ShowcaseViewsTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_home_page_status_and_content(self):
+        url = reverse("showcase:home")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "HADENA LIMITED")
+        self.assertContains(response, "Des systèmes d'information")
+        self.assertContains(response, "Management & Gouvernance IT")
+        self.assertContains(response, "Systèmes & Réseaux")
+        self.assertContains(response, "Sécurité informatique")
+        self.assertContains(response, "Quartz SA")
+        self.assertContains(response, "Innovation")
+        self.assertContains(response, "Notre méthode")
+
+    def test_home_page_contact_submission(self):
+        url = reverse("showcase:home")
+        data = {
+            "full_name": "Bakary Diarra",
+            "company": "Agro Babi",
+            "email": "b.diarra@agrobabi.ci",
+            "phone": "+225 07 11 22 33 44",
+            "service": "data_bi",
+            "message": "Mise en place de dashboards décisionnels sous Power BI.",
+            "consent_gdpr": True,
+            "website": "",
+        }
+        response = self.client.post(url, data=data, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(ContactMessage.objects.filter(email="b.diarra@agrobabi.ci").exists())
+        self.assertContains(response, "Merci pour votre message")
+
+    def test_about_page(self):
+        response = self.client.get(reverse("showcase:about"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Qui sommes-nous ?")
+        self.assertContains(response, "Le mot de la gérante")
+        self.assertContains(response, "Aurore AGNERO")
+
+    def test_services_catalog_page(self):
+        response = self.client.get(reverse("showcase:services"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Des Services IT de Bout en Bout")
+
+    def test_service_detail_page(self):
+        response = self.client.get(reverse("showcase:service_detail", kwargs={"slug": "management-gouvernance-it"}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Management &amp; Gouvernance IT")
+
+    def test_products_page(self):
+        response = self.client.get(reverse("showcase:products"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Matériels & Logiciels Professionnels")
+
+    def test_training_page(self):
+        response = self.client.get(reverse("showcase:training"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Formations Pratiques & Certifiantes")
+
+    def test_contact_page(self):
+        response = self.client.get(reverse("showcase:contact"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Contactez nos Experts")
+
+    def test_legal_and_privacy_pages(self):
+        resp_leg = self.client.get(reverse("showcase:mentions_legales"))
+        self.assertEqual(resp_leg.status_code, 200)
+        self.assertContains(resp_leg, "Mentions Légales")
+
+        resp_priv = self.client.get(reverse("showcase:privacy"))
+        self.assertEqual(resp_priv.status_code, 200)
+        self.assertContains(resp_priv, "Politique de Confidentialité")
+        self.assertContains(resp_priv, "RGPD")
+
+    def test_robots_txt(self):
+        response = self.client.get("/robots.txt")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("User-agent: *", response.content.decode())
+        self.assertIn("Sitemap:", response.content.decode())
+
+    def test_sitemap_xml(self):
+        response = self.client.get("/sitemap.xml")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("<urlset", response.content.decode())

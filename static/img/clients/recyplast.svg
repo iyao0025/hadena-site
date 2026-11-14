@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 60">
+  <circle cx="18" cy="30" r="14" fill="none" stroke="#22C55E" stroke-width="2"/>
+  <path d="M12,26 L18,20 L24,26 M18,20 L18,38" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="40" y="35" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="700" font-size="16" fill="#1A202C" letter-spacing="0.5">Recyplast</text>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 60">
+  <polygon points="10,40 22,16 34,40" fill="none" stroke="#304B9B" stroke-width="2.5"/>
+  <text x="42" y="32" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="700" font-size="15" fill="#1A202C" letter-spacing="0.5">ALTIOR</text>
+  <text x="42" y="46" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="300" font-size="10" fill="#718096" letter-spacing="2.5">PARTNERS</text>
+</svg>

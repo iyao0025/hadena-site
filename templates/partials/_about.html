@@ -1,0 +1,55 @@
+<!-- Partial: Qui sommes-nous & 4 Valeurs -->
+<section id="about-section" class="py-20 lg:py-28 bg-base-200/60 border-t border-slate-200/70">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+
+      <!-- COLONNE GAUCHE : PRÉSENTATION & MOT DU GÉRANT -->
+      <div class="lg:col-span-6 flex flex-col items-start">
+        <span class="text-xs font-black tracking-widest text-primary uppercase inline-block mb-3">
+          Qui sommes-nous
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6">
+          Une équipe d'experts passionnés au service de votre performance
+        </h2>
+        <p class="text-base text-slate-600 leading-relaxed mb-5">
+          Basée à Abidjan, Hadena Limited est une entreprise spécialisée en informatique. Nous concevons, mettons en
+          œuvre et maintenons des systèmes d'information et des équipements informatiques adaptés aux besoins réels de
+          nos clients.
+        </p>
+        <p class="text-base text-slate-600 leading-relaxed mb-8">
+          Notre conviction : la technologie doit être un levier de croissance, pas une contrainte. C'est pourquoi chaque
+          projet commence par l'écoute et se termine par des résultats mesurables.
+        </p>
+
+        <a href="{% url 'showcase:about' %}#mot-du-gerant"
+          class="btn btn-primary text-white font-bold rounded-xl px-7 shadow-md hover:shadow-lg transition-all duration-200">
+          Lire le mot de la gérante
+        </a>
+      </div>
+
+      <!-- COLONNE DROITE : 4 CARTES DE VALEURS (GRILLE 2x2) -->
+      <div class="lg:col-span-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {% for val in values %}
+          <div
+            class="bg-base-100 rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-200">
+            <!-- Numéro Ambre -->
+            <span class="text-xs font-black text-amber-500 tracking-wider mb-2 block">
+              {{ val.number }}
+            </span>
+            <!-- Titre -->
+            <h3 class="text-lg font-extrabold text-slate-900 mb-2">
+              {{ val.title }}
+            </h3>
+            <!-- Descriptif -->
+            <p class="text-xs text-slate-600 leading-relaxed">
+              {{ val.description }}
+            </p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

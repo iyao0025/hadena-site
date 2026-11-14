@@ -1,0 +1,25 @@
+{% load static %}
+<!-- Partial: Bandeau de Références Clients -->
+<section id="references" class="bg-slate-50/80 border-b border-slate-200/70 py-6 sm:py-8 scroll-mt-20 sm:scroll-mt-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col items-center">
+      
+      <div class="text-[11px] sm:text-xs font-bold tracking-widest text-slate-400 uppercase text-center mb-5 flex items-center justify-center gap-3">
+        <span class="w-6 sm:w-10 h-px bg-slate-200"></span>
+        <span class="text-slate-500 font-extrabold">Ils nous ont fait confiance</span>
+        <span class="w-6 sm:w-10 h-px bg-slate-200"></span>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-center gap-x-8 sm:gap-x-12 lg:gap-x-14 gap-y-4 w-full">
+        {% for ref in references %}
+        <div class="flex items-center justify-center h-10 sm:h-12 px-2 group cursor-default" title="{{ ref.name }}">
+          <img src="{% static 'img/clients/' %}{{ ref.logo }}" 
+               alt="{{ ref.name }}" 
+               class="max-h-8 sm:max-h-9 w-auto max-w-[120px] sm:max-w-[130px] object-contain opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-200">
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</section>

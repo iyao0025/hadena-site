@@ -221,6 +221,33 @@ CLIENT_REFERENCES = [
     {"name": "JAAS", "logo": "jaas.png"},
 ]
 
+KEY_METRICS = [
+    {
+        "value": "+10 ans",
+        "label": "Expertise & Ingénierie IT",
+        "description": "Accompagnement pérenne des entreprises",
+        "icon": "clock",
+    },
+    {
+        "value": "99.8%",
+        "label": "Disponibilité garantie",
+        "description": "Infrastructures hautement fiables",
+        "icon": "shield-check",
+    },
+    {
+        "value": "+50",
+        "label": "Projets & Déploiements",
+        "description": "Infrastructures opérées avec succès",
+        "icon": "layers",
+    },
+    {
+        "value": "< 2h",
+        "label": "Délai d'intervention support",
+        "description": "Assistance réactive & proximité à Abidjan",
+        "icon": "zap",
+    },
+]
+
 
 class HomeView(View):
     """Page d'accueil principale"""
@@ -232,6 +259,7 @@ class HomeView(View):
             "values": VALUES_LIST,
             "steps": METHOD_STEPS,
             "references": CLIENT_REFERENCES,
+            "metrics": KEY_METRICS,
             "form": form,
             "is_home": True,
         }
@@ -283,6 +311,7 @@ class HomeView(View):
                 "values": VALUES_LIST,
                 "steps": METHOD_STEPS,
                 "references": CLIENT_REFERENCES,
+                "metrics": KEY_METRICS,
                 "form": form,
                 "is_home": True,
             }
@@ -296,6 +325,7 @@ class AboutView(View):
         context = {
             "values": VALUES_LIST,
             "references": CLIENT_REFERENCES,
+            "metrics": KEY_METRICS,
             "page_title": "Qui sommes-nous | Hadena Limited",
             "meta_description": "Découvrez Hadena Limited, ses valeurs, son équipe d'experts IT et le mot de la gérante basé à Abidjan.",
         }

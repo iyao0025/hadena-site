@@ -1,0 +1,56 @@
+<!-- Partial: Barre de Chiffres Clés (Crédibilité & Réassurance sous le Hero) -->
+<section class="bg-white border-y border-slate-200/80 relative z-20 py-8 sm:py-10 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-6 divide-y sm:divide-y-0 sm:divide-x-0 lg:divide-x divide-slate-100">
+      
+      {% for m in metrics %}
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3.5 sm:gap-4 {% if not forloop.first %}pt-4 sm:pt-0 lg:pl-6{% endif %}">
+        <!-- Icon Badge -->
+        <div class="w-12 h-12 rounded-[12px] bg-primary/10 text-primary flex items-center justify-center shrink-0 border border-primary/15">
+          {% if m.icon == 'clock' %}
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          {% elif m.icon == 'shield-check' %}
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="m9 12 2 2 4-4"/>
+            </svg>
+          {% elif m.icon == 'layers' %}
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+          {% elif m.icon == 'zap' %}
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          {% else %}
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="m9 12 2 2 4-4"/>
+            </svg>
+          {% endif %}
+        </div>
+
+        <!-- Metric Values & Labels -->
+        <div>
+          <div class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 font-heading tracking-tight">
+            {{ m.value }}
+          </div>
+          <div class="text-xs sm:text-sm font-bold text-slate-800 leading-snug">
+            {{ m.label }}
+          </div>
+          <div class="text-[11px] sm:text-xs text-slate-500 leading-tight mt-0.5">
+            {{ m.description }}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+

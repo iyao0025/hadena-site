@@ -109,8 +109,8 @@
     {% endfor %}
   {% endif %}
 
-  <!-- CONTENU PRINCIPAL -->
-  <main class="flex-1">
+  <!-- CONTENU PRINCIPAL (avec marge inférieure sur mobile pour la barre sticky) -->
+  <main class="flex-1 pb-16 md:pb-0">
     {% block content %}{% endblock %}
   </main>
 
@@ -119,6 +119,12 @@
 
   <!-- BANNIÈRE COOKIES RGPD -->
   {% include "partials/_cookie_consent.html" %}
+
+  <!-- BOUTON FLOTTANT WHATSAPP (Canal direct Côte d'Ivoire) -->
+  {% include "partials/_whatsapp_floating.html" %}
+
+  <!-- BARRE STICKY MOBILE (« Appeler » & « Devis ») -->
+  {% include "partials/_mobile_sticky_bar.html" %}
 
   <script>
     // Fermeture automatique des alertes flash après 6 secondes
@@ -133,8 +139,8 @@
     });
   </script>
 
-  <!-- BOUTON SCROLL TO TOP -->
-  <button id="scroll-to-top" class="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-primary text-white shadow-lg shadow-primary/30 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 hover:bg-primary/90 hover:shadow-xl hover:scale-110" aria-label="Retour en haut">
+  <!-- BOUTON SCROLL TO TOP (positionné sans chevauchement avec WhatsApp) -->
+  <button id="scroll-to-top" class="fixed bottom-36 md:bottom-24 right-4 md:right-6 z-40 w-11 h-11 md:w-12 md:h-12 rounded-full bg-slate-900/80 backdrop-blur-xs text-white shadow-lg shadow-slate-900/20 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 hover:bg-primary hover:shadow-primary/30 hover:scale-110 active:scale-95" aria-label="Retour en haut">
     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
   </button>
 

@@ -21,15 +21,12 @@
           Services
         </a>
         <a href="{% url 'showcase:products' %}" class="text-sm font-semibold transition-colors duration-150 py-1 border-b-2 {% if request.resolver_match.url_name == 'products' %}border-primary text-primary{% else %}border-transparent text-slate-700 hover:text-primary hover:border-primary/40{% endif %}">
-          Produits
+          Matériels &amp; Logiciels
         </a>
         <a href="{% url 'showcase:training' %}" class="text-sm font-semibold transition-colors duration-150 py-1 border-b-2 {% if request.resolver_match.url_name == 'training' %}border-primary text-primary{% else %}border-transparent text-slate-700 hover:text-primary hover:border-primary/40{% endif %}">
           Formation
         </a>
-        <a href="{% url 'showcase:home' %}#references" class="text-sm font-semibold text-slate-700 hover:text-primary transition-colors duration-150 py-1 border-b-2 border-transparent hover:border-primary/40">
-          Références
-        </a>
-        <a href="{% url 'showcase:contact' %}" class="text-sm font-semibold transition-colors duration-150 py-1 border-b-2 {% if request.resolver_match.url_name == 'contact' %}border-primary text-primary{% else %}border-transparent text-slate-700 hover:text-primary hover:border-primary/40{% endif %}">
+        <a href="{% if is_home %}#devis-section{% else %}{% url 'showcase:home' %}#devis-section{% endif %}" class="text-sm font-semibold transition-colors duration-150 py-1 border-b-2 border-transparent text-slate-700 hover:text-primary hover:border-primary/40">
           Contact
         </a>
       </nav>
@@ -37,7 +34,7 @@
       <!-- CTA BOUTON & MENU MOBILE -->
       <div class="flex items-center gap-3">
         <!-- CTA Devis -->
-        <a href="{% url 'showcase:home' %}#contact-section" class="hidden sm:inline-flex btn btn-primary text-white text-sm font-bold rounded-xl px-5 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-all duration-200">
+        <a href="{% if is_home %}#devis-section{% else %}{% url 'showcase:home' %}#devis-section{% endif %}" class="hidden sm:inline-flex btn btn-primary text-white text-sm font-bold rounded-xl px-5 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-all duration-200">
           Demander un devis
         </a>
 
@@ -57,12 +54,11 @@
             <li><a href="{% url 'showcase:home' %}" class="active:bg-primary">Accueil</a></li>
             <li><a href="{% url 'showcase:about' %}">Qui sommes-nous</a></li>
             <li><a href="{% url 'showcase:services' %}">Services</a></li>
-            <li><a href="{% url 'showcase:products' %}">Produits</a></li>
+            <li><a href="{% url 'showcase:products' %}">Matériels &amp; Logiciels</a></li>
             <li><a href="{% url 'showcase:training' %}">Formation</a></li>
-            <li><a href="{% url 'showcase:home' %}#references">Références</a></li>
-            <li><a href="{% url 'showcase:contact' %}">Contact</a></li>
+            <li><a href="{% if is_home %}#devis-section{% else %}{% url 'showcase:home' %}#devis-section{% endif %}">Contact</a></li>
             <li class="pt-2 border-t border-slate-100">
-              <a href="{% url 'showcase:home' %}#contact-section" class="btn btn-primary btn-sm text-white text-center justify-center">Demander un devis</a>
+              <a href="{% if is_home %}#devis-section{% else %}{% url 'showcase:home' %}#devis-section{% endif %}" class="btn btn-primary btn-sm text-white text-center justify-center">Demander un devis</a>
             </li>
           </ul>
         </details>

@@ -249,7 +249,7 @@ class HomeView(View):
             try:
                 subject = f"[Hadena Site] Nouveau contact de {contact_msg.full_name} ({contact_msg.get_service_display()})"
                 body = (
-                    f"Nouveau message reçu depuis hadena-limited.com :\n\n"
+                    f"Nouveau message reçu depuis le site web Hadena Limited :\n\n"
                     f"Nom : {contact_msg.full_name}\n"
                     f"Entreprise : {contact_msg.company or 'N/A'}\n"
                     f"Email : {contact_msg.email}\n"
@@ -286,13 +286,14 @@ class HomeView(View):
 
 
 class AboutView(View):
-    """Page Qui sommes-nous & Mot du gérant."""
+    """Page Qui sommes-nous & Mot de la gérante."""
 
     def get(self, request):
         context = {
             "values": VALUES_LIST,
+            "references": CLIENT_REFERENCES,
             "page_title": "Qui sommes-nous | Hadena Limited",
-            "meta_description": "Découvrez Hadena Limited, ses valeurs, son équipe d'experts IT et le mot du gérant basé à Abidjan.",
+            "meta_description": "Découvrez Hadena Limited, ses valeurs, son équipe d'experts IT et le mot de la gérante basé à Abidjan.",
         }
         return render(request, "showcase/about.html", context)
 
@@ -375,7 +376,7 @@ class ContactView(View):
             try:
                 subject = f"[Hadena Site] Nouveau contact de {contact_msg.full_name} ({contact_msg.get_service_display()})"
                 body = (
-                    f"Nouveau message reçu depuis hadena-limited.com :\n\n"
+                    f"Nouveau message reçu depuis le site web Hadena Limited :\n\n"
                     f"Nom : {contact_msg.full_name}\n"
                     f"Entreprise : {contact_msg.company or 'N/A'}\n"
                     f"Email : {contact_msg.email}\n"

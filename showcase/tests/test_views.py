@@ -44,6 +44,9 @@ class ShowcaseViewsTest(TestCase):
         self.assertContains(response, "Qui sommes-nous ?")
         self.assertContains(response, "Le mot de la gérante")
         self.assertContains(response, "Aurore AGNERO")
+        self.assertIn("references", response.context)
+        self.assertTrue(len(response.context["references"]) > 0)
+        self.assertContains(response, "Ils nous ont fait confiance")
 
     def test_services_catalog_page(self):
         response = self.client.get(reverse("showcase:services"))

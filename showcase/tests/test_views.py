@@ -20,6 +20,9 @@ class ShowcaseViewsTest(TestCase):
         self.assertContains(response, "Quartz SA")
         self.assertContains(response, "Innovation")
         self.assertContains(response, "Notre méthode")
+        self.assertContains(response, "Parler à un expert")
+        self.assertContains(response, "Découvrir nos services")
+        self.assertContains(response, "Questions fréquentes")
 
     def test_home_page_contact_submission(self):
         url = reverse("showcase:home")

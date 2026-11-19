@@ -21,7 +21,7 @@ SERVICES_CATALOG = [
         "title": "Management & Gouvernance IT",
         "short_desc": "Schéma directeur, pilotage de projets, alignement de l'IT sur vos objectifs métier selon les bonnes pratiques ITIL.",
         "icon": "compass",
-        "image": "gouvernance.svg",
+        "image": "gouvernance.webp",
         "is_highlight": True,
         "full_desc": "La gouvernance des systèmes d'information consiste à s'assurer que vos investissements informatiques créent une réelle valeur pour votre entreprise. Nous vous accompagnons dans l'élaboration de schémas directeurs, le pilotage de vos projets et la mise en conformité réglementaire.",
         "deliverables": [
@@ -37,7 +37,7 @@ SERVICES_CATALOG = [
         "title": "Systèmes & Réseaux",
         "short_desc": "Conception, déploiement et administration de serveurs, réseaux, environnements cloud et solutions d'hébergement.",
         "icon": "server",
-        "image": "reseaux.svg",
+        "image": "reseaux.webp",
         "is_highlight": False,
         "full_desc": "Une infrastructure réseau performante et résiliente est l'épine dorsale de votre entreprise. Hadena Limited conçoit, déploie et supervise vos architectures locales, hybrides ou cloud pour garantir une disponibilité maximale.",
         "deliverables": [
@@ -53,7 +53,7 @@ SERVICES_CATALOG = [
         "title": "Sécurité informatique",
         "short_desc": "Analyse des risques, durcissement des systèmes, sauvegardes et plans de continuité pour protéger vos données.",
         "icon": "shield-check",
-        "image": "securite.svg",
+        "image": "securite.webp",
         "is_highlight": False,
         "full_desc": "Face à la recrudescence des cybermenaces, protéger vos actifs numériques est un impératif vital. Nous mettons en œuvre une protection à 360° pour vos postes, réseaux, serveurs et données sensibles.",
         "deliverables": [
@@ -69,7 +69,7 @@ SERVICES_CATALOG = [
         "title": "Audit informatique",
         "short_desc": "État des lieux objectif de votre parc, de vos processus et de votre sécurité, avec un plan d'actions priorisé.",
         "icon": "file-search",
-        "image": "audit.svg",
+        "image": "audit.webp",
         "is_highlight": False,
         "full_desc": "L'audit vous apporte une vision claire et indépendante sur la maturité de votre système d'information, ses faiblesses cachées et les opportunités d'optimisation budgétaire.",
         "deliverables": [
@@ -85,7 +85,7 @@ SERVICES_CATALOG = [
         "title": "Service Desk & Maintenance",
         "short_desc": "Support utilisateurs, maintenance préventive et curative de vos équipements, suivi des incidents.",
         "icon": "headset",
-        "image": "maintenance.svg",
+        "image": "maintenance.webp",
         "is_highlight": False,
         "full_desc": "Offrez à vos équipes un guichet unique d'assistance technique réactif pour résoudre immédiatement les pannes, maintenir le matériel opérationnel et éviter toute perte de productivité.",
         "deliverables": [
@@ -101,7 +101,7 @@ SERVICES_CATALOG = [
         "title": "Data Analytics & BI",
         "short_desc": "Transformer vos données brutes en indicateurs utiles : analyses descriptives, prédictives et prescriptives.",
         "icon": "barchart-3",
-        "image": "data-bi.svg",
+        "image": "data-bi.webp",
         "is_highlight": False,
         "full_desc": "Vos données regorgent de leviers de croissance inexploités. Nous concevons des tableaux de bord dynamiques et des pipelines d'analyse pour guider vos décisions stratégiques en temps réel.",
         "deliverables": [
@@ -117,7 +117,7 @@ SERVICES_CATALOG = [
         "title": "Applications Web & Mobile",
         "short_desc": "Développement d'applications métier sur mesure, plateformes de gestion et API, du cahier des charges à la mise en production.",
         "icon": "code-2",
-        "image": "web-mobile.svg",
+        "image": "web-mobile.webp",
         "is_highlight": False,
         "full_desc": "Quand les logiciels standards ne répondent pas à vos processus uniques, nous concevons des applications web et mobiles robustes, ergonomiques et pérennes adaptées à votre réalité opérationnelle.",
         "deliverables": [
@@ -133,7 +133,7 @@ SERVICES_CATALOG = [
         "title": "Agence Web & Digitale",
         "short_desc": "Sites vitrines et e-commerce, identité numérique et présence en ligne qui valorisent votre marque.",
         "icon": "globe",
-        "image": "agence-digitale.svg",
+        "image": "agence-digitale.webp",
         "is_highlight": False,
         "full_desc": "Votre vitrine digitale est votre premier commercial. Nous créons des sites web professionnels, rapides, optimisés pour le référencement naturel (SEO) et conçus pour générer des prospects qualifiés.",
         "deliverables": [
@@ -149,7 +149,7 @@ SERVICES_CATALOG = [
         "title": "Solutions sur mesure",
         "short_desc": "Fourniture et intégration de matériels et logiciels adaptés à vos contraintes techniques et budgétaires.",
         "icon": "cpu",
-        "image": "sur-mesure.svg",
+        "image": "sur-mesure.webp",
         "is_highlight": False,
         "full_desc": "Chaque organisation fait face à des défis spécifiques. Nous sélectionnons, fournissons et intégrons les technologies exactes dont vous avez besoin, au juste coût et sans superflu.",
         "deliverables": [
@@ -224,26 +224,38 @@ CLIENT_REFERENCES = [
 KEY_METRICS = [
     {
         "value": "+10 ans",
-        "label": "Expertise & Ingénierie IT",
-        "description": "Accompagnement pérenne des entreprises",
+        "num_target": "10",
+        "prefix": "+",
+        "suffix": " ans",
+        "label": "Années d'expérience IT",
+        "description": "Cabinet fondé et ancré à Abidjan",
         "icon": "clock",
     },
     {
-        "value": "99.8%",
-        "label": "Disponibilité garantie",
-        "description": "Infrastructures hautement fiables",
-        "icon": "shield-check",
-    },
-    {
         "value": "+50",
+        "num_target": "50",
+        "prefix": "+",
+        "suffix": "",
         "label": "Projets & Déploiements",
-        "description": "Infrastructures opérées avec succès",
+        "description": "Infrastructures et logiciels livrés",
         "icon": "layers",
     },
     {
-        "value": "< 2h",
-        "label": "Délai d'intervention support",
-        "description": "Assistance réactive & proximité à Abidjan",
+        "value": "+30",
+        "num_target": "30",
+        "prefix": "+",
+        "suffix": "",
+        "label": "Entreprises clientes",
+        "description": "PME et organisations accompagnées",
+        "icon": "shield-check",
+    },
+    {
+        "value": "99.8%",
+        "num_target": "99.8",
+        "prefix": "",
+        "suffix": "%",
+        "label": "Disponibilité garantie",
+        "description": "Continuité d'activité et support SLA",
         "icon": "zap",
     },
 ]

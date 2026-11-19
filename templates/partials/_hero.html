@@ -1,6 +1,9 @@
 <!-- Partial: Hero Banner Immersif & Accompagnement -->
-<section class="relative bg-gradient-to-br from-[#0B1A3B] via-[#162D63] to-[#254C9E] text-white py-16 sm:py-24 lg:py-28 overflow-hidden">
+<section id="hero" class="relative bg-gradient-to-br from-[#0B1A3B] via-[#162D63] to-[#254C9E] text-white py-16 sm:py-24 lg:py-28 overflow-hidden">
   
+  <!-- Canvas Fond Maillage Réseau & Data (Drifting Nodes) -->
+  <canvas id="hero-network-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0 opacity-30"></canvas>
+
   <!-- Effets d'éclairage radial subtils -->
   <div class="absolute -top-40 -right-40 w-96 h-96 bg-sky-500/20 rounded-full blur-3xl pointer-events-none"></div>
   <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-primary/30 rounded-full blur-3xl pointer-events-none"></div>
@@ -42,8 +45,9 @@
               Un accompagnement de bout en bout
             </span>
           </div>
+
           <!-- Liste des 4 briques d'accompagnement (Lucide SVGs unifiés) -->
-          <div class="space-y-4">
+          <div class="space-y-3.5">
             
             <!-- Brique 1 : Conseil (Compass) -->
             <div class="flex items-start gap-4 p-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-sky-400/30 hover:bg-white/10 transition-all duration-200">
@@ -59,7 +63,7 @@
               </div>
             </div>
 
-            <!-- Brique 2 : Réseaux & Infra (Server) -->
+            <!-- Brique 2 : Réseaux (Server) -->
             <div class="flex items-start gap-4 p-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-sky-400/30 hover:bg-white/10 transition-all duration-200">
               <div class="w-12 h-12 rounded-[12px] bg-sky-500/20 flex items-center justify-center text-sky-300 shrink-0 border border-sky-400/20">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
@@ -113,3 +117,92 @@
     </div>
   </div>
 </section>
+
+<!-- Animation du Maillage Réseau Réactif (Hero) -->
+<script>
+  (function() {
+    const canvas = document.getElementById('hero-network-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = 0;
+    let height = 0;
+    let particles = [];
+    const particleCount = 38;
+    const maxDistance = 130;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function resize() {
+      const parent = canvas.parentElement;
+      width = canvas.width = parent.offsetWidth;
+      height = canvas.height = parent.offsetHeight;
+      if (particles.length === 0) {
+        initParticles();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: (Math.random() - 0.5) * 0.35,
+          radius: Math.random() * 1.5 + 1
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Dessin des liaisons réseau
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < maxDistance) {
+            const alpha = (1 - dist / maxDistance) * 0.22;
+            ctx.strokeStyle = `rgba(56, 189, 248, ${alpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Dessin des nœuds (points)
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        ctx.fillStyle = 'rgba(125, 211, 252, 0.5)';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (!prefersReducedMotion) {
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.x < 0) p.x = width;
+          if (p.x > width) p.x = 0;
+          if (p.y < 0) p.y = height;
+          if (p.y > height) p.y = 0;
+        }
+      }
+
+      if (!prefersReducedMotion) {
+        requestAnimationFrame(draw);
+      }
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    draw();
+  })();
+</script>

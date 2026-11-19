@@ -1,5 +1,5 @@
-<!-- Partial: Notre Méthode en 4 Étapes -->
-<section class="py-20 lg:py-28 bg-base-100 border-t border-slate-100">
+<!-- Partial: Notre Méthode en 4 Étapes (Ligne de progression & Allumage séquentiel) -->
+<section id="method-section" class="py-20 lg:py-28 bg-base-100 border-t border-slate-100 scroll-mt-20">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <!-- En-tête -->
@@ -12,22 +12,31 @@
       </h2>
     </div>
 
-    <!-- Frise en 4 étapes -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+    <!-- Frise en 4 étapes avec ligne de progression dessinée -->
+    <div id="method-timeline" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
       
-      <!-- Ligne de liaison horizontale (visible desktop) -->
+      <!-- Ligne de fond grise statique (desktop) -->
       <div class="hidden lg:block absolute top-7 left-14 right-14 h-0.5 bg-slate-200 z-0"></div>
 
+      <!-- Ligne de progression active bleue qui se dessine au scroll -->
+      <div id="method-progress-bar" class="hidden lg:block absolute top-7 left-14 h-0.5 bg-primary z-0 transition-all duration-1000 ease-out w-0 pointer-events-none"></div>
+
       {% for step in steps %}
-      <div class="flex flex-col items-center text-center relative z-10 group">
-        <!-- Rond numéroté -->
-        <div class="w-14 h-14 rounded-full bg-white border-2 border-primary text-primary font-black text-lg flex items-center justify-center mb-6 shadow-md group-hover:bg-primary group-hover:text-white transition-colors duration-200">
+      <div class="method-step-card flex flex-col items-center text-center relative z-10 group fade-up-init"
+           data-animate="fade-up"
+           data-step-index="{{ forloop.counter }}"
+           style="transition-delay: calc({{ forloop.counter0 }} * 100ms);">
+        
+        <!-- Rond numéroté (s'allume en bleu primaire avec ombre portée) -->
+        <div class="method-step-circle w-14 h-14 rounded-full bg-white border-2 border-slate-300 text-slate-700 font-black text-lg flex items-center justify-center mb-6 shadow-md transition-all duration-500 group-hover:scale-105">
           {{ step.step }}
         </div>
+
         <!-- Titre -->
         <h3 class="text-lg font-bold text-slate-900 mb-2">
           {{ step.title }}
         </h3>
+
         <!-- Description -->
         <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xs">
           {{ step.description }}
@@ -39,4 +48,3 @@
 
   </div>
 </section>
-

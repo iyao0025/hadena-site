@@ -122,7 +122,9 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {% for val in values %}
-        <div class="bg-base-100 rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-primary/40 transition-all">
+        <div class="fade-up-init bg-base-100 rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-primary/40 hover:-translate-y-1 transition-all duration-300"
+             data-animate="fade-up"
+             style="transition-delay: calc({{ forloop.counter0 }} * 80ms);">
           <div class="flex items-center justify-between mb-4">
             <div class="w-12 h-12 rounded-[12px] bg-primary/10 text-primary flex items-center justify-center shrink-0 border border-primary/15">
               {% if val.icon == 'lightbulb' or forloop.counter == 1 %}

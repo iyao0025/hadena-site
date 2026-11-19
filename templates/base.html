@@ -144,20 +144,225 @@
     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
   </button>
 
+  <!-- MOTEUR D'ANIMATIONS SOBRES (IntersectionObserver, Compteurs, Header, Méthode) -->
   <script>
-    (() => {
-      const btn = document.getElementById('scroll-to-top');
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 400) {
-          btn.classList.remove('opacity-0', 'pointer-events-none');
-          btn.classList.add('opacity-100');
+    document.addEventListener('DOMContentLoaded', () => {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // 1. Apparition au scroll (fade-up avec Stagger)
+      const animatedEls = document.querySelectorAll('[data-animate="fade-up"]');
+      if (prefersReducedMotion) {
+        animatedEls.forEach(el => el.classList.add('fade-up-active'));
+      } else if ('IntersectionObserver' in window) {
+        const fadeObserver = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('fade-up-active');
+              obs.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        animatedEls.forEach(el => fadeObserver.observe(el));
+      } else {
+        animatedEls.forEach(el => el.classList.add('fade-up-active'));
+      }
+
+      // 6. Compteurs animés (Chiffres clés)
+      const statsSection = document.getElementById('stats-section');
+      const counterEls = document.querySelectorAll('[data-counter-target]');
+      
+      if (statsSection && counterEls.length > 0) {
+        let countersRan = false;
+        const runCounters = () => {
+          if (countersRan) return;
+          countersRan = true;
+
+          counterEls.forEach(el => {
+            const target = parseFloat(el.getAttribute('data-counter-target'));
+            const prefix = el.getAttribute('data-counter-prefix') || '';
+            const suffix = el.getAttribute('data-counter-suffix') || '';
+            const isDecimal = String(target).includes('.');
+
+            if (prefersReducedMotion || isNaN(target)) {
+              el.textContent = `${prefix}${target}${suffix}`;
+              return;
+            }
+
+            const duration = 1200;
+            const startTime = performance.now();
+
+            const update = (currentTime) => {
+              const elapsed = currentTime - startTime;
+              const progress = Math.min(elapsed / duration, 1);
+              // Ease-out cubic
+              const easeOut = 1 - Math.pow(1 - progress, 3);
+              const currentVal = easeOut * target;
+
+              el.textContent = `${prefix}${isDecimal ? currentVal.toFixed(1) : Math.round(currentVal)}${suffix}`;
+
+              if (progress < 1) {
+                requestAnimationFrame(update);
+              } else {
+                el.textContent = `${prefix}${target}${suffix}`;
+              }
+            };
+            requestAnimationFrame(update);
+          });
+        };
+
+        if ('IntersectionObserver' in window) {
+          const statsObs = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+              runCounters();
+              statsObs.disconnect();
+            }
+          }, { threshold: 0.2 });
+          statsObs.observe(statsSection);
         } else {
-          btn.classList.add('opacity-0', 'pointer-events-none');
-          btn.classList.remove('opacity-100');
+          runCounters();
         }
-      });
-      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    })();
+      }
+
+      // 4. Méthode en 4 étapes : Ligne de progression & Allumage séquentiel
+      const methodTimeline = document.getElementById('method-timeline');
+      const progressBar = document.getElementById('method-progress-bar');
+      const stepCards = document.querySelectorAll('.method-step-card');
+
+      if (methodTimeline && progressBar) {
+        if (prefersReducedMotion) {
+          progressBar.style.width = 'calc(100% - 7rem)';
+          document.querySelectorAll('.method-step-circle').forEach(c => c.classList.add('method-step-active'));
+        } else if ('IntersectionObserver' in window) {
+          const methodObs = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+              progressBar.style.width = 'calc(100% - 7rem)';
+              stepCards.forEach((card, idx) => {
+                setTimeout(() => {
+                  const circle = card.querySelector('.method-step-circle');
+                  if (circle) circle.classList.add('method-step-active');
+                }, idx * 220);
+              });
+              methodObs.disconnect();
+            }
+          }, { threshold: 0.25 });
+          methodObs.observe(methodTimeline);
+        }
+      }
+
+      // 7. Header : Réduction de hauteur au scroll & Ombre
+      const mainHeader = document.getElementById('main-header');
+      const navContainer = document.getElementById('navbar-container');
+      const navLogo = document.getElementById('navbar-logo');
+
+      const handleHeaderScroll = () => {
+        if (!mainHeader || !navContainer) return;
+        if (window.scrollY > 40) {
+          navContainer.classList.remove('h-20');
+          navContainer.classList.add('h-16');
+          if (navLogo) {
+            navLogo.classList.remove('h-12', 'sm:h-14');
+            navLogo.classList.add('h-10', 'sm:h-11');
+          }
+          mainHeader.classList.add('shadow-md', 'border-slate-200/90');
+          mainHeader.classList.remove('shadow-xs', 'border-slate-100');
+        } else {
+          navContainer.classList.add('h-20');
+          navContainer.classList.remove('h-16');
+          if (navLogo) {
+            navLogo.classList.add('h-12', 'sm:h-14');
+            navLogo.classList.remove('h-10', 'sm:h-11');
+          }
+          mainHeader.classList.remove('shadow-md', 'border-slate-200/90');
+          mainHeader.classList.add('shadow-xs', 'border-slate-100');
+        }
+      };
+      window.addEventListener('scroll', handleHeaderScroll, { passive: true });
+      handleHeaderScroll();
+
+      // 7. Header : Surlignage de la section active (Scrollspy)
+      const navLinks = document.querySelectorAll('#desktop-nav [data-nav-target]');
+      if (navLinks.length > 0 && 'IntersectionObserver' in window) {
+        const sectionIds = Array.from(navLinks).map(l => l.getAttribute('data-nav-target')).filter(Boolean);
+        const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+        if (sections.length > 0) {
+          const spyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const targetId = entry.target.id;
+                navLinks.forEach(link => {
+                  const match = link.getAttribute('data-nav-target') === targetId;
+                  if (match) {
+                    link.classList.add('border-primary', 'text-primary');
+                    link.classList.remove('border-transparent', 'text-slate-700');
+                  } else {
+                    link.classList.remove('border-primary', 'text-primary');
+                    link.classList.add('border-transparent', 'text-slate-700');
+                  }
+                });
+              }
+            });
+          }, { threshold: 0.3, rootMargin: '-80px 0px -50% 0px' });
+
+          sections.forEach(s => spyObserver.observe(s));
+        }
+      }
+
+      // 8. Formulaire : Validation en ligne & Bouton de chargement
+      const contactForm = document.getElementById('contact-form');
+      const submitBtn = document.getElementById('contact-submit-btn');
+      const btnText = document.getElementById('contact-btn-text');
+      const btnIcon = document.getElementById('contact-btn-icon');
+      const btnSpinner = document.getElementById('contact-btn-spinner');
+
+      if (contactForm && submitBtn) {
+        // Validation en direct au blur
+        const inputs = contactForm.querySelectorAll('input:not([type="hidden"]), select, textarea');
+        inputs.forEach(input => {
+          input.addEventListener('blur', () => {
+            if (input.checkValidity() && input.value.trim() !== '') {
+              input.classList.add('border-emerald-400');
+              input.classList.remove('border-rose-400');
+            } else if (!input.checkValidity() && input.value.trim() !== '') {
+              input.classList.add('border-rose-400');
+              input.classList.remove('border-emerald-400');
+            }
+          });
+          input.addEventListener('input', () => {
+            if (input.checkValidity()) {
+              input.classList.remove('border-rose-400');
+            }
+          });
+        });
+
+        // État de chargement à la soumission
+        contactForm.addEventListener('submit', (e) => {
+          if (contactForm.checkValidity()) {
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-90', 'cursor-not-allowed');
+            if (btnText) btnText.textContent = 'Envoi de votre demande en cours...';
+            if (btnIcon) btnIcon.classList.add('hidden');
+            if (btnSpinner) btnSpinner.classList.remove('hidden');
+          }
+        });
+      }
+
+      // Bouton scroll-to-top
+      const scrollBtn = document.getElementById('scroll-to-top');
+      if (scrollBtn) {
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 400) {
+            scrollBtn.classList.remove('opacity-0', 'pointer-events-none');
+            scrollBtn.classList.add('opacity-100');
+          } else {
+            scrollBtn.classList.add('opacity-0', 'pointer-events-none');
+            scrollBtn.classList.remove('opacity-100');
+          }
+        }, { passive: true });
+        scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      }
+    });
   </script>
 
   {% block extra_scripts %}{% endblock %}

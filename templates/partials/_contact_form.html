@@ -73,7 +73,7 @@
       <div class="lg:col-span-7">
         <div class="bg-base-100 rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-xl">
           
-          <form method="post" action="{% url 'showcase:home' %}#contact-section" class="space-y-5">
+          <form id="contact-form" method="post" action="{% url 'showcase:home' %}#contact-section" class="space-y-5">
             {% csrf_token %}
 
             <!-- Honeypot invisible -->
@@ -181,11 +181,16 @@
               {% endif %}
             </div>
 
-            <!-- Bouton d'envoi -->
+            <!-- Bouton d'envoi avec état de chargement dynamique -->
             <div class="pt-3">
-              <button type="submit" class="btn btn-primary w-full text-white font-bold h-12 rounded-xl text-base shadow-lg shadow-primary/25 hover:shadow-xl hover:brightness-105 transition-all duration-200 inline-flex items-center justify-center gap-2 group">
-                <span>Envoyer ma demande</span>
-                <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m22 2-7 20-4-9-9-4Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M22 2 11 13"/></svg>
+              <button id="contact-submit-btn" type="submit" class="btn btn-primary w-full text-white font-bold h-12 rounded-xl text-base shadow-lg shadow-primary/25 hover:shadow-xl hover:brightness-105 active:scale-[0.99] transition-all duration-200 inline-flex items-center justify-center gap-2 group">
+                <span id="contact-btn-text">Envoyer ma demande</span>
+                <svg id="contact-btn-icon" class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m22 2-7 20-4-9-9-4Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M22 2 11 13"/></svg>
+                <!-- Spinner SVG caché par défaut -->
+                <svg id="contact-btn-spinner" class="hidden w-5 h-5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
               </button>
             </div>
 

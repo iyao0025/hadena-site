@@ -1,23 +1,44 @@
 {% load static %}
-<!-- Partial: Bandeau de Références Clients -->
-<section id="references" class="bg-slate-50/80 border-b border-slate-200/70 py-6 sm:py-8 scroll-mt-20 sm:scroll-mt-24">
+<!-- Partial: Bandeau de Références Clients (Marquee Continu Infini) -->
+<section id="references" class="bg-slate-50/80 border-b border-slate-200/70 py-6 sm:py-8 scroll-mt-20 sm:scroll-mt-24 overflow-hidden">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col items-center">
       
-      <div class="text-[11px] sm:text-xs font-bold tracking-widest text-slate-400 uppercase text-center mb-5 flex items-center justify-center gap-3">
+      <div class="text-[11px] sm:text-xs font-bold tracking-widest text-slate-400 uppercase text-center mb-6 flex items-center justify-center gap-3">
         <span class="w-6 sm:w-10 h-px bg-slate-200"></span>
         <span class="text-slate-500 font-extrabold">Ils nous ont fait confiance</span>
         <span class="w-6 sm:w-10 h-px bg-slate-200"></span>
       </div>
 
-      <div class="flex flex-wrap items-center justify-center gap-x-8 sm:gap-x-12 lg:gap-x-14 gap-y-4 w-full">
-        {% for ref in references %}
-        <div class="flex items-center justify-center h-10 sm:h-12 px-2 group cursor-default" title="{{ ref.name }}">
-          <img src="{% static 'img/clients/' %}{{ ref.logo }}" 
-               alt="{{ ref.name }}" 
-               class="max-h-8 sm:max-h-9 w-auto max-w-[120px] sm:max-w-[130px] object-contain opacity-75 group-hover:opacity-100 group-hover:scale-105 transition-all duration-200">
+      <!-- Conteneur Marquee avec masques dégradés latéraux -->
+      <div class="relative w-full overflow-hidden group">
+        <!-- Masque gauche -->
+        <div class="pointer-events-none absolute left-0 top-0 bottom-0 w-12 sm:w-24 bg-gradient-to-r from-slate-50 via-slate-50/80 to-transparent z-10"></div>
+        <!-- Masque droit -->
+        <div class="pointer-events-none absolute right-0 top-0 bottom-0 w-12 sm:w-24 bg-gradient-to-l from-slate-50 via-slate-50/80 to-transparent z-10"></div>
+
+        <!-- Piste de défilement infini (doublée pour boucle continue) -->
+        <div class="animate-marquee flex items-center gap-10 sm:gap-16 py-1 hover:[animation-play-state:paused]">
+          
+          <!-- Première passe -->
+          {% for ref in references %}
+          <div class="shrink-0 flex items-center justify-center h-10 sm:h-12 px-3 cursor-default" title="{{ ref.name }}">
+            <img src="{% static 'img/clients/' %}{{ ref.logo }}" 
+                 alt="{{ ref.name }}" 
+                 class="max-h-8 sm:max-h-9 w-auto max-w-[120px] sm:max-w-[130px] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 hover:scale-105 transition-all duration-300">
+          </div>
+          {% endfor %}
+
+          <!-- Deuxième passe identique pour transition sans à-coup -->
+          {% for ref in references %}
+          <div class="shrink-0 flex items-center justify-center h-10 sm:h-12 px-3 cursor-default" title="{{ ref.name }}" aria-hidden="true">
+            <img src="{% static 'img/clients/' %}{{ ref.logo }}" 
+                 alt="{{ ref.name }}" 
+                 class="max-h-8 sm:max-h-9 w-auto max-w-[120px] sm:max-w-[130px] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 hover:scale-105 transition-all duration-300">
+          </div>
+          {% endfor %}
+
         </div>
-        {% endfor %}
       </div>
 
     </div>

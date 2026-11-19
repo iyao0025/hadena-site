@@ -1,4 +1,5 @@
-<!-- Partial: Hero Banner Immersif & Accompagnement -->
+{% load static %}
+<!-- Partial: Hero Banner Immersif & Accompagnement Technologique -->
 <section id="hero" class="relative bg-gradient-to-br from-[#0B1A3B] via-[#162D63] to-[#254C9E] text-white py-16 sm:py-24 lg:py-28 overflow-hidden">
   
   <!-- Canvas Fond Maillage Réseau & Data (Drifting Nodes) -->
@@ -13,9 +14,10 @@
       
       <!-- COLONNE GAUCHE : TEXTE & ACTIONS -->
       <div class="lg:col-span-7 flex flex-col items-start">
+
         <!-- Grand Titre -->
         <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.15] mb-6">
-          Des systèmes d'information <span class="text-sky-300">fiables, sécurisés et</span> prêts pour demain.
+          Des systèmes d'information <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-sky-200 to-amber-200">fiables, sécurisés</span> et prêts pour demain.
         </h1>
 
         <!-- Descriptif -->
@@ -24,94 +26,88 @@
         </p>
 
         <!-- Boutons d'Action -->
-        <div class="flex flex-wrap items-center gap-4 w-full sm:w-auto">
+        <div class="flex flex-wrap items-center gap-4 w-full sm:w-auto mb-8">
           <a href="#devis-section" class="btn btn-accent text-slate-950 font-bold px-8 h-12 rounded-xl shadow-xl shadow-amber-500/25 hover:shadow-2xl hover:shadow-amber-500/40 hover:scale-[1.03] transition-all duration-200">
             Parler à un expert
           </a>
-          <a href="#expertises-section" class="btn btn-outline border-white/40 text-white hover:bg-white/10 hover:border-white px-7 h-12 rounded-xl transition-all duration-200 flex items-center gap-2 font-semibold">
+          <a href="#expertises-section" class="btn btn-outline border-white/40 text-white hover:bg-white/10 hover:border-white px-7 h-12 rounded-xl transition-all duration-200 flex items-center gap-2 font-semibold group">
             <span>Découvrir nos services</span>
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           </a>
+        </div>
+
+        <!-- Domaines Clés (Badges Lucide : Cloud, Réseaux, Cyber, Data) -->
+        <div class="pt-6 border-t border-white/15 w-full flex flex-wrap items-center gap-2.5 text-xs text-slate-300">
+          <span class="text-slate-400 font-medium mr-1">Expertises :</span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/5 border border-white/10">
+            <svg class="w-3.5 h-3.5 text-sky-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
+            Infrastructures &amp; Réseaux
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/5 border border-white/10">
+            <svg class="w-3.5 h-3.5 text-sky-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+            Cybersécurité
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/5 border border-white/10">
+            <svg class="w-3.5 h-3.5 text-sky-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+            Data &amp; BI
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/5 border border-white/10">
+            <svg class="w-3.5 h-3.5 text-sky-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+            Gouvernance IT
+          </span>
         </div>
       </div>
 
-      <!-- COLONNE DROITE : CARTE ACCOMPAGNEMENT DE BOUT EN BOUT -->
-      <div class="lg:col-span-5">
-        <div class="bg-slate-900/60 backdrop-blur-xl border border-white/15 rounded-2xl p-6 sm:p-7 shadow-2xl relative">
+      <!-- COLONNE DROITE : VISUEL TECHNOLOGIQUE FORT & BADGES FLOTTANTS -->
+      <div class="lg:col-span-5 relative mt-6 lg:mt-0">
+        
+        <!-- Glow d'arrière-plan -->
+        <div class="absolute -inset-2 bg-gradient-to-r from-sky-500/20 via-primary/30 to-amber-500/10 rounded-3xl blur-2xl opacity-70 pointer-events-none"></div>
+
+        <!-- Conteneur principal du visuel (animate-float-subtle) -->
+        <div class="relative rounded-3xl overflow-hidden border border-white/20 bg-slate-900/80 shadow-2xl shadow-sky-950/60 backdrop-blur-md group animate-float-subtle">
           
-          <!-- En-tête de la carte -->
-          <div class="flex items-center border-b border-white/10 pb-4 mb-5">
-            <span class="text-xs font-extrabold tracking-wider text-slate-300 uppercase">
-              Un accompagnement de bout en bout
-            </span>
-          </div>
-
-          <!-- Liste des 4 briques d'accompagnement (Lucide SVGs unifiés) -->
-          <div class="space-y-3.5">
-            
-            <!-- Brique 1 : Conseil (Compass) -->
-            <div class="flex items-start gap-4 p-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-sky-400/30 hover:bg-white/10 transition-all duration-200">
-              <div class="w-12 h-12 rounded-[12px] bg-sky-500/20 flex items-center justify-center text-sky-300 shrink-0 border border-sky-400/20">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="10"/>
-                  <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
-                </svg>
-              </div>
-              <div>
-                <h2 class="text-sm font-bold text-white leading-snug">Conseil &amp; gouvernance IT</h2>
-                <p class="text-xs text-slate-300/80 mt-0.5">Stratégie, audit, conformité</p>
-              </div>
-            </div>
-
-            <!-- Brique 2 : Réseaux (Server) -->
-            <div class="flex items-start gap-4 p-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-sky-400/30 hover:bg-white/10 transition-all duration-200">
-              <div class="w-12 h-12 rounded-[12px] bg-sky-500/20 flex items-center justify-center text-sky-300 shrink-0 border border-sky-400/20">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
-                  <rect width="20" height="8" x="2" y="2" rx="2" ry="2"/>
-                  <rect width="20" height="8" x="2" y="14" rx="2" ry="2"/>
-                  <line x1="6" x2="6.01" y1="6" y2="6"/>
-                  <line x1="6" x2="6.01" y1="18" y2="18"/>
-                </svg>
-              </div>
-              <div>
-                <h2 class="text-sm font-bold text-white leading-snug">Infrastructures &amp; réseaux</h2>
-                <p class="text-xs text-slate-300/80 mt-0.5">Serveurs, cloud, hébergement</p>
-              </div>
-            </div>
-
-            <!-- Brique 3 : Sécurité (ShieldCheck) -->
-            <div class="flex items-start gap-4 p-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-sky-400/30 hover:bg-white/10 transition-all duration-200">
-              <div class="w-12 h-12 rounded-[12px] bg-sky-500/20 flex items-center justify-center text-sky-300 shrink-0 border border-sky-400/20">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
-                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
-                  <path d="m9 12 2 2 4-4"/>
-                </svg>
-              </div>
-              <div>
-                <h2 class="text-sm font-bold text-white leading-snug">Sécurité informatique</h2>
-                <p class="text-xs text-slate-300/80 mt-0.5">Protection des données et des accès</p>
-              </div>
-            </div>
-
-            <!-- Brique 4 : Data (BarChart3) -->
-            <div class="flex items-start gap-4 p-3.5 rounded-2xl bg-white/5 border border-white/10 hover:border-sky-400/30 hover:bg-white/10 transition-all duration-200">
-              <div class="w-12 h-12 rounded-[12px] bg-sky-500/20 flex items-center justify-center text-sky-300 shrink-0 border border-sky-400/20">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
-                  <path d="M3 3v18h18"/>
-                  <path d="M18 17V9"/>
-                  <path d="M13 17V5"/>
-                  <path d="M8 17v-3"/>
-                </svg>
-              </div>
-              <div>
-                <h2 class="text-sm font-bold text-white leading-snug">Data &amp; Business Intelligence</h2>
-                <p class="text-xs text-slate-300/80 mt-0.5">Tableaux de bord et analyses</p>
-              </div>
-            </div>
-
+          <!-- Image technologique haute définition -->
+          <div class="relative aspect-4/3 sm:aspect-16/11 overflow-hidden">
+            <img src="{% static 'img/hero-tech-visual.webp' %}" 
+                 alt="Infrastructures, Cloud & Sécurité IT Hadena Limited" 
+                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+            <!-- Dégradé subtil -->
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-transparent"></div>
           </div>
 
         </div>
+
+        <!-- Badge Flottant 1 (Haut-Gauche) : Infrastructures & Réseaux -->
+        <div class="flex absolute -top-3 left-2 sm:-top-5 sm:-left-6 z-20 items-center gap-2.5 sm:gap-3 px-3 py-2 sm:px-4 sm:py-3 rounded-xl sm:rounded-2xl bg-slate-900/90 backdrop-blur-md border border-white/20 shadow-xl shadow-black/40 animate-float-badge">
+          <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-sky-500/20 border border-sky-400/30 flex items-center justify-center text-sky-300 shrink-0">
+            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+              <rect width="20" height="8" x="2" y="2" rx="2" ry="2"/>
+              <rect width="20" height="8" x="2" y="14" rx="2" ry="2"/>
+              <line x1="6" x2="6.01" y1="6" y2="6"/>
+              <line x1="6" x2="6.01" y1="18" y2="18"/>
+            </svg>
+          </div>
+          <div>
+            <div class="text-[11px] sm:text-xs font-extrabold text-white">Infrastructures &amp; Réseaux</div>
+            <div class="text-[9px] sm:text-[11px] font-medium text-slate-300 sm:text-slate-400">Serveurs, cloud, hébergement</div>
+          </div>
+        </div>
+
+        <!-- Badge Flottant 2 (Bas-Droite) : Sécurité Informatique -->
+        <div class="flex absolute -bottom-3 right-2 sm:-bottom-5 sm:-right-4 z-20 items-center gap-2.5 sm:gap-3 px-3 py-2 sm:px-4 sm:py-3 rounded-xl sm:rounded-2xl bg-slate-900/90 backdrop-blur-md border border-white/20 shadow-xl shadow-black/40 animate-float-badge" style="animation-delay: 2s;">
+          <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-sky-500/20 border border-sky-400/30 flex items-center justify-center text-sky-300 shrink-0">
+            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+              <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+          </div>
+          <div>
+            <div class="text-[11px] sm:text-xs font-extrabold text-white">Sécurité informatique</div>
+            <div class="text-[9px] sm:text-[11px] font-medium text-slate-300 sm:text-slate-400">Protection des données &amp; accès</div>
+          </div>
+        </div>
+
       </div>
 
     </div>

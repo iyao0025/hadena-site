@@ -65,6 +65,35 @@
   box-shadow: 0 10px 15px -3px rgba(37, 76, 158, 0.35) !important;
 }
 
+/* 6. Animations flottantes douces pour le Hero */
+@keyframes float-subtle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-float-subtle {
+  animation: float-subtle 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes float-badge {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-float-badge {
+  animation: float-badge 4s ease-in-out infinite;
+  will-change: transform;
+}
+
 /* 9. Respect strict de prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -88,5 +117,11 @@
     flex-wrap: wrap !important;
     width: 100% !important;
     justify-content: center !important;
+  }
+
+  .animate-float-subtle,
+  .animate-float-badge {
+    animation: none !important;
+    transform: none !important;
   }
 }

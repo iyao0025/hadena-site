@@ -11,12 +11,23 @@
   <meta name="description" content="{% block meta_description %}{{ meta_description|default:'Conseil, infrastructures, sécurité, data et développement : Hadena Limited, votre partenaire IT en Côte d’Ivoire.' }}{% endblock %}">
   <link rel="canonical" href="{{ request.build_absolute_uri }}">
 
-  <!-- OpenGraph / Réseaux sociaux -->
+  <!-- OpenGraph / Réseaux sociaux (Facebook, LinkedIn, WhatsApp) -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="{% block og_title %}{{ page_title|default:'Hadena Limited | Solutions IT' }}{% endblock %}">
+  <meta property="og:site_name" content="Hadena Limited">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="{% block og_title %}{{ page_title|default:'Hadena Limited | Solutions IT & Partenaire Technologique' }}{% endblock %}">
   <meta property="og:description" content="{% block og_desc %}{{ meta_description|default:'Des systèmes d’information fiables, sécurisés et prêts pour demain.' }}{% endblock %}">
   <meta property="og:url" content="{{ request.build_absolute_uri }}">
-  <meta property="og:image" content="{% static 'img/logo-hadena.svg' %}">
+  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-image.jpg' %}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Hadena Limited - Solutions Technologiques & Partenaire IT à Abidjan">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{% block twitter_title %}{{ page_title|default:'Hadena Limited | Solutions IT' }}{% endblock %}">
+  <meta name="twitter:description" content="{% block twitter_desc %}{{ meta_description|default:'Des systèmes d’information fiables, sécurisés et prêts pour demain.' }}{% endblock %}">
+  <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-image.jpg' %}">
   
   <!-- Favicon officiel Hadena -->
   <link rel="icon" type="image/svg+xml" href="{% static 'img/favicon.svg' %}">

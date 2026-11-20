@@ -221,6 +221,37 @@ CLIENT_REFERENCES = [
     {"name": "JAAS", "logo": "jaas.png"},
 ]
 
+EXPERTISE_POLES = [
+    {
+        "id": "direction",
+        "title": "Direction & Gouvernance IT",
+        "desc": "Cadrage stratégique, audit des systèmes d'information, urbanisation et alignement IT sur vos objectifs d'affaires.",
+        "icon": "compass",
+        "tag": "Pilotage & Stratégie",
+    },
+    {
+        "id": "infrastructure",
+        "title": "Infrastructures, Cloud & Systèmes",
+        "desc": "Architecture réseau Cisco, administration de serveurs hybrides, virtualisation VMware/Hyper-V et infogérance.",
+        "icon": "server",
+        "tag": "Haute Disponibilité",
+    },
+    {
+        "id": "cybersecurite",
+        "title": "Cybersécurité & Continuité",
+        "desc": "Défense périmétrique, plans de reprise d'activité (PRA/PCA), politique de sauvegarde immuable et conformité.",
+        "icon": "shield-check",
+        "tag": "Protection Active",
+    },
+    {
+        "id": "data_apps",
+        "title": "Data, BI & Applications",
+        "desc": "Conception d'applications métier sur mesure (Web & Mobile), tableaux de bord décisionnels Power BI et intégration ERP.",
+        "icon": "code-2",
+        "tag": "Agilité & Décisionnel",
+    },
+]
+
 KEY_METRICS = [
     {
         "value": "+10 ans",
@@ -338,8 +369,9 @@ class AboutView(View):
             "values": VALUES_LIST,
             "references": CLIENT_REFERENCES,
             "metrics": KEY_METRICS,
+            "expertise_poles": EXPERTISE_POLES,
             "page_title": "Qui sommes-nous | Hadena Limited",
-            "meta_description": "Découvrez Hadena Limited, ses valeurs, son équipe d'experts IT et le mot de la gérante basé à Abidjan.",
+            "meta_description": "Découvrez Hadena Limited, ses valeurs, ses pôles d'experts IT et le mot de la gérante basée à Abidjan.",
         }
         return render(request, "showcase/about.html", context)
 

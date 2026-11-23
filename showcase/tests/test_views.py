@@ -54,7 +54,8 @@ class ShowcaseViewsTest(TestCase):
     def test_services_catalog_page(self):
         response = self.client.get(reverse("showcase:services"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Des Services IT de Bout en Bout")
+        self.assertContains(response, "Des Services IT")
+        self.assertContains(response, "de Bout en Bout")
 
     def test_service_detail_page(self):
         response = self.client.get(reverse("showcase:service_detail", kwargs={"slug": "management-gouvernance-it"}))
@@ -64,17 +65,20 @@ class ShowcaseViewsTest(TestCase):
     def test_products_page(self):
         response = self.client.get(reverse("showcase:products"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Matériels & Logiciels Professionnels")
+        self.assertContains(response, "Matériels")
+        self.assertContains(response, "Professionnels Certifiés")
 
     def test_training_page(self):
         response = self.client.get(reverse("showcase:training"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Formations Pratiques & Certifiantes")
+        self.assertContains(response, "Formations Pratiques")
+        self.assertContains(response, "Certifiantes")
 
     def test_contact_page(self):
         response = self.client.get(reverse("showcase:contact"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Contactez nos Experts")
+        self.assertContains(response, "Contactez")
+        self.assertContains(response, "nos Experts IT")
 
     def test_legal_and_privacy_pages(self):
         resp_leg = self.client.get(reverse("showcase:mentions_legales"))

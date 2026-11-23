@@ -21,8 +21,12 @@ SERVICES_CATALOG = [
         "title": "Management & Gouvernance IT",
         "short_desc": "Schéma directeur, pilotage de projets, alignement de l'IT sur vos objectifs métier selon les bonnes pratiques ITIL.",
         "icon": "compass",
+        "family": "conseil_audit",
+        "family_label": "Conseil & Audit",
+        "action_label": "Découvrir la gouvernance IT",
         "image": "gouvernance.webp",
         "is_highlight": True,
+        "tech_badges": ["ITIL v4", "AMOA", "Schéma directeur", "Audit SI"],
         "full_desc": "La gouvernance des systèmes d'information consiste à s'assurer que vos investissements informatiques créent une réelle valeur pour votre entreprise. Nous vous accompagnons dans l'élaboration de schémas directeurs, le pilotage de vos projets et la mise en conformité réglementaire.",
         "deliverables": [
             "Diagnostic et cartographie du système d'information existant",
@@ -37,14 +41,18 @@ SERVICES_CATALOG = [
         "title": "Systèmes & Réseaux",
         "short_desc": "Conception, déploiement et administration de serveurs, réseaux, environnements cloud et solutions d'hébergement.",
         "icon": "server",
+        "family": "infrastructure_securite",
+        "family_label": "Infrastructures & Sécurité",
+        "action_label": "Explorer les systèmes & réseaux",
         "image": "reseaux.webp",
         "is_highlight": False,
+        "tech_badges": ["Cisco", "Windows Server", "Linux", "VMware", "Cloud"],
         "full_desc": "Une infrastructure réseau performante et résiliente est l'épine dorsale de votre entreprise. Hadena Limited conçoit, déploie et supervise vos architectures locales, hybrides ou cloud pour garantir une disponibilité maximale.",
         "deliverables": [
             "Architecture et câblage réseau haute disponibilité (LAN, WAN, Wi-Fi pro)",
             "Virtualisation et administration des serveurs (Windows Server, Linux)",
             "Migration et hébergement cloud (IaaS, PaaS, solutions de messagerie)",
-            "Supervision 24/7 et monitoring proactif des équipements",
+            "Supervision continue et astreinte 24/7 sous contrat cadre",
         ],
     },
     {
@@ -53,8 +61,12 @@ SERVICES_CATALOG = [
         "title": "Sécurité informatique",
         "short_desc": "Analyse des risques, durcissement des systèmes, sauvegardes et plans de continuité pour protéger vos données.",
         "icon": "shield-check",
+        "family": "infrastructure_securite",
+        "family_label": "Infrastructures & Sécurité",
+        "action_label": "Explorer la sécurité informatique",
         "image": "securite.webp",
         "is_highlight": False,
+        "tech_badges": ["Firewall Fortinet", "EDR Managé", "Sauvegarde 3-2-1", "PRA / PCA"],
         "full_desc": "Face à la recrudescence des cybermenaces, protéger vos actifs numériques est un impératif vital. Nous mettons en œuvre une protection à 360° pour vos postes, réseaux, serveurs et données sensibles.",
         "deliverables": [
             "Sécurisation périmétrique (pare-feu nouvelle génération, VPN, segmentation)",
@@ -69,8 +81,12 @@ SERVICES_CATALOG = [
         "title": "Audit informatique",
         "short_desc": "État des lieux objectif de votre parc, de vos processus et de votre sécurité, avec un plan d'actions priorisé.",
         "icon": "file-search",
+        "family": "conseil_audit",
+        "family_label": "Conseil & Audit",
+        "action_label": "Découvrir l'audit informatique",
         "image": "audit.webp",
         "is_highlight": False,
+        "tech_badges": ["Tests d'intrusion", "Audit conformité", "Inventaire parc", "Plan remédiation"],
         "full_desc": "L'audit vous apporte une vision claire et indépendante sur la maturité de votre système d'information, ses faiblesses cachées et les opportunités d'optimisation budgétaire.",
         "deliverables": [
             "Inventaire exhaustif matériel, logiciel et licences",
@@ -85,8 +101,12 @@ SERVICES_CATALOG = [
         "title": "Service Desk & Maintenance",
         "short_desc": "Support utilisateurs, maintenance préventive et curative de vos équipements, suivi des incidents.",
         "icon": "headset",
+        "family": "infrastructure_securite",
+        "family_label": "Infrastructures & Sécurité",
+        "action_label": "Découvrir le Service Desk",
         "image": "maintenance.webp",
         "is_highlight": False,
+        "tech_badges": ["Support N1/N2/N3", "Téléassistance", "SLA Garanti", "Ticketing"],
         "full_desc": "Offrez à vos équipes un guichet unique d'assistance technique réactif pour résoudre immédiatement les pannes, maintenir le matériel opérationnel et éviter toute perte de productivité.",
         "deliverables": [
             "Support technique multi-canal (téléphone, e-mail, téléassistance)",
@@ -101,8 +121,12 @@ SERVICES_CATALOG = [
         "title": "Data Analytics & BI",
         "short_desc": "Transformer vos données brutes en indicateurs utiles : analyses descriptives, prédictives et prescriptives.",
         "icon": "barchart-3",
+        "family": "data_dev",
+        "family_label": "Data & Développement",
+        "action_label": "Explorer la Data Analytics & BI",
         "image": "data-bi.webp",
         "is_highlight": False,
+        "tech_badges": ["Power BI", "SQL Server", "Data Warehouse", "ETL Pipelines"],
         "full_desc": "Vos données regorgent de leviers de croissance inexploités. Nous concevons des tableaux de bord dynamiques et des pipelines d'analyse pour guider vos décisions stratégiques en temps réel.",
         "deliverables": [
             "Collecte, nettoyage et structuration des sources de données disparates",
@@ -117,8 +141,12 @@ SERVICES_CATALOG = [
         "title": "Applications Web & Mobile",
         "short_desc": "Développement d'applications métier sur mesure, plateformes de gestion et API, du cahier des charges à la mise en production.",
         "icon": "code-2",
+        "family": "data_dev",
+        "family_label": "Data & Développement",
+        "action_label": "Découvrir le développement sur mesure",
         "image": "web-mobile.webp",
         "is_highlight": False,
+        "tech_badges": ["Django / Python", "React", "Flutter", "PostgreSQL", "API REST"],
         "full_desc": "Quand les logiciels standards ne répondent pas à vos processus uniques, nous concevons des applications web et mobiles robustes, ergonomiques et pérennes adaptées à votre réalité opérationnelle.",
         "deliverables": [
             "Cadrage fonctionnel, prototypage d'interface (UI/UX) et spécifications",
@@ -133,8 +161,12 @@ SERVICES_CATALOG = [
         "title": "Agence Web & Digitale",
         "short_desc": "Sites vitrines et e-commerce, identité numérique et présence en ligne qui valorisent votre marque.",
         "icon": "globe",
+        "family": "data_dev",
+        "family_label": "Data & Développement",
+        "action_label": "Explorer l'Agence Web & Digitale",
         "image": "agence-digitale.webp",
         "is_highlight": False,
+        "tech_badges": ["Sites Corporate", "E-Commerce", "SEO Local", "Identité Visuelle"],
         "full_desc": "Votre vitrine digitale est votre premier commercial. Nous créons des sites web professionnels, rapides, optimisés pour le référencement naturel (SEO) et conçus pour générer des prospects qualifiés.",
         "deliverables": [
             "Création et refonte de sites web d'entreprise institutionnels et vitrines",
@@ -149,8 +181,12 @@ SERVICES_CATALOG = [
         "title": "Solutions sur mesure",
         "short_desc": "Fourniture et intégration de matériels et logiciels adaptés à vos contraintes techniques et budgétaires.",
         "icon": "cpu",
+        "family": "solutions_sur_mesure",
+        "family_label": "Solutions d'Entreprise",
+        "action_label": "Découvrir les solutions sur mesure",
         "image": "sur-mesure.webp",
         "is_highlight": False,
+        "tech_badges": ["Intégration ERP", "CRM", "Matériels pros", "Contrats support"],
         "full_desc": "Chaque organisation fait face à des défis spécifiques. Nous sélectionnons, fournissons et intégrons les technologies exactes dont vous avez besoin, au juste coût et sans superflu.",
         "deliverables": [
             "Conseil indépendant sur le choix des progiciels et matériels",
@@ -159,6 +195,14 @@ SERVICES_CATALOG = [
             "Contrat de support sur mesure avec interlocuteur dédié",
         ],
     },
+]
+
+SERVICE_FAMILIES = [
+    {"id": "all", "label": "Toutes les expertises", "count": 9},
+    {"id": "conseil_audit", "label": "Conseil & Audit", "count": 2},
+    {"id": "infrastructure_securite", "label": "Infrastructures & Sécurité", "count": 3},
+    {"id": "data_dev", "label": "Data & Développement", "count": 3},
+    {"id": "solutions_sur_mesure", "label": "Solutions d'Entreprise", "count": 1},
 ]
 
 VALUES_LIST = [
@@ -382,6 +426,7 @@ class ServicesView(View):
     def get(self, request):
         context = {
             "services": SERVICES_CATALOG,
+            "service_families": SERVICE_FAMILIES,
             "page_title": "Services IT & Expertises | Hadena Limited",
             "meta_description": "Découvrez nos 9 expertises IT : gouvernance, réseaux, cybersécurité, audit, maintenance, BI et applications web/mobile.",
         }

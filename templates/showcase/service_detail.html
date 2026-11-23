@@ -74,7 +74,7 @@
           Remplissez ce formulaire pour recevoir une proposition adaptée à votre entreprise sous 48h.
         </p>
 
-        <form method="post" action="{% url 'showcase:home' %}#contact-section" class="space-y-4">
+        <form method="post" action="{% url 'showcase:home' %}#devis-section" class="space-y-4">
           {% csrf_token %}
           <div class="hidden" aria-hidden="true">{{ form.website }}</div>
 

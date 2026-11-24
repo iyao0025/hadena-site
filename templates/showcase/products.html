@@ -1,221 +1,532 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Matériels & Logiciels informatiques | Hadena Limited{% endblock %}
-{% block meta_description %}Fourniture, conseil et installation d'ordinateurs, serveurs, routeurs, licences cloud et progiciels à Abidjan.{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block extra_head %}
+<!-- Données structurées SEO (Schema.org) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'showcase:home' %}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Matériels & Logiciels",
+          "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'showcase:products' %}"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "name": "Catalogue Matériels et Logiciels Professionnels - Hadena Limited",
+      "description": "Fourniture, configuration et déploiement de postes, serveurs, réseaux et licences logicielles d'entreprise à Abidjan.",
+      "itemListElement": [
+        {% for item in hardware_products %}
+        {
+          "@type": "ListItem",
+          "position": {{ forloop.counter }},
+          "item": {
+            "@type": "Product",
+            "name": "{{ item.title }}",
+            "description": "{{ item.desc }}",
+            "category": "Matériel Informatique"
+          }
+        },
+        {% endfor %}
+        {% for item in software_products %}
+        {
+          "@type": "ListItem",
+          "position": {{ forloop.counter|add:4 }},
+          "item": {
+            "@type": "SoftwareApplication",
+            "name": "{{ item.title }}",
+            "description": "{{ item.desc }}",
+            "applicationCategory": "BusinessApplication"
+          }
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <!-- HEADER PAGE -->
-<section class="bg-gradient-to-br from-[#0B1A3B] via-[#162D63] to-[#254C9E] text-white py-16 lg:py-20">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
-    <span class="inline-block text-xs font-bold tracking-widest uppercase text-sky-300 bg-sky-500/20 px-3 py-1 rounded-full mb-4">
-      Équipements & Solutions
+<section class="bg-gradient-to-br from-[#0B1A3B] via-[#162D63] to-[#254C9E] text-white py-16 sm:py-20 lg:py-24 relative overflow-hidden">
+  <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none"></div>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+    <span class="inline-block text-xs font-bold tracking-widest uppercase text-sky-300 bg-sky-500/20 px-3.5 py-1.5 rounded-full mb-4 border border-sky-400/30">
+      Équipements & Solutions informatiques
     </span>
-    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
+    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight font-heading mb-6 leading-tight">
       Matériels & Logiciels <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-sky-200 to-amber-200">Professionnels Certifiés</span>
     </h1>
-    <p class="text-base sm:text-lg text-slate-200 leading-relaxed">
-      Nous sélectionnons, fournissons et configurons les équipements et licences adaptés à vos exigences techniques et budgétaires.
+    <p class="text-base sm:text-lg lg:text-xl text-slate-200 max-w-2xl mx-auto leading-relaxed">
+      Sélection, fourniture, configuration et déploiement de matériels et licences d'entreprise adaptés à vos exigences opérationnelles et budgétaires.
     </p>
   </div>
 </section>
 
-<!-- PRODUITS -->
-<section class="py-16 lg:py-24 bg-base-100">
+<!-- BANDEAU MARQUES PARTENAIRES & CONSTRUCTEURS (MARQUEE ÉLÉGANT) -->
+<section class="py-6 bg-slate-900 border-b border-slate-800 text-slate-400 text-xs overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <span class="text-slate-400 text-xs font-bold uppercase tracking-wider shrink-0 text-center sm:text-left">
+        Constructeurs & Éditeurs distribués :
+      </span>
+      <div class="flex flex-wrap items-center justify-center sm:justify-end gap-3 sm:gap-6 text-slate-300 font-semibold text-xs sm:text-sm">
+        <span class="hover:text-white transition-colors">HP</span>
+        <span class="text-slate-700">•</span>
+        <span class="hover:text-white transition-colors">Dell Technologies</span>
+        <span class="text-slate-700">•</span>
+        <span class="hover:text-white transition-colors">Lenovo</span>
+        <span class="text-slate-700">•</span>
+        <span class="hover:text-white transition-colors">Cisco</span>
+        <span class="text-slate-700">•</span>
+        <span class="hover:text-white transition-colors">Fortinet</span>
+        <span class="text-slate-700">•</span>
+        <span class="hover:text-white transition-colors">Microsoft 365</span>
+        <span class="text-slate-700">•</span>
+        <span class="hover:text-white transition-colors">Azure / AWS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATALOGUE PRODUITS -->
+<section class="py-16 lg:py-24 bg-slate-50/50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
-    <!-- PÔLE MATÉRIEL -->
+    <!-- PÔLE MATÉRIEL (HARDWARE) -->
     <div class="mb-20">
-      <div class="max-w-2xl mb-10">
-        <span class="text-xs font-black tracking-widest text-primary uppercase block mb-2">Pôle Hardware</span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Matériels informatiques d'entreprise</h2>
-        <p class="text-sm text-slate-600 mt-2">Partenaires des plus grands constructeurs mondiaux (HP, Dell, Lenovo, Cisco, Fortinet).</p>
+      <div class="max-w-2xl mb-12">
+        <span class="text-xs font-black tracking-widest text-primary uppercase block mb-2">Pôle Matériel</span>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 font-heading">
+          Matériels informatiques d'entreprise
+        </h2>
+        <p class="text-sm sm:text-base text-slate-600 mt-2 leading-relaxed">
+          Fourniture, configuration sur mesure et garantie constructeur sur l'ensemble de vos parcs informatiques à Abidjan.
+        </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Item 1 -->
-        <div class="bg-base-100 rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-primary/40 hover:shadow-md transition-all flex flex-col justify-between">
+        {% for item in hardware_products %}
+        <div class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-sm hover:border-primary/40 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-sky-50 text-primary flex items-center justify-center mb-4">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            <!-- En-tête : Icône Lucide 48x48 + Badge Catégorie -->
+            <div class="flex items-center justify-between mb-5">
+              <div class="w-12 h-12 rounded-[12px] bg-primary/10 text-primary flex items-center justify-center border border-primary/20 transition-transform duration-300 group-hover:scale-110">
+                {% if item.icon == 'monitor' %}
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                    <rect x="2" y="3" width="20" height="14" rx="2"/>
+                    <line x1="8" y1="21" x2="16" y2="21"/>
+                    <line x1="12" y1="17" x2="12" y2="21"/>
+                  </svg>
+                {% elif item.icon == 'server' %}
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                    <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
+                    <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
+                    <line x1="6" y1="6" x2="6.01" y2="6"/>
+                    <line x1="6" y1="18" x2="6.01" y2="18"/>
+                  </svg>
+                {% elif item.icon == 'wifi' %}
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/>
+                  </svg>
+                {% else %}
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                    <polyline points="6 9 6 2 18 2 18 9"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+                    <rect x="6" y="14" width="12" height="8"/>
+                  </svg>
+                {% endif %}
+              </div>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-sky-800 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-200">
+                {{ item.badge }}
+              </span>
+            </div>
+
+            <h3 class="text-lg font-bold text-slate-900 font-heading mb-2 group-hover:text-primary transition-colors">
+              {{ item.title }}
+            </h3>
+            
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              {{ item.desc }}
+            </p>
+
+            <!-- Tags Marques & Références -->
+            <div class="mb-4">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1.5">Marques certifiées :</span>
+              <div class="flex flex-wrap gap-1.5">
+                {% for b in item.brands %}
+                <span class="text-[11px] font-medium text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200/60">
+                  {{ b }}
+                </span>
+                {% endfor %}
+              </div>
+            </div>
+
+            <!-- Garantie / Atout -->
+            <div class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/60 mb-5 flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span>{{ item.warranty }}</span>
+            </div>
+          </div>
+
+          <!-- Bouton Devis Interactif -->
+          <button type="button"
+                  class="btn btn-outline btn-primary btn-sm rounded-xl w-full flex items-center justify-between group/btn shadow-xs hover:shadow transition-all select-product-btn"
+                  data-product="{{ item.title }}"
+                  aria-label="Demander un devis pour {{ item.title }}">
+            <span>Demander un devis</span>
+            <svg class="w-4 h-4 transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+            </svg>
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- PÔLE LOGICIELS & CLOUD (SOFTWARE) -->
+    <div class="mb-20">
+      <div class="max-w-2xl mb-12">
+        <span class="text-xs font-black tracking-widest text-primary uppercase block mb-2">Pôle Logiciels & Cloud</span>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 font-heading">
+          Logiciels, Licences & Abonnements Cloud
+        </h2>
+        <p class="text-sm sm:text-base text-slate-600 mt-2 leading-relaxed">
+          Gestion centralisée de vos licences, conformité éditeur officielle et déploiement d'outils collaboratifs fiables.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {% for item in software_products %}
+        <div class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-sm hover:border-amber-500/40 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
+          <div>
+            <!-- En-tête : Icône Lucide 48x48 + Badge Catégorie -->
+            <div class="flex items-center justify-between mb-5">
+              <div class="w-12 h-12 rounded-[12px] bg-amber-500/10 text-amber-600 flex items-center justify-center border border-amber-500/20 transition-transform duration-300 group-hover:scale-110">
+                {% if item.icon == 'app-window' %}
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <line x1="2" y1="10" x2="22" y2="10"/>
+                    <circle cx="6" cy="7" r="1"/>
+                    <circle cx="10" cy="7" r="1"/>
+                  </svg>
+                {% elif item.icon == 'shield-check' %}
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m9 12 2 2 4-4"/>
+                  </svg>
+                {% elif item.icon == 'layers' %}
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                    <polyline points="2 17 12 22 22 17"/>
+                    <polyline points="2 12 12 17 22 12"/>
+                  </svg>
+                {% else %}
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"/>
+                  </svg>
+                {% endif %}
+              </div>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-amber-800 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">
+                {{ item.badge }}
+              </span>
+            </div>
+
+            <h3 class="text-lg font-bold text-slate-900 font-heading mb-2 group-hover:text-amber-600 transition-colors">
+              {{ item.title }}
+            </h3>
+            
+            <p class="text-xs text-slate-600 leading-relaxed mb-4">
+              {{ item.desc }}
+            </p>
+
+            <!-- Tags Marques & Éditeurs -->
+            <div class="mb-4">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1.5">Éditeurs certifiés :</span>
+              <div class="flex flex-wrap gap-1.5">
+                {% for b in item.brands %}
+                <span class="text-[11px] font-medium text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200/60">
+                  {{ b }}
+                </span>
+                {% endfor %}
+              </div>
+            </div>
+
+            <!-- Garantie / Atout -->
+            <div class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/60 mb-5 flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span>{{ item.warranty }}</span>
+            </div>
+          </div>
+
+          <!-- Bouton Devis Interactif -->
+          <button type="button"
+                  class="btn btn-outline btn-accent btn-sm rounded-xl w-full flex items-center justify-between group/btn shadow-xs hover:shadow transition-all select-product-btn text-slate-950 font-bold"
+                  data-product="{{ item.title }}"
+                  aria-label="Demander un devis pour {{ item.title }}">
+            <span>Demander un devis</span>
+            <svg class="w-4 h-4 transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+            </svg>
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- BANDEAU DE CONFIANCE & RÉASSURANCE (4 GARANTIES HADENA) -->
+    <div class="bg-slate-900 text-white rounded-3xl p-8 sm:p-12 border border-slate-800 shadow-2xl mb-20">
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <span class="text-xs font-black tracking-widest text-sky-400 uppercase block mb-1">Engagements de service</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold font-heading text-white">Pourquoi s'équiper chez Hadena Limited ?</h2>
+        <p class="text-xs sm:text-sm text-slate-300 mt-2">Des garanties solides pour sécuriser vos investissements en matériels et logiciels à Abidjan.</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- 1. Garantie Constructeur -->
+        <div class="p-6 rounded-2xl bg-slate-800 border border-slate-700 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center mb-4 border border-sky-400/30">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
               </svg>
             </div>
-            <h3 class="text-base font-bold text-slate-900 mb-2">Ordinateurs & Stations</h3>
-            <p class="text-xs text-slate-600 leading-relaxed mb-4">Portables professionnels légers et stations de travail fixes taillées pour la productivité.</p>
+            <h3 class="font-bold text-white text-base mb-2 font-heading">Garantie Constructeur</h3>
+            <p class="text-xs text-slate-200 leading-relaxed">
+              Matériels neufs sous garantie officielle (1 à 3 ans) avec prise en charge directe du SAV et pièces d'origine certifiées.
+            </p>
           </div>
-          <a href="#devis-section" class="btn btn-outline btn-primary btn-xs rounded-lg">Demander un devis</a>
         </div>
 
-        <!-- Item 2 -->
-        <div class="bg-base-100 rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-primary/40 hover:shadow-md transition-all flex flex-col justify-between">
+        <!-- 2. Installation sur Site -->
+        <div class="p-6 rounded-2xl bg-slate-800 border border-slate-700 shadow-sm flex flex-col justify-between">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-sky-50 text-primary flex items-center justify-center mb-4">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/>
+            <div class="w-12 h-12 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center mb-4 border border-sky-400/30">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.67 2.67 0 0021 17.25l-5.83-5.83m-3.75 3.75a5.97 5.97 0 01-4.04-1.76 6 6 0 010-8.49 6 6 0 018.49 0 5.97 5.97 0 011.76 4.04m-6.21 6.21l-3.53 3.53"/>
               </svg>
             </div>
-            <h3 class="text-base font-bold text-slate-900 mb-2">Serveurs & Baies de stockage</h3>
-            <p class="text-xs text-slate-600 leading-relaxed mb-4">Serveurs rack ou tour, baies SAN/NAS haute capacité et onduleurs de protection.</p>
+            <h3 class="font-bold text-white text-base mb-2 font-heading">Configuration Clé en Main</h3>
+            <p class="text-xs text-slate-200 leading-relaxed">
+              Mastering, intégration à votre domaine Active Directory, paramétrage réseau et livraison prêts à l'emploi dans vos locaux.
+            </p>
           </div>
-          <a href="#devis-section" class="btn btn-outline btn-primary btn-xs rounded-lg">Demander un devis</a>
         </div>
 
-        <!-- Item 3 -->
-        <div class="bg-base-100 rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-primary/40 hover:shadow-md transition-all flex flex-col justify-between">
+        <!-- 3. Licences Conformes -->
+        <div class="p-6 rounded-2xl bg-slate-800 border border-slate-700 shadow-sm flex flex-col justify-between">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-sky-50 text-primary flex items-center justify-center mb-4">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/>
+            <div class="w-12 h-12 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center mb-4 border border-sky-400/30">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
               </svg>
             </div>
-            <h3 class="text-base font-bold text-slate-900 mb-2">Équipements Réseau & Wi-Fi</h3>
-            <p class="text-xs text-slate-600 leading-relaxed mb-4">Switches manageables, routeurs d'entreprise, bornes Wi-Fi 6 maillées et firewalls.</p>
+            <h3 class="font-bold text-white text-base mb-2 font-heading">Licences 100% Officielles</h3>
+            <p class="text-xs text-slate-200 leading-relaxed">
+              Conformité juridique stricte vis-à-vis des éditeurs, sécurisation de vos accès cloud et protection contre les risques d'audit.
+            </p>
           </div>
-          <a href="#devis-section" class="btn btn-outline btn-primary btn-xs rounded-lg">Demander un devis</a>
         </div>
 
-        <!-- Item 4 -->
-        <div class="bg-base-100 rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-primary/40 hover:shadow-md transition-all flex flex-col justify-between">
+        <!-- 4. Facture Proforma sous 48h -->
+        <div class="p-6 rounded-2xl bg-slate-800 border border-slate-700 shadow-sm flex flex-col justify-between">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-sky-50 text-primary flex items-center justify-center mb-4">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+            <div class="w-12 h-12 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center mb-4 border border-sky-400/30">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
               </svg>
             </div>
-            <h3 class="text-base font-bold text-slate-900 mb-2">Périphériques & Imagerie</h3>
-            <p class="text-xs text-slate-600 leading-relaxed mb-4">Imprimantes réseau multifonctions, scanners professionnels et écrans ergonomiques.</p>
+            <h3 class="font-bold text-white text-base mb-2 font-heading">Proforma sous 48h</h3>
+            <p class="text-xs text-slate-200 leading-relaxed">
+              Devis chiffré et conforme aux normes comptables ivoiriennes pour engager vos circuits de validation budgétaire sans délai.
+            </p>
           </div>
-          <a href="#devis-section" class="btn btn-outline btn-primary btn-xs rounded-lg">Demander un devis</a>
         </div>
       </div>
     </div>
 
-    <!-- PÔLE LOGICIEL -->
-    <div class="mb-20">
-      <div class="max-w-2xl mb-10">
-        <span class="text-xs font-black tracking-widest text-primary uppercase block mb-2">Pôle Software</span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Logiciels, Licences & Abonnements Cloud</h2>
-        <p class="text-sm text-slate-600 mt-2">Gestion optimisée de vos actifs logiciels en toute conformité légale.</p>
+    <!-- FOIRE AUX QUESTIONS (FAQ ÉQUIPEMENTS & LOGICIELS) -->
+    <div class="mb-20 max-w-3xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-xs font-black tracking-widest text-primary uppercase block mb-1">FAQ Équipements</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">
+          Questions fréquentes sur nos équipements & licences
+        </h2>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Item 1 -->
-        <div class="bg-base-100 rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-primary/40 hover:shadow-md transition-all flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-sky-50 text-primary flex items-center justify-center mb-4">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-              </svg>
-            </div>
-            <h3 class="text-base font-bold text-slate-900 mb-2">Suites Bureautiques & OS</h3>
-            <p class="text-xs text-slate-600 leading-relaxed mb-4">Microsoft 365, Windows 11 Pro, solutions collaboratives et messagerie d'entreprise.</p>
+      <div class="space-y-3">
+        {% for faq in equipment_faqs %}
+        <details class="collapse collapse-plus bg-white border border-slate-200/90 rounded-2xl shadow-xs group">
+          <summary class="collapse-title text-sm sm:text-base font-bold text-slate-900 group-hover:text-primary transition-colors py-4 px-6">
+            {{ faq.question }}
+          </summary>
+          <div class="collapse-content px-6 pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+            <p>{{ faq.answer }}</p>
           </div>
-          <a href="#devis-section" class="btn btn-outline btn-primary btn-xs rounded-lg">Demander un devis</a>
-        </div>
-
-        <!-- Item 2 -->
-        <div class="bg-base-100 rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-primary/40 hover:shadow-md transition-all flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-sky-50 text-primary flex items-center justify-center mb-4">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-              </svg>
-            </div>
-            <h3 class="text-base font-bold text-slate-900 mb-2">Sécurité & Sauvegarde</h3>
-            <p class="text-xs text-slate-600 leading-relaxed mb-4">Antivirus d'entreprise managés, EDR, solutions de sauvegarde locale et cloud chiffrée.</p>
-          </div>
-          <a href="#devis-section" class="btn btn-outline btn-primary btn-xs rounded-lg">Demander un devis</a>
-        </div>
-
-        <!-- Item 3 -->
-        <div class="bg-base-100 rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-primary/40 hover:shadow-md transition-all flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-sky-50 text-primary flex items-center justify-center mb-4">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-              </svg>
-            </div>
-            <h3 class="text-base font-bold text-slate-900 mb-2">Progiciels de Gestion (ERP/CRM)</h3>
-            <p class="text-xs text-slate-600 leading-relaxed mb-4">Logiciels de gestion commerciale, comptabilité, paie et progiciels verticaux métier.</p>
-          </div>
-          <a href="#devis-section" class="btn btn-outline btn-primary btn-xs rounded-lg">Demander un devis</a>
-        </div>
-
-        <!-- Item 4 -->
-        <div class="bg-base-100 rounded-2xl p-6 border border-slate-200 shadow-sm hover:border-primary/40 hover:shadow-md transition-all flex flex-col justify-between">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-sky-50 text-primary flex items-center justify-center mb-4">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"/>
-              </svg>
-            </div>
-            <h3 class="text-base font-bold text-slate-900 mb-2">Infrastructures Cloud & SaaS</h3>
-            <p class="text-xs text-slate-600 leading-relaxed mb-4">Abonnements Azure, AWS, hébergement managé haute disponibilité et certificats SSL.</p>
-          </div>
-          <a href="#devis-section" class="btn btn-outline btn-primary btn-xs rounded-lg">Demander un devis</a>
-        </div>
+        </details>
+        {% endfor %}
       </div>
     </div>
 
-    <!-- FORMULAIRE DEVIS PRODUITS -->
-    <div id="devis-section" class="max-w-3xl mx-auto bg-base-100 rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-xl">
-      <div class="text-center mb-8">
-        <h2 class="text-2xl font-extrabold text-slate-900">Demander un devis Matériel ou Logiciel</h2>
-        <p class="text-xs text-slate-500 mt-1">Précisez les références ou caractéristiques souhaitées et notre équipe commerciale vous répondra sous 24 à 48h.</p>
+    <!-- FORMULAIRE DE DEMANDE DE DEVIS PRODUITS (ESPACÉ & AÉRÉ SUR DESKTOP ET MOBILE) -->
+    <div id="devis-section" class="max-w-3xl mx-auto scroll-mt-28">
+      
+      <!-- Carte Principale du Formulaire -->
+      <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/90 shadow-xl mb-8">
+        <div class="text-center max-w-xl mx-auto mb-8">
+          <span class="text-xs font-black tracking-widest text-primary uppercase block mb-1">Proposition commerciale</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">
+            Demander un devis Matériel ou Logiciel
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
+            Précisez vos besoins ci-dessous. Notre équipe commerciale vous transmet une facture proforma détaillée sous 48 heures ouvrées.
+          </p>
+        </div>
+
+        <form method="post" action="{% url 'showcase:home' %}#devis-section" class="space-y-4" id="products-quote-form">
+          {% csrf_token %}
+          <div class="hidden" aria-hidden="true">{{ form.website }}</div>
+
+          <!-- Champ masqué avec valeur par défaut pour Matériels & Logiciels -->
+          <input type="hidden" name="service" value="sur_mesure" id="id_service">
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="form-control">
+              <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">Nom complet *</span></label>
+              {{ form.full_name }}
+            </div>
+            <div class="form-control">
+              <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">Entreprise</span></label>
+              {{ form.company }}
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="form-control">
+              <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">E-mail professionnel *</span></label>
+              {{ form.email }}
+            </div>
+            <div class="form-control">
+              <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">Téléphone (WhatsApp) *</span></label>
+              {{ form.phone }}
+            </div>
+          </div>
+
+          <div class="form-control">
+            <label class="label py-1 flex items-center justify-between">
+              <span class="label-text text-xs font-bold text-slate-700">Détails des équipements ou licences souhaités *</span>
+              <span class="text-[10px] text-slate-400">Quantités, modèles, spécifications</span>
+            </label>
+            {{ form.message }}
+          </div>
+
+          <div class="form-control pt-1">
+            <label class="cursor-pointer flex items-start gap-2.5">
+              {{ form.consent_gdpr }}
+              <span class="text-[11px] text-slate-500 leading-tight">
+                J'accepte le traitement de mes données conformément à la politique de confidentialité de Hadena Limited.
+              </span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-full text-white font-bold rounded-xl mt-3 shadow-md hover:shadow-lg transition-all" id="submit-quote-btn">
+            <span>Recevoir ma facture proforma sous 48h</span>
+          </button>
+        </form>
       </div>
 
-      <form method="post" action="{% url 'showcase:home' %}#contact-section" class="space-y-4">
-        {% csrf_token %}
-        <div class="hidden" aria-hidden="true">{{ form.website }}</div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="form-control">
-            <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">Nom complet *</span></label>
-            {{ form.full_name }}
+      <!-- Carte d'Assistance Express WhatsApp & Téléphone (Pleine Largeur Sous le Formulaire) -->
+      <div class="bg-gradient-to-r from-emerald-50 via-teal-50 to-sky-50 rounded-2xl p-6 border border-emerald-200/80 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-4 text-center sm:text-left">
+          <div class="w-12 h-12 rounded-2xl bg-[#25D366] text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-500/20">
+            <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+              <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.04 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.11 7.5C8.94 7.5 8.67 7.57 8.44 7.81C8.21 8.06 7.56 8.67 7.56 9.91C7.56 11.16 8.47 12.36 8.6 12.53C8.73 12.7 10.39 15.26 12.92 16.35C13.52 16.61 14 16.77 14.36 16.89C14.97 17.08 15.52 17.05 15.96 16.99C16.45 16.91 17.47 16.37 17.68 15.77C17.9 15.17 17.9 14.66 17.83 14.55C17.76 14.44 17.59 14.37 17.34 14.25C17.09 14.12 15.86 13.51 15.63 13.43C15.4 13.34 15.23 13.3 15.06 13.55C14.89 13.8 14.41 14.37 14.26 14.55C14.12 14.72 13.97 14.74 13.72 14.62C13.47 14.49 12.41 14.14 11.15 13.02C10.17 12.15 9.51 11.07 9.38 10.85C9.25 10.63 9.37 10.51 9.49 10.39C9.6 10.28 9.74 10.1 9.87 9.95C10 9.8 10.04 9.69 10.12 9.52C10.2 9.35 10.16 9.2 10.1 9.08C10.04 8.95 9.56 7.78 9.36 7.29C9.16 6.81 8.96 6.87 8.81 6.87C8.67 6.86 8.5 6.86 8.33 6.86"/>
+            </svg>
           </div>
-          <div class="form-control">
-            <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">Entreprise</span></label>
-            {{ form.company }}
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="form-control">
-            <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">E-mail *</span></label>
-            {{ form.email }}
-          </div>
-          <div class="form-control">
-            <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">Téléphone *</span></label>
-            {{ form.phone }}
+          <div>
+            <h3 class="font-bold text-slate-900 text-sm font-heading">
+              Besoin d'un devis immédiat ?
+            </h3>
+            <p class="text-xs text-slate-600 mt-0.5">
+              Transmettez votre cahier des charges ou échangez directement sur WhatsApp au <strong class="text-slate-900">+225 07 09 77 97 87</strong>.
+            </p>
           </div>
         </div>
 
-        <div class="form-control">
-          <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">Service concerné *</span></label>
-          {{ form.service }}
-        </div>
+        <a href="https://wa.me/2250709779787?text=Bonjour%20Hadena%20Limited,%20je%20souhaite%20obtenir%20un%20devis%20pour%20des%20équipements%20informatiques."
+           target="_blank"
+           rel="noopener noreferrer"
+           class="btn bg-[#25D366] hover:bg-[#20ba59] text-white border-none btn-sm rounded-xl px-5 flex items-center gap-2 font-bold shadow-md shadow-emerald-500/20 shrink-0">
+          <span>Échanger sur WhatsApp</span>
+        </a>
+      </div>
 
-        <div class="form-control">
-          <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">Détails des équipements ou logiciels souhaités *</span></label>
-          {{ form.message }}
-        </div>
-
-        <div class="form-control pt-1">
-          <label class="cursor-pointer flex items-start gap-2.5">
-            {{ form.consent_gdpr }}
-            <span class="text-[11px] text-slate-500 leading-tight">
-              J'accepte le traitement de mes données conformément à la politique de confidentialité.
-            </span>
-          </label>
-        </div>
-
-        <button type="submit" class="btn btn-primary w-full text-white font-bold rounded-xl mt-3 shadow">
-          Recevoir mon devis d'équipement
-        </button>
-      </form>
     </div>
 
   </div>
 </section>
-{% endblock %}
 
+<!-- SCRIPT DE PRÉ-REMPLISSAGE INTELLIGENT DU FORMULAIRE -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const productButtons = document.querySelectorAll('.select-product-btn');
+    const messageField = document.getElementById('id_message');
+    const devisSection = document.getElementById('devis-section');
+
+    productButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const productTitle = btn.getAttribute('data-product');
+        if (!productTitle) return;
+
+        // Défilement fluide vers le formulaire
+        if (devisSection) {
+          devisSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Pré-remplissage du champ de détails
+        if (messageField) {
+          const prefix = `[Demande de devis : ${productTitle}]\n`;
+          if (!messageField.value.includes(productTitle)) {
+            if (messageField.value.trim() === '') {
+              messageField.value = `${prefix}Bonjour, je souhaite recevoir une proposition chiffrée pour les éléments suivants :\n- Quantité estimée : \n- Modèle / Caractéristiques souhaitées : `;
+            } else {
+              messageField.value = `${prefix}\n${messageField.value}`;
+            }
+          }
+
+          // Focus et flash lumineux visuel
+          setTimeout(() => {
+            messageField.focus();
+            messageField.classList.add('ring-2', 'ring-primary', 'border-primary');
+            setTimeout(() => {
+              messageField.classList.remove('ring-2', 'ring-primary');
+            }, 1500);
+          }, 400);
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

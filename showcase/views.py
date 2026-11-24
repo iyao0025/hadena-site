@@ -340,7 +340,10 @@ class HomeView(View):
     """Page d'accueil principale"""
 
     def get(self, request):
-        form = ContactForm()
+        initial_data = {}
+        if "service" in request.GET:
+            initial_data["service"] = request.GET.get("service")
+        form = ContactForm(initial=initial_data)
         context = {
             "services": SERVICES_CATALOG,
             "values": VALUES_LIST,
@@ -451,12 +454,114 @@ class ServiceDetailView(View):
         return render(request, "showcase/service_detail.html", context)
 
 
+HARDWARE_PRODUCTS = [
+    {
+        "id": "ordinateurs_stations",
+        "title": "Ordinateurs & Stations de travail",
+        "desc": "Portables d'entreprise ultra-légers, unités centrales sécurisées et stations graphiques fixes taillées pour la productivité intensive.",
+        "icon": "monitor",
+        "brands": ["HP ProBook/Elite", "Dell Latitude/OptiPlex", "Lenovo ThinkPad"],
+        "badge": "Postes Professionnels",
+        "warranty": "Garantie constructeur 1 à 3 ans",
+    },
+    {
+        "id": "serveurs_stockage",
+        "title": "Serveurs & Baies de stockage",
+        "desc": "Serveurs d'entreprise rack ou tour, baies SAN/NAS haute capacité, disques d'entreprise et onduleurs de protection électrique.",
+        "icon": "server",
+        "brands": ["Dell PowerEdge", "HPE ProLiant", "Synology NAS", "APC / Eaton"],
+        "badge": "Datacenter & Salle Serveurs",
+        "warranty": "Configuration RAID & support sur site",
+    },
+    {
+        "id": "reseaux_wifi",
+        "title": "Équipements Réseau & Wi-Fi",
+        "desc": "Switches manageables Gigabit/10G, routeurs d'entreprise, bornes Wi-Fi 6 haute densité et passerelles firewall nouvelle génération.",
+        "icon": "wifi",
+        "brands": ["Cisco Catalyst", "Fortinet FortiGate", "Ubiquiti UniFi", "MikroTik"],
+        "badge": "Haute Disponibilité",
+        "warranty": "Paramétrage VLAN & QoS inclus",
+    },
+    {
+        "id": "peripheriques_imagerie",
+        "title": "Périphériques & Imagerie",
+        "desc": "Imprimantes réseau multifonctions laser, scanners de numérisation grand volume, écrans ergonomiques et accessoires pros.",
+        "icon": "printer",
+        "brands": ["HP LaserJet", "Canon", "Epson WorkForce", "Dell Displays"],
+        "badge": "Bureautique d'Entreprise",
+        "warranty": "Installation réseau prête à l'emploi",
+    },
+]
+
+SOFTWARE_PRODUCTS = [
+    {
+        "id": "bureautique_os",
+        "title": "Suites Bureautiques & Systèmes OS",
+        "desc": "Licences Microsoft 365 Entreprise, Windows 11 Professionnel, messagerie Exchange managée et outils collaboratifs sécurisés.",
+        "icon": "app-window",
+        "brands": ["Microsoft 365", "Windows 11 Pro", "Exchange Online", "Teams"],
+        "badge": "Productivité & Collaboration",
+        "warranty": "Licences conformes & activation officielle",
+    },
+    {
+        "id": "securite_sauvegarde",
+        "title": "Sécurité, Antivirus & Sauvegarde",
+        "desc": "Solutions antivirus managées, EDR contre les ransomwares, sauvegardes immuables locales/cloud et certificats de conformité.",
+        "icon": "shield-check",
+        "brands": ["Kaspersky Endpoint", "Fortinet EDR", "Veeam Backup", "Acronis Cyber"],
+        "badge": "Cybersécurité Active",
+        "warranty": "Déploiement centralisé & console d'administration",
+    },
+    {
+        "id": "progiciels_erp_crm",
+        "title": "Progiciels de Gestion (ERP & CRM)",
+        "desc": "Logiciels de comptabilité, gestion commerciale, paie RH et solutions ERP/CRM intégrées à vos processus métiers en Côte d'Ivoire.",
+        "icon": "layers",
+        "brands": ["Sage 100", "Odoo ERP", "Solutions CRM sur mesure", "Paie & RH"],
+        "badge": "Pilotage Métier",
+        "warranty": "Migration de données & formation utilisateurs",
+    },
+    {
+        "id": "cloud_saas",
+        "title": "Infrastructures Cloud & Solutions SaaS",
+        "desc": "Abonnements cloud d'entreprise, serveurs virtuels VPS/IaaS, sauvegardes externalisées haute résilience et certificats SSL.",
+        "icon": "cloud",
+        "brands": ["Microsoft Azure", "Amazon Web Services (AWS)", "Google Cloud", "Hébergement dédié"],
+        "badge": "Évolutivité Cloud",
+        "warranty": "Monitoring 24/7 & optimisation des coûts",
+    },
+]
+
+EQUIPMENT_FAQS = [
+    {
+        "question": "Quels sont les délais de livraison pour les matériels informatiques à Abidjan ?",
+        "answer": "Pour les équipements en stock (ordinateurs portables, postes de travail, switches standards, périphériques), la livraison intervient sous 24 à 48 heures ouvrées sur toute la région d'Abidjan. Pour les serveurs configurés sur mesure ou les baies spécifiques, le délai moyen est communiqué dès l'émission de la facture proforma.",
+    },
+    {
+        "question": "Délivrez-vous des factures proforma pour validation budgétaire ?",
+        "answer": "Absolument. Nous émettons des factures proforma complètes, détaillées et chiffrées sous 48 heures ouvrées maximum, conformes aux exigences administratives et comptables des entreprises et institutions en Côte d'Ivoire.",
+    },
+    {
+        "question": "L'installation et la configuration sur site sont-elles incluses ?",
+        "answer": "Oui, selon vos besoins. Nos ingénieurs peuvent livrer vos équipements prêts à l'emploi (mastering des postes, jonction au domaine Active Directory, paramétrage des réseaux et des droits d'accès) et assurer l'installation physique dans vos locaux à Abidjan.",
+    },
+    {
+        "question": "Comment fonctionnent la garantie constructeur et le service après-vente (SAV) ?",
+        "answer": "Tous nos équipements bénéficient de la garantie constructeur officielle (1 à 3 ans selon les gammes avec pièces et main-d'œuvre). En cas d'incident, Hadena Limited assure le diagnostic, le relais technique et la prise en charge SAV pour minimiser toute interruption d'activité.",
+    },
+]
+
+
 class ProductsView(View):
     """Page Produits : Matériels et Logiciels professionnels."""
 
     def get(self, request):
-        form = ContactForm(initial={"service": "produits"})
+        form = ContactForm(initial={"service": "sur_mesure"})
         context = {
+            "hardware_products": HARDWARE_PRODUCTS,
+            "software_products": SOFTWARE_PRODUCTS,
+            "equipment_faqs": EQUIPMENT_FAQS,
+            "references": CLIENT_REFERENCES,
             "form": form,
             "page_title": "Matériels & Logiciels informatiques | Hadena Limited",
             "meta_description": "Fourniture, conseil et installation d'ordinateurs, serveurs, routeurs, licences cloud et progiciels à Abidjan.",
@@ -481,7 +586,10 @@ class ContactView(View):
     """Page dédiée Contact & Demande de devis."""
 
     def get(self, request):
-        form = ContactForm()
+        initial_data = {}
+        if "service" in request.GET:
+            initial_data["service"] = request.GET.get("service")
+        form = ContactForm(initial=initial_data)
         return render(request, "showcase/contact.html", {"form": form})
 
     def post(self, request):

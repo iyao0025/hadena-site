@@ -95,7 +95,7 @@
 
 <!-- LISTE DES 9 SERVICES DÉTAILLÉS (GRILLE RICHE & CARTES IMMERSIVES) -->
 <section class="py-12 lg:py-20 bg-slate-50/50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 lg:space-y-14" id="services-container">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 lg:space-y-14 scroll-mt-36" id="services-container">
     
     {% for service in services %}
     <article id="{{ service.id }}"
@@ -263,7 +263,7 @@
               </svg>
             </a>
 
-            <a href="{% url 'showcase:home' %}#devis-section"
+            <a href="{% url 'showcase:home' %}?service={{ service.id }}#devis-section"
                class="btn btn-ghost btn-sm text-slate-600 hover:text-primary hover:bg-sky-50 rounded-xl px-4 transition-colors text-xs font-bold inline-flex items-center gap-1.5"
                aria-label="Demander un devis pour {{ service.title }}">
               <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -382,6 +382,15 @@
             card.classList.add('hidden');
           }
         });
+
+        // Remonter doucement vers le haut du conteneur si l'utilisateur a défilé vers le bas
+        const servicesContainer = document.getElementById('services-container');
+        if (servicesContainer) {
+          const containerRect = servicesContainer.getBoundingClientRect();
+          if (containerRect.top < 100) {
+            servicesContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
       });
     });
 

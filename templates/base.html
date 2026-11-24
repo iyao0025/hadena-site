@@ -327,6 +327,20 @@
       const btnIcon = document.getElementById('contact-btn-icon');
       const btnSpinner = document.getElementById('contact-btn-spinner');
 
+      // Pré-sélection du service depuis les paramètres d'URL (?service=...)
+      const urlParams = new URLSearchParams(window.location.search);
+      const serviceParam = urlParams.get('service');
+      if (serviceParam) {
+        const serviceSelect = document.getElementById('id_service') || (contactForm ? contactForm.querySelector('select[name="service"]') : null);
+        if (serviceSelect) {
+          serviceSelect.value = serviceParam;
+          serviceSelect.classList.add('ring-2', 'ring-primary', 'border-primary');
+          setTimeout(() => {
+            serviceSelect.classList.remove('ring-2', 'ring-primary');
+          }, 2500);
+        }
+      }
+
       if (contactForm && submitBtn) {
         // Validation en direct au blur
         const inputs = contactForm.querySelectorAll('input:not([type="hidden"]), select, textarea');

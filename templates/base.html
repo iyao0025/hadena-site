@@ -261,35 +261,26 @@
         }
       }
 
-      // 7. Header : Réduction de hauteur au scroll & Ombre
+      // 7. Header : Ombre et bordure au scroll (sans modification de hauteur pour éliminer tout tremblement)
       const mainHeader = document.getElementById('main-header');
-      const navContainer = document.getElementById('navbar-container');
-      const navLogo = document.getElementById('navbar-logo');
-
-      const handleHeaderScroll = () => {
-        if (!mainHeader || !navContainer) return;
-        if (window.scrollY > 40) {
-          navContainer.classList.remove('h-20');
-          navContainer.classList.add('h-16');
-          if (navLogo) {
-            navLogo.classList.remove('h-12', 'sm:h-14');
-            navLogo.classList.add('h-10', 'sm:h-11');
+      if (mainHeader) {
+        let isScrolled = false;
+        const handleHeaderScroll = () => {
+          const shouldBeScrolled = window.scrollY > 20;
+          if (shouldBeScrolled !== isScrolled) {
+            isScrolled = shouldBeScrolled;
+            if (isScrolled) {
+              mainHeader.classList.add('shadow-md', 'border-slate-200/90');
+              mainHeader.classList.remove('shadow-xs', 'border-slate-100');
+            } else {
+              mainHeader.classList.remove('shadow-md', 'border-slate-200/90');
+              mainHeader.classList.add('shadow-xs', 'border-slate-100');
+            }
           }
-          mainHeader.classList.add('shadow-md', 'border-slate-200/90');
-          mainHeader.classList.remove('shadow-xs', 'border-slate-100');
-        } else {
-          navContainer.classList.add('h-20');
-          navContainer.classList.remove('h-16');
-          if (navLogo) {
-            navLogo.classList.add('h-12', 'sm:h-14');
-            navLogo.classList.remove('h-10', 'sm:h-11');
-          }
-          mainHeader.classList.remove('shadow-md', 'border-slate-200/90');
-          mainHeader.classList.add('shadow-xs', 'border-slate-100');
-        }
-      };
-      window.addEventListener('scroll', handleHeaderScroll, { passive: true });
-      handleHeaderScroll();
+        };
+        window.addEventListener('scroll', handleHeaderScroll, { passive: true });
+        handleHeaderScroll();
+      }
 
       // 7. Header : Surlignage de la section active (Scrollspy)
       const navLinks = document.querySelectorAll('#desktop-nav [data-nav-target]');
@@ -337,7 +328,14 @@
           serviceSelect.classList.add('ring-2', 'ring-primary', 'border-primary');
           setTimeout(() => {
             serviceSelect.classList.remove('ring-2', 'ring-primary');
-          }, 2500);
+          }, 3000);
+        }
+        const devisSec = document.getElementById('devis-section') || document.getElementById('contact-section');
+        if (devisSec) {
+          setTimeout(() => {
+            devisSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (serviceSelect) serviceSelect.focus();
+          }, 250);
         }
       }
 
@@ -373,16 +371,21 @@
         });
       }
 
-      // Bouton scroll-to-top
+      // Bouton scroll-to-top (avec garde d'état sans mutation DOM répétée)
       const scrollBtn = document.getElementById('scroll-to-top');
       if (scrollBtn) {
+        let isBtnVisible = false;
         window.addEventListener('scroll', () => {
-          if (window.scrollY > 400) {
-            scrollBtn.classList.remove('opacity-0', 'pointer-events-none');
-            scrollBtn.classList.add('opacity-100');
-          } else {
-            scrollBtn.classList.add('opacity-0', 'pointer-events-none');
-            scrollBtn.classList.remove('opacity-100');
+          const shouldBeVisible = window.scrollY > 400;
+          if (shouldBeVisible !== isBtnVisible) {
+            isBtnVisible = shouldBeVisible;
+            if (isBtnVisible) {
+              scrollBtn.classList.remove('opacity-0', 'pointer-events-none');
+              scrollBtn.classList.add('opacity-100');
+            } else {
+              scrollBtn.classList.add('opacity-0', 'pointer-events-none');
+              scrollBtn.classList.remove('opacity-100');
+            }
           }
         }, { passive: true });
         scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));

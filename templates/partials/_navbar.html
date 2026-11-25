@@ -1,42 +1,43 @@
 {% load static %}
 <!-- Partial: Navbar Sticky, Réductible au Scroll & Responsive -->
-<header id="main-header" class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-xs border-b border-slate-100 transition-all duration-300">
+<header id="main-header"
+  class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-xs border-b border-slate-100 transition-shadow duration-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div id="navbar-container" class="flex justify-between items-center h-20 transition-all duration-300">
-      
-      <!-- LOGO HADENA LIMITED (taille adaptative au scroll) -->
-      <a href="{% url 'showcase:home' %}" class="flex items-center group outline-hidden focus:outline-hidden focus:ring-0 active:outline-hidden select-none" aria-label="Hadena Limited - Accueil">
-        <img id="navbar-logo" src="{% static 'img/logo-hadena.svg' %}" alt="Hadena Limited" class="h-12 sm:h-14 w-auto group-hover:opacity-90 transition-all duration-300">
+    <div id="navbar-container" class="flex justify-between items-center h-16 sm:h-20">
+
+      <!-- LOGO HADENA LIMITED (taille stable sans saut de hauteur) -->
+      <a href="{% url 'showcase:home' %}"
+        class="flex items-center group outline-hidden focus:outline-hidden focus:ring-0 active:outline-hidden select-none"
+        aria-label="Hadena Limited - Accueil">
+        <img id="navbar-logo" src="{% static 'img/logo-hadena.svg' %}" alt="Hadena Limited"
+          class="h-11 sm:h-12 w-auto group-hover:opacity-90 transition-opacity duration-200">
       </a>
 
       <!-- NAVIGATION DESKTOP -->
       <nav id="desktop-nav" class="hidden lg:flex items-center gap-7">
-        <a href="{% url 'showcase:home' %}" 
-           data-nav-target="hero"
-           class="nav-link text-sm font-semibold transition-all duration-150 py-1 border-b-2 {% if is_home %}border-primary text-primary{% else %}border-transparent text-slate-700 hover:text-primary hover:border-primary/40{% endif %}">
+        <a href="{% url 'showcase:home' %}" data-nav-target="hero"
+          class="nav-link text-sm font-semibold transition-all duration-150 py-1 border-b-2 {% if is_home %}border-primary text-primary{% else %}border-transparent text-slate-700 hover:text-primary hover:border-primary/40{% endif %}">
           Accueil
         </a>
-        <a href="{% url 'showcase:about' %}" 
-           data-nav-target="about-section"
-           class="nav-link text-sm font-semibold transition-all duration-150 py-1 border-b-2 {% if request.resolver_match.url_name == 'about' %}border-primary text-primary{% else %}border-transparent text-slate-700 hover:text-primary hover:border-primary/40{% endif %}">
+        <a href="{% url 'showcase:about' %}" data-nav-target="about-section"
+          class="nav-link text-sm font-semibold transition-all duration-150 py-1 border-b-2 {% if request.resolver_match.url_name == 'about' %}border-primary text-primary{% else %}border-transparent text-slate-700 hover:text-primary hover:border-primary/40{% endif %}">
           Qui sommes-nous
         </a>
-        <a href="{% url 'showcase:services' %}" 
-           data-nav-target="expertises-section"
-           class="nav-link text-sm font-semibold transition-all duration-150 py-1 border-b-2 {% if 'service' in request.resolver_match.url_name %}border-primary text-primary{% else %}border-transparent text-slate-700 hover:text-primary hover:border-primary/40{% endif %}">
+        <a href="{% url 'showcase:services' %}" data-nav-target="expertises-section"
+          class="nav-link text-sm font-semibold transition-all duration-150 py-1 border-b-2 {% if 'service' in request.resolver_match.url_name %}border-primary text-primary{% else %}border-transparent text-slate-700 hover:text-primary hover:border-primary/40{% endif %}">
           Services
         </a>
-        <a href="{% url 'showcase:products' %}" 
-           class="nav-link text-sm font-semibold transition-all duration-150 py-1 border-b-2 {% if request.resolver_match.url_name == 'products' %}border-primary text-primary{% else %}border-transparent text-slate-700 hover:text-primary hover:border-primary/40{% endif %}">
+        <a href="{% url 'showcase:products' %}"
+          class="nav-link text-sm font-semibold transition-all duration-150 py-1 border-b-2 {% if request.resolver_match.url_name == 'products' %}border-primary text-primary{% else %}border-transparent text-slate-700 hover:text-primary hover:border-primary/40{% endif %}">
           Matériels &amp; Logiciels
         </a>
-        <a href="{% url 'showcase:training' %}" 
-           class="nav-link text-sm font-semibold transition-all duration-150 py-1 border-b-2 {% if request.resolver_match.url_name == 'training' %}border-primary text-primary{% else %}border-transparent text-slate-700 hover:text-primary hover:border-primary/40{% endif %}">
+        <a href="{% url 'showcase:training' %}"
+          class="nav-link text-sm font-semibold transition-all duration-150 py-1 border-b-2 {% if request.resolver_match.url_name == 'training' %}border-primary text-primary{% else %}border-transparent text-slate-700 hover:text-primary hover:border-primary/40{% endif %}">
           Formation
         </a>
-        <a href="{% if is_home %}#devis-section{% else %}{% url 'showcase:home' %}#devis-section{% endif %}" 
-           data-nav-target="devis-section"
-           class="nav-link text-sm font-semibold transition-all duration-150 py-1 border-b-2 border-transparent text-slate-700 hover:text-primary hover:border-primary/40">
+        <a href="{% if is_home %}#devis-section{% else %}{% url 'showcase:home' %}#devis-section{% endif %}"
+          data-nav-target="devis-section"
+          class="nav-link text-sm font-semibold transition-all duration-150 py-1 border-b-2 border-transparent text-slate-700 hover:text-primary hover:border-primary/40">
           Contact
         </a>
       </nav>
@@ -44,46 +45,55 @@
       <!-- CTA BOUTON & MENU MOBILE -->
       <div class="flex items-center gap-3">
         <!-- CTA Devis -->
-        <a href="{% if is_home %}#devis-section{% else %}{% url 'showcase:home' %}#devis-section{% endif %}" class="hidden sm:inline-flex btn btn-primary text-white text-sm font-bold rounded-xl px-5 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 hover:scale-[1.02] active:scale-95 transition-all duration-200">
+        <a href="{% if is_home %}#devis-section{% else %}{% url 'showcase:home' %}#devis-section{% endif %}"
+          class="hidden sm:inline-flex btn btn-primary text-white text-sm font-bold rounded-xl px-5 shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 hover:scale-[1.02] active:scale-95 transition-all duration-200">
           Demander un devis
         </a>
 
         <!-- Burger Dropdown Mobile -->
         <details id="mobile-menu-dropdown" class="group dropdown dropdown-end lg:hidden">
-          <summary class="btn btn-ghost btn-circle text-slate-800 list-none [&::-webkit-details-marker]:hidden flex items-center justify-center cursor-pointer select-none outline-hidden focus:outline-hidden focus:ring-0 active:outline-hidden" style="list-style: none;" aria-label="Menu principal">
+          <summary
+            class="btn btn-ghost btn-circle text-slate-800 list-none [&::-webkit-details-marker]:hidden flex items-center justify-center cursor-pointer select-none outline-hidden focus:outline-hidden focus:ring-0 active:outline-hidden"
+            style="list-style: none;" aria-label="Menu principal">
             <!-- Icône Hamburger (visible quand fermé) -->
-            <svg class="w-6 h-6 block group-open:hidden transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            <svg class="w-6 h-6 block group-open:hidden transition-transform duration-200" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
             <!-- Icône Croix (visible quand ouvert) -->
-            <svg class="w-6 h-6 hidden group-open:block transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            <svg class="w-6 h-6 hidden group-open:block transition-transform duration-200" fill="none"
+              stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </summary>
-          <ul class="dropdown-content menu p-4 shadow-2xl bg-base-100 rounded-2xl w-64 mt-3 border border-slate-100 z-50 text-slate-800 font-semibold gap-1">
+          <ul
+            class="dropdown-content menu p-4 shadow-2xl bg-base-100 rounded-2xl w-64 mt-3 border border-slate-100 z-50 text-slate-800 font-semibold gap-1">
             <li><a href="{% url 'showcase:home' %}" class="active:bg-primary">Accueil</a></li>
             <li><a href="{% url 'showcase:about' %}">Qui sommes-nous</a></li>
             <li><a href="{% url 'showcase:services' %}">Services</a></li>
             <li><a href="{% url 'showcase:products' %}">Matériels &amp; Logiciels</a></li>
             <li><a href="{% url 'showcase:training' %}">Formation</a></li>
-            <li><a href="{% if is_home %}#devis-section{% else %}{% url 'showcase:home' %}#devis-section{% endif %}">Contact</a></li>
+            <li><a
+                href="{% if is_home %}#devis-section{% else %}{% url 'showcase:home' %}#devis-section{% endif %}">Contact</a>
+            </li>
             <li class="pt-2 border-t border-slate-100">
-              <a href="{% if is_home %}#devis-section{% else %}{% url 'showcase:home' %}#devis-section{% endif %}" class="btn btn-primary btn-sm text-white text-center justify-center">Demander un devis</a>
+              <a href="{% if is_home %}#devis-section{% else %}{% url 'showcase:home' %}#devis-section{% endif %}"
+                class="btn btn-primary btn-sm text-white text-center justify-center">Demander un devis</a>
             </li>
           </ul>
         </details>
 
         <script>
-          (function() {
+          (function () {
             var dropdown = document.getElementById("mobile-menu-dropdown");
             if (!dropdown) return;
-            document.addEventListener("click", function(event) {
+            document.addEventListener("click", function (event) {
               if (dropdown.hasAttribute("open") && !dropdown.contains(event.target)) {
                 dropdown.removeAttribute("open");
               }
             });
-            dropdown.querySelectorAll("a").forEach(function(link) {
-              link.addEventListener("click", function() {
+            dropdown.querySelectorAll("a").forEach(function (link) {
+              link.addEventListener("click", function () {
                 dropdown.removeAttribute("open");
               });
             });

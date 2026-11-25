@@ -73,7 +73,7 @@
 </section>
 
 <!-- BARRE DE FILTRES PAR FAMILLE (STICKY) -->
-<nav id="services-filter-nav" aria-label="Filtrer les expertises" class="sticky top-16 sm:top-20 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-sm py-3 transition-all duration-200">
+<nav id="services-filter-nav" aria-label="Filtrer les expertises" class="sticky top-16 sm:top-20 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-sm py-3">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 no-scrollbar text-xs font-bold">
       <span class="text-slate-400 font-semibold uppercase tracking-wider text-[11px] hidden md:inline shrink-0 mr-1">
@@ -383,12 +383,20 @@
           }
         });
 
-        // Remonter doucement vers le haut du conteneur si l'utilisateur a défilé vers le bas
+        // Recalculer la position et remonter toujours au début de la grille sous les barres sticky
         const servicesContainer = document.getElementById('services-container');
+        const filterNav = document.getElementById('services-filter-nav');
+        const header = document.getElementById('main-header');
         if (servicesContainer) {
-          const containerRect = servicesContainer.getBoundingClientRect();
-          if (containerRect.top < 100) {
-            servicesContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          const headerHeight = header ? header.offsetHeight : 80;
+          const filterNavHeight = filterNav ? filterNav.offsetHeight : 52;
+          const totalStickyOffset = headerHeight + filterNavHeight + 20;
+          
+          const containerTop = servicesContainer.getBoundingClientRect().top + window.pageYOffset;
+          const targetY = containerTop - totalStickyOffset;
+          
+          if (window.pageYOffset > targetY) {
+            window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
           }
         }
       });
@@ -401,10 +409,16 @@
         // S'assurer que le filtre affiche la carte
         const targetFamily = targetCard.getAttribute('data-family');
         const familyBtn = document.querySelector(`.service-filter-btn[data-filter="${targetFamily}"]`);
-        // On laisse toutes les cartes visibles ou on active le filtre correspondant
+        if (familyBtn) {
+          familyBtn.click();
+        }
         setTimeout(() => {
-          targetCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 150);
+          const header = document.getElementById('main-header');
+          const filterNav = document.getElementById('services-filter-nav');
+          const totalStickyOffset = (header ? header.offsetHeight : 80) + (filterNav ? filterNav.offsetHeight : 52) + 20;
+          const targetY = targetCard.getBoundingClientRect().top + window.pageYOffset - totalStickyOffset;
+          window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+        }, 200);
       }
     }
   });

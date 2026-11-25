@@ -1,46 +1,88 @@
-<!-- Partial: Bannière de Consentement Cookies (RGPD) -->
+{% load static %}
+<!-- Partial: Bannière & Centre de Préférences Cookies (Loi ivoirienne n° 2013-450 & RGPD) -->
 {% if not COOKIE_CONSENT %}
-<div id="cookie-consent-banner" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:max-w-md bg-slate-900/95 backdrop-blur-xl text-white p-5 rounded-2xl shadow-2xl border border-slate-800 z-50 transition-all duration-300">
-  <div class="flex items-start gap-3.5 mb-3">
-    <div class="w-8 h-8 rounded-lg bg-primary/20 text-sky-400 flex items-center justify-center shrink-0 mt-0.5">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+<div id="cookie-consent-banner" 
+     role="dialog" 
+     aria-modal="false" 
+     aria-label="Centre de préférences et consentement cookies"
+     class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md bg-[#0F172A]/95 backdrop-blur-xl text-white p-5 rounded-2xl shadow-2xl border border-slate-800 z-50 transition-all duration-300 transform translate-y-0 opacity-100">
+  
+  <div class="flex items-start gap-3.5 mb-3.5">
+    <div class="w-9 h-9 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center shrink-0 mt-0.5 border border-sky-500/20">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
       </svg>
     </div>
-    <div>
-      <h2 class="text-sm font-extrabold text-white">Respect de votre vie privée</h2>
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center justify-between gap-2">
+        <h2 class="text-sm font-extrabold text-white">Respect de votre vie privée</h2>
+        <button type="button" onclick="closeHadenaCookieBanner()" class="text-slate-400 hover:text-white p-1 rounded-lg transition-colors cursor-pointer" aria-label="Fermer le panneau des cookies">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
       <p class="text-xs text-slate-300 leading-relaxed mt-1">
-        Nous utilisons des cookies strictement techniques pour assurer la sécurité et le bon fonctionnement du site web, conformément à la loi ivoirienne n° 2013-450 et au RGPD.
+        Nous utilisons des cookies strictement techniques pour assurer la sécurité et le bon fonctionnement du site web.
       </p>
     </div>
   </div>
 
   <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-3 border-t border-slate-800/80">
-    <a href="{% url 'showcase:mentions_legales' %}#cookies" class="text-xs text-slate-400 hover:text-sky-300 underline underline-offset-2 transition-colors self-start sm:self-auto">
+    <a href="{% url 'showcase:privacy' %}#cookies" class="text-xs text-sky-400 hover:text-sky-300 underline underline-offset-2 transition-colors self-start sm:self-auto font-medium">
       Politique de cookies
     </a>
 
+    <!-- Boutons équilibrés (Même taille, même poids visuel et contraste optimal) -->
     <div class="grid grid-cols-2 gap-2 sm:flex sm:items-center">
-      <!-- Bouton Refuser (Poids visuel égal RGPD) -->
-      <button type="button" onclick="setHadenaCookieConsent('rejected')" class="btn btn-sm h-9 min-h-[36px] px-4 rounded-xl border border-slate-700 bg-slate-800/90 hover:bg-slate-700 text-slate-200 font-bold transition-all text-xs">
+      <button type="button" 
+              onclick="setHadenaCookieConsent('rejected')" 
+              class="h-9 px-4 rounded-xl border border-slate-600 bg-slate-800/90 hover:bg-slate-700 active:scale-95 text-slate-100 font-semibold transition-all text-xs flex items-center justify-center cursor-pointer">
         Refuser
       </button>
 
-      <!-- Bouton Accepter (Poids visuel égal RGPD) -->
-      <button type="button" onclick="setHadenaCookieConsent('accepted')" class="btn btn-sm h-9 min-h-[36px] px-4 rounded-xl btn-primary text-white font-bold shadow-md shadow-primary/20 transition-all text-xs">
+      <button type="button" 
+              onclick="setHadenaCookieConsent('accepted')" 
+              class="h-9 px-4 rounded-xl border border-primary/80 bg-primary hover:bg-primary-focus active:scale-95 text-white font-semibold shadow-md shadow-primary/20 transition-all text-xs flex items-center justify-center cursor-pointer">
         Accepter
       </button>
     </div>
   </div>
 </div>
+{% endif %}
+
+<!-- Notification discrète Toast de confirmation de préférence -->
+<div id="cookie-feedback-toast" 
+     role="status"
+     aria-live="polite"
+     class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900/95 text-white text-xs font-semibold px-4 py-2.5 rounded-full shadow-2xl border border-slate-700/80 z-50 backdrop-blur-md items-center gap-2 transition-all duration-300 transform translate-y-4 opacity-0 pointer-events-none">
+  <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+  </svg>
+  <span>Préférences de cookies enregistrées</span>
+</div>
 
 <script>
+  var _cookieBannerId = ['cookie', 'consent', 'banner'].join('-');
+
+  function showCookieToast() {
+    var toast = document.getElementById("cookie-feedback-toast");
+    if (!toast) return;
+    toast.classList.remove("hidden");
+    void toast.offsetWidth;
+    toast.classList.remove("translate-y-4", "opacity-0");
+    toast.classList.add("translate-y-0", "opacity-100");
+    setTimeout(function() {
+      toast.classList.remove("translate-y-0", "opacity-100");
+      toast.classList.add("translate-y-4", "opacity-0");
+      setTimeout(function() {
+        toast.classList.add("hidden");
+      }, 300);
+    }, 2400);
+  }
+
   function setHadenaCookieConsent(choice) {
-    // 1. Stocker immédiatement le consentement dans le cookie navigateur
     var maxAge = 365 * 24 * 3600;
     document.cookie = "hadena_cookie_consent=" + encodeURIComponent(choice) + "; path=/; max-age=" + maxAge + "; SameSite=Lax";
 
-    // 2. Notifier discrètement le serveur en arrière-plan sans bloquer
     try {
       fetch("{% url 'showcase:set_cookie_consent' %}?consent=" + encodeURIComponent(choice), {
         method: "GET",
@@ -48,15 +90,67 @@
       }).catch(function() {});
     } catch(e) {}
 
-    // 3. Masquer immédiatement le bandeau avec une animation fluide
-    var banner = document.getElementById("cookie-consent-banner");
+    var banner = document.getElementById(_cookieBannerId);
     if (banner) {
       banner.style.opacity = "0";
-      banner.style.transform = "translateY(20px)";
+      banner.style.transform = "translateY(16px)";
+      setTimeout(function() {
+        banner.remove();
+        showCookieToast();
+      }, 300);
+    } else {
+      showCookieToast();
+    }
+  }
+
+  function closeHadenaCookieBanner() {
+    var banner = document.getElementById(_cookieBannerId);
+    if (banner) {
+      banner.style.opacity = "0";
+      banner.style.transform = "translateY(16px)";
       setTimeout(function() {
         banner.remove();
       }, 300);
     }
   }
+
+  window.openHadenaCookiePreferences = function() {
+    var banner = document.getElementById(_cookieBannerId);
+    if (banner) {
+      banner.style.opacity = "1";
+      banner.style.transform = "translateY(0)";
+      return;
+    }
+
+    var container = document.createElement("div");
+    container.id = _cookieBannerId;
+    container.setAttribute("role", "dialog");
+    container.setAttribute("aria-label", "Centre de préférences et consentement cookies");
+    container.className = "fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md bg-[#0F172A]/95 backdrop-blur-xl text-white p-5 rounded-2xl shadow-2xl border border-slate-800 z-50 transition-all duration-300 transform translate-y-4 opacity-0";
+    container.innerHTML = `
+      <div class="flex items-start gap-3.5 mb-3.5">
+        <div class="w-9 h-9 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center shrink-0 mt-0.5 border border-sky-500/20">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between gap-2">
+            <h2 class="text-sm font-extrabold text-white">Gestion de vos préférences</h2>
+            <button type="button" onclick="closeHadenaCookieBanner()" class="text-slate-400 hover:text-white p-1 rounded-lg transition-colors cursor-pointer" aria-label="Fermer"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed mt-1">Nous utilisons des cookies strictement techniques pour assurer la sécurité et le bon fonctionnement du site web.</p>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-3 border-t border-slate-800/80">
+        <a href="{% url 'showcase:privacy' %}#cookies" class="text-xs text-sky-400 hover:text-sky-300 underline underline-offset-2 transition-colors self-start sm:self-auto font-medium">Politique de cookies</a>
+        <div class="grid grid-cols-2 gap-2 sm:flex sm:items-center">
+          <button type="button" onclick="setHadenaCookieConsent('rejected')" class="h-9 px-4 rounded-xl border border-slate-600 bg-slate-800/90 hover:bg-slate-700 active:scale-95 text-slate-100 font-semibold transition-all text-xs flex items-center justify-center cursor-pointer">Refuser</button>
+          <button type="button" onclick="setHadenaCookieConsent('accepted')" class="h-9 px-4 rounded-xl border border-primary/80 bg-primary hover:bg-primary-focus active:scale-95 text-white font-semibold shadow-md shadow-primary/20 transition-all text-xs flex items-center justify-center cursor-pointer">Accepter</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(container);
+    void container.offsetWidth;
+    container.classList.remove("translate-y-4", "opacity-0");
+    container.classList.add("translate-y-0", "opacity-100");
+  };
 </script>
-{% endif %}

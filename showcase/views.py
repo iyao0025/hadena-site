@@ -1019,7 +1019,25 @@ class MentionsLegalesView(View):
 
 
 class PrivacyPolicyView(View):
-    """Politique de confidentialité et protection des données (RGPD)."""
+    """Politique de confidentialité et protection des données conforme à la loi ivoirienne n° 2013-450, à l'ARTCI et au RGPD."""
 
     def get(self, request):
-        return render(request, "legal/privacy.html")
+        context = {
+            "page_title": "Politique de Confidentialité & Protection des Données | Hadena Limited",
+            "meta_description": "Politique de confidentialité de Hadena Limited : protection des données selon la Loi ivoirienne n° 2013-450, conformité ARTCI et RGPD. Transparence, droits et sécurité garantis.",
+            "last_updated": "25 novembre 2026",
+            "version": "2.2",
+            "sections": [
+                {"id": "essentiel", "title": "L'essentiel en 30 secondes", "icon": "zap"},
+                {"id": "engagement", "title": "1. Engagement & Cadre Légal (ARTCI & RGPD)", "icon": "shield-check"},
+                {"id": "responsable", "title": "2. Responsable du Traitement & DPO", "icon": "building-2"},
+                {"id": "donnees", "title": "3. Données Collectées", "icon": "database"},
+                {"id": "bases-legales", "title": "4. Finalités & Bases Légales", "icon": "target"},
+                {"id": "destinataires", "title": "5. Destinataires & Transferts", "icon": "send"},
+                {"id": "conservation", "title": "6. Durées de Conservation", "icon": "hourglass"},
+                {"id": "droits", "title": "7. Vos Droits & Voies de Recours (ARTCI)", "icon": "award"},
+                {"id": "cookies", "title": "8. Cookies & Traceurs Techniques", "icon": "cookie"},
+                {"id": "contact-dpo", "title": "9. Contact & Exercice des Droits", "icon": "mail"},
+            ],
+        }
+        return render(request, "legal/privacy.html", context)

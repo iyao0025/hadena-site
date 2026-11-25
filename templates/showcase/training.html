@@ -1,174 +1,500 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}Formations informatiques professionnelles | Hadena Limited{% endblock %}
-{% block meta_description %}Montez en compétences avec nos formations pratiques en bureautique, sécurité, data et administration système à Abidjan.{% endblock %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+
+{% block extra_head %}
+<!-- Données structurées SEO (Schema.org Course & ItemList) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'showcase:home' %}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Formations",
+          "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'showcase:training' %}"
+        }
+      ]
+    },
+    {
+      "@type": "ItemList",
+      "name": "Catalogue Formations Professionnelles Informatiques - Hadena Limited",
+      "description": "Formations pratiques en bureautique, cybersécurité, Power BI, administration systèmes et gouvernance ITIL à Abidjan.",
+      "itemListElement": [
+        {% for m in training_modules %}
+        {
+          "@type": "ListItem",
+          "position": {{ forloop.counter }},
+          "item": {
+            "@type": "Course",
+            "name": "{{ m.title }}",
+            "description": "{{ m.short_desc }}",
+            "provider": {
+              "@type": "Organization",
+              "name": "Hadena Limited",
+              "sameAs": "{{ request.scheme }}://{{ request.get_host }}"
+            },
+            "educationalCredentialAwarded": "{{ m.cert_deliverable }}"
+          }
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      ]
+    }
+  ]
+}
+</script>
+{% endblock %}
 
 {% block content %}
 <!-- HEADER PAGE -->
-<section class="bg-gradient-to-br from-[#0B1A3B] via-[#162D63] to-[#254C9E] text-white py-16 lg:py-20">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
-    <span class="inline-block text-xs font-bold tracking-widest uppercase text-sky-300 bg-sky-500/20 px-3 py-1 rounded-full mb-4">
-      Développement des compétences
+<section class="bg-gradient-to-br from-[#0B1A3B] via-[#162D63] to-[#254C9E] text-white py-16 sm:py-20 lg:py-24 relative overflow-hidden">
+  <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none"></div>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+    <span class="inline-block text-xs font-bold tracking-widest uppercase text-sky-300 bg-sky-500/20 px-3.5 py-1.5 rounded-full mb-4 border border-sky-400/30">
+      Développement des compétences &amp; Capital Humain
     </span>
-    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
-      Formations Pratiques & <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-sky-200 to-amber-200">Certifiantes</span>
+    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight font-heading mb-6 leading-tight">
+      Formations Pratiques &amp; <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-sky-200 to-amber-200">Certifiantes</span>
     </h1>
-    <p class="text-base sm:text-lg text-slate-200 leading-relaxed">
-      Des outils performants ne suffisent pas : vos équipes doivent savoir les exploiter avec efficacité et sécurité.
+    <p class="text-base sm:text-lg lg:text-xl text-slate-200 max-w-2xl mx-auto leading-relaxed mb-8">
+      Montées en compétences opérationnelles animées par des ingénieurs de terrain. Attestations officielles Hadena Limited et préparation aux certifications reconnues (Microsoft, Cisco, ITIL).
     </p>
+
+    <div class="flex flex-wrap items-center justify-center gap-3">
+      <a href="#training-catalogue" class="btn btn-primary text-white font-bold rounded-xl px-6 shadow-lg shadow-primary/25 hover:brightness-105">
+        <span>Découvrir nos 6 modules</span>
+        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+      </a>
+      <a href="#devis-section" class="btn btn-outline border-white/40 text-white hover:bg-white/10 rounded-xl px-6">
+        <span>Demander un devis ou plan intra</span>
+      </a>
+    </div>
   </div>
 </section>
 
-<!-- FORMATIONS -->
-<section class="py-16 lg:py-24 bg-base-100">
+<!-- BANDEAU CHIFFRES CLÉS & PREUVES D'IMPACT -->
+<section class="py-10 bg-slate-900 border-b border-slate-800 text-white relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 divide-y sm:divide-y-0 sm:divide-x divide-slate-800">
+      {% for m in training_metrics %}
+      <div class="pt-4 sm:pt-0 sm:px-6 first:pl-0 text-center sm:text-left">
+        <div class="text-3xl sm:text-4xl font-extrabold font-heading text-sky-400 tracking-tight">
+          {{ m.prefix }}{{ m.target }}{{ m.suffix }}
+        </div>
+        <div class="text-xs sm:text-sm font-bold text-slate-200 mt-1">{{ m.label }}</div>
+        <div class="text-[11px] text-slate-400 mt-0.5">{{ m.sub }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 1 : CATALOGUE DES MODULES DE FORMATION -->
+<section class="py-16 lg:py-24 bg-slate-50/60 scroll-mt-20" id="training-catalogue">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
-    <!-- THÉMATIQUES -->
-    <div class="mb-20">
-      <div class="max-w-2xl mb-10">
-        <span class="text-xs font-black tracking-widest text-primary uppercase block mb-2">Thématiques</span>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Nos modules de formation professionnelle</h2>
-        <p class="text-sm text-slate-600 mt-2">Animés par des experts de terrain, orientés cas pratiques d'entreprise.</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Module 1 -->
-        <div class="bg-base-100 rounded-2xl p-7 border border-slate-200 shadow-sm hover:shadow-md hover:border-primary/40 transition-all">
-          <div class="w-12 h-12 rounded-xl bg-sky-50 text-primary flex items-center justify-center mb-5">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-            </svg>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900 mb-2">Bureautique & Outils Collaboratifs</h3>
-          <p class="text-xs text-slate-600 leading-relaxed mb-4">
-            Maîtrise avancée d'Excel, Word, PowerPoint et adoption fluide des outils cloud (Teams, SharePoint, OneDrive).
-          </p>
-          <span class="text-xs font-bold text-primary">Tous niveaux / 2 à 3 jours</span>
-        </div>
-
-        <!-- Module 2 -->
-        <div class="bg-base-100 rounded-2xl p-7 border border-slate-200 shadow-sm hover:shadow-md hover:border-primary/40 transition-all">
-          <div class="w-12 h-12 rounded-xl bg-sky-50 text-primary flex items-center justify-center mb-5">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-            </svg>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900 mb-2">Cybersécurité & Bonnes Pratiques</h3>
-          <p class="text-xs text-slate-600 leading-relaxed mb-4">
-            Sensibilisation aux cybermenaces, réflexes face au phishing, gestion des mots de passe et protection des données sensibles.
-          </p>
-          <span class="text-xs font-bold text-primary">Sensibilisation collaborateurs / 1 jour</span>
-        </div>
-
-        <!-- Module 3 -->
-        <div class="bg-base-100 rounded-2xl p-7 border border-slate-200 shadow-sm hover:shadow-md hover:border-primary/40 transition-all">
-          <div class="w-12 h-12 rounded-xl bg-sky-50 text-primary flex items-center justify-center mb-5">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-            </svg>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900 mb-2">Analyse de Données & Power BI</h3>
-          <p class="text-xs text-slate-600 leading-relaxed mb-4">
-            Collecte, modélisation et création de tableaux de bord de pilotage décisionnels clairs et percutants.
-          </p>
-          <span class="text-xs font-bold text-primary">Intermédiaire / Avancé / 3 à 5 jours</span>
-        </div>
-
-        <!-- Module 4 -->
-        <div class="bg-base-100 rounded-2xl p-7 border border-slate-200 shadow-sm hover:shadow-md hover:border-primary/40 transition-all">
-          <div class="w-12 h-12 rounded-xl bg-sky-50 text-primary flex items-center justify-center mb-5">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-            </svg>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900 mb-2">Administration Systèmes & Réseaux</h3>
-          <p class="text-xs text-slate-600 leading-relaxed mb-4">
-            Gestion des environnements Windows Server, Linux, virtualisation et administration des équipements réseau.
-          </p>
-          <span class="text-xs font-bold text-primary">Techniciens & Admins / 5 jours</span>
-        </div>
-
-        <!-- Module 5 -->
-        <div class="bg-base-100 rounded-2xl p-7 border border-slate-200 shadow-sm hover:shadow-md hover:border-primary/40 transition-all">
-          <div class="w-12 h-12 rounded-xl bg-sky-50 text-primary flex items-center justify-center mb-5">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-            </svg>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900 mb-2">Gestion des Services IT (ITIL)</h3>
-          <p class="text-xs text-slate-600 leading-relaxed mb-4">
-            Structuration du support informatique, gestion des incidents, problèmes et changements selon les standards ITIL.
-          </p>
-          <span class="text-xs font-bold text-primary">Managers & DSI / 3 jours</span>
-        </div>
-
-        <!-- Module 6 -->
-        <div class="bg-base-100 rounded-2xl p-7 border border-slate-200 shadow-sm hover:shadow-md hover:border-primary/40 transition-all">
-          <div class="w-12 h-12 rounded-xl bg-sky-50 text-primary flex items-center justify-center mb-5">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
-            </svg>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900 mb-2">Programme sur Mesure</h3>
-          <p class="text-xs text-slate-600 leading-relaxed mb-4">
-            Ingénierie de formation adaptée aux spécificités de vos logiciels métier et à l'organisation de vos équipes.
-          </p>
-          <span class="text-xs font-bold text-primary">Sur devis</span>
-        </div>
-      </div>
+    <!-- En-tête de section -->
+    <div class="max-w-2xl mb-8">
+      <span class="text-xs font-black tracking-widest text-primary uppercase block mb-1">Nos spécialités</span>
+      <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 font-heading">
+        Catalogue des modules de formation
+      </h2>
+      <p class="text-sm sm:text-base text-slate-600 mt-2">
+        Des programmes modulables conçus autour de 80% de cas réels d'entreprise et ateliers pratiques.
+      </p>
     </div>
 
-    <!-- FORMATS -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-      <div class="bg-base-200/60 p-7 rounded-2xl border border-slate-200/80">
-        <div class="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center mb-4">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-          </svg>
-        </div>
-        <h3 class="text-base font-bold text-slate-900 mb-2">Formation Intra-entreprise</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          Sessions organisées directement dans vos locaux à Abidjan ou à l'intérieur du pays, sur votre matériel.
-        </p>
-      </div>
-
-      <div class="bg-base-200/60 p-7 rounded-2xl border border-slate-200/80">
-        <div class="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center mb-4">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-          </svg>
-        </div>
-        <h3 class="text-base font-bold text-slate-900 mb-2">Formation Inter-entreprises</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          Sessions en petits groupes favorisant le partage d'expérience avec des pairs d'autres entreprises.
-        </p>
-      </div>
-
-      <div class="bg-base-200/60 p-7 rounded-2xl border border-slate-200/80">
-        <div class="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center mb-4">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
-          </svg>
-        </div>
-        <h3 class="text-base font-bold text-slate-900 mb-2">Accompagnement Post-formation</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          Supports pédagogiques complets et assistance de nos formateurs pour ancrer durablement les acquis.
-        </p>
-      </div>
+    <!-- Barre de filtres par profil métier -->
+    <div class="mb-10 flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar text-xs font-bold" id="profile-filters">
+      <span class="text-slate-400 font-semibold uppercase tracking-wider text-[11px] hidden md:inline shrink-0 mr-1">
+        Filtrer par profil :
+      </span>
+      {% for p in training_profiles %}
+      <button type="button"
+              class="profile-filter-btn shrink-0 px-3.5 py-2 rounded-xl border transition-all duration-200 inline-flex items-center gap-1.5 {% if forloop.first %}bg-primary text-white border-primary shadow-sm shadow-primary/25{% else %}bg-white text-slate-600 border-slate-200 hover:bg-slate-100 hover:text-slate-900{% endif %}"
+              data-profile="{{ p.id }}">
+        <span>{{ p.label }}</span>
+        <span class="text-[10px] px-1.5 py-0.5 rounded-full {% if forloop.first %}bg-white/20 text-white{% else %}bg-slate-100 text-slate-500{% endif %}">
+          {{ p.count }}
+        </span>
+      </button>
+      {% endfor %}
     </div>
 
-    <!-- FORMULAIRE INSCRIPTION / DEVIS FORMATION -->
-    <div class="max-w-3xl mx-auto bg-base-100 rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-xl">
-      <div class="text-center mb-8">
-        <h2 class="text-2xl font-extrabold text-slate-900">Demander un programme de formation</h2>
-        <p class="text-xs text-slate-500 mt-1">Précisez vos besoins et le nombre de collaborateurs à former.</p>
+    <!-- Grille des 6 modules riches -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="modules-container">
+      {% for item in training_modules %}
+      <article class="training-module-card bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-primary/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group"
+               data-profile="{{ item.profile }}">
+        
+        <div>
+          <!-- En-tête : Icône vectorielle dédiée + Badge Profil -->
+          <div class="flex items-center justify-between mb-5">
+            <div class="w-12 h-12 rounded-[12px] bg-primary/10 text-primary flex items-center justify-center border border-primary/20 transition-transform duration-300 group-hover:scale-110">
+              {% if item.icon == 'file-spreadsheet' %}
+                <!-- Lucide FileSpreadsheet (Bureautique) -->
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 2v4a2 2 0 0 0 2 2h4"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 13h2"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 13h2"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 17h2"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 17h2"/>
+                </svg>
+              {% elif item.icon == 'shield-check' %}
+                <!-- Lucide ShieldCheck (Cybersécurité) -->
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m9 12 2 2 4-4"/>
+                </svg>
+              {% elif item.icon == 'bar-chart-3' %}
+                <!-- Lucide BarChart3 (Data & Power BI) -->
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                  <line x1="12" x2="12" y1="20" y2="10"/>
+                  <line x1="18" x2="18" y1="20" y2="4"/>
+                  <line x1="6" x2="6" y1="20" y2="16"/>
+                </svg>
+              {% elif item.icon == 'server' %}
+                <!-- Lucide Server (Administration Systèmes) -->
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                  <rect width="20" height="8" x="2" y="2" rx="2" ry="2"/>
+                  <rect width="20" height="8" x="2" y="14" rx="2" ry="2"/>
+                  <line x1="6" x2="6.01" y1="6" y2="6"/>
+                  <line x1="6" x2="6.01" y1="18" y2="18"/>
+                </svg>
+              {% elif item.icon == 'workflow' %}
+                <!-- Lucide Workflow (ITIL) -->
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                  <rect width="8" height="8" x="3" y="3" rx="2"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 11v4a2 2 0 0 0 2 2h4"/>
+                  <rect width="8" height="8" x="13" y="13" rx="2"/>
+                </svg>
+              {% else %}
+                <!-- Lucide Sparkles (Sur mesure) -->
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+                </svg>
+              {% endif %}
+            </div>
+
+            <span class="text-[10px] font-bold uppercase tracking-wider text-primary bg-sky-50 px-2.5 py-1 rounded-full border border-sky-100">
+              {{ item.profile_label }}
+            </span>
+          </div>
+
+          <!-- Titre & Description -->
+          <h3 class="text-lg font-bold text-slate-900 font-heading mb-2 group-hover:text-primary transition-colors">
+            {{ item.title }}
+          </h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-4">
+            {{ item.short_desc }}
+          </p>
+
+          <!-- Badges Clés avec Icônes (Durée, Niveau, Public) -->
+          <div class="grid grid-cols-2 gap-2 mb-4 pt-1">
+            
+            <!-- Durée -->
+            <div class="flex items-center gap-1.5 text-[11px] font-semibold text-slate-700 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200/70">
+              <svg class="w-3.5 h-3.5 text-primary shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+              </svg>
+              <span class="truncate">{{ item.duration_badge }}</span>
+            </div>
+
+            <!-- Niveau (Indicateur Signal 1 à 3 barres + texte) -->
+            <div class="flex items-center gap-1.5 text-[11px] font-semibold text-slate-700 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200/70" title="{{ item.level }}">
+              <div class="flex items-end gap-0.5 shrink-0" aria-hidden="true">
+                <span class="w-1 h-1.5 rounded-xs {% if item.level_bars >= 1 %}bg-primary{% else %}bg-slate-300{% endif %}"></span>
+                <span class="w-1 h-2.5 rounded-xs {% if item.level_bars >= 2 %}bg-primary{% else %}bg-slate-300{% endif %}"></span>
+                <span class="w-1 h-3.5 rounded-xs {% if item.level_bars >= 3 %}bg-primary{% else %}bg-slate-300{% endif %}"></span>
+              </div>
+              <span class="truncate">{{ item.level }}</span>
+            </div>
+
+            <!-- Public cible -->
+            <div class="col-span-2 flex items-center gap-1.5 text-[11px] text-slate-600 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200/60">
+              <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/>
+              </svg>
+              <span class="truncate">{{ item.target_audience }}</span>
+            </div>
+          </div>
+
+          <!-- Indication Tarifaire -->
+          <div class="text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/70 mb-4 inline-flex items-center gap-1.5">
+            <svg class="w-3 h-3 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33"/></svg>
+            <span>{{ item.price_hint }}</span>
+          </div>
+
+          <!-- ACCORDÉON DÉTAILLÉ DU PROGRAMME -->
+          <details class="collapse collapse-arrow bg-slate-50/80 rounded-2xl border border-slate-200/80 mb-5 group/acc">
+            <summary class="collapse-title text-xs font-bold text-slate-800 py-2.5 px-4 min-h-0 flex items-center justify-between cursor-pointer hover:text-primary">
+              <span>Voir le programme détaillé</span>
+            </summary>
+            
+            <div class="collapse-content px-4 pb-4 text-xs space-y-3.5 border-t border-slate-200/60 pt-3">
+              <!-- Objectifs -->
+              <div>
+                <span class="font-bold text-slate-800 uppercase tracking-wider text-[10px] block mb-1.5">Objectifs de formation :</span>
+                <ul class="space-y-1 text-slate-600">
+                  {% for obj in item.objectives %}
+                  <li class="flex items-start gap-1.5">
+                    <svg class="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+                    <span>{{ obj }}</span>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+
+              <!-- Prérequis -->
+              <div>
+                <span class="font-bold text-slate-800 uppercase tracking-wider text-[10px] block mb-1">Prérequis :</span>
+                <p class="text-slate-600 leading-snug">{{ item.prerequisites }}</p>
+              </div>
+
+              <!-- Plan des modules -->
+              <div>
+                <span class="font-bold text-slate-800 uppercase tracking-wider text-[10px] block mb-1.5">Grand plan de cours :</span>
+                <ul class="space-y-1 text-slate-600 list-disc list-inside">
+                  {% for mod in item.course_outline %}
+                  <li class="leading-snug">{{ mod }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+
+              <!-- Attestation & Certification -->
+              <div class="pt-2 border-t border-slate-200/60">
+                <span class="font-bold text-primary uppercase tracking-wider text-[10px] block mb-0.5">Validation des acquis :</span>
+                <p class="text-[11px] font-medium text-slate-700 leading-snug">{{ item.cert_deliverable }}</p>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <!-- Bouton CTA Interactif -->
+        <button type="button"
+                class="btn btn-outline btn-primary btn-sm rounded-xl w-full flex items-center justify-between group/btn shadow-xs hover:shadow transition-all select-module-btn"
+                data-module="{{ item.title }}"
+                aria-label="Demander le programme de {{ item.title }}">
+          <span>Demander ce programme</span>
+          <svg class="w-4 h-4 transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+          </svg>
+        </button>
+
+      </article>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 2 : FORMATS D'INTERVENTION & ACCOMPAGNEMENT (SÉPARATION CLAIRE DES MODALITÉS) -->
+<section class="py-16 bg-white border-y border-slate-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="text-xs font-black tracking-widest text-primary uppercase block mb-1">Flexibilité &amp; Efficacité</span>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">
+        Formats d'intervention &amp; Accompagnement
+      </h2>
+      <p class="text-xs sm:text-sm text-slate-600 mt-2">
+        Des modalités adaptées à la taille de votre entreprise, à vos objectifs RH et à vos contraintes de planning.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {% for f in training_formats %}
+      <div class="bg-slate-50/80 rounded-3xl p-7 border border-slate-200/90 shadow-xs flex flex-col justify-between hover:shadow-md transition-shadow">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center shadow-md shadow-primary/20">
+              {% if f.icon == 'building-2' %}
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path stroke-linecap="round" stroke-linejoin="round" d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path stroke-linecap="round" stroke-linejoin="round" d="M10 6h4"/><path stroke-linecap="round" stroke-linejoin="round" d="M10 10h4"/><path stroke-linecap="round" stroke-linejoin="round" d="M10 14h4"/><path stroke-linecap="round" stroke-linejoin="round" d="M10 18h4"/></svg>
+              {% elif f.icon == 'users' %}
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path stroke-linecap="round" stroke-linejoin="round" d="M22 21v-2a4 4 0 0 0-3-3.87"/><path stroke-linecap="round" stroke-linejoin="round" d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              {% else %}
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path stroke-linecap="round" stroke-linejoin="round" d="m4.93 4.93 4.24 4.24"/><path stroke-linecap="round" stroke-linejoin="round" d="m14.83 9.17 4.24-4.24"/><path stroke-linecap="round" stroke-linejoin="round" d="m14.83 14.83 4.24 4.24"/><path stroke-linecap="round" stroke-linejoin="round" d="m9.17 14.83-4.24 4.24"/><circle cx="12" cy="12" r="4"/></svg>
+              {% endif %}
+            </div>
+            <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider bg-white px-2.5 py-1 rounded-full border border-slate-200">
+              {{ f.badge }}
+            </span>
+          </div>
+
+          <h3 class="text-lg font-bold text-slate-900 font-heading mb-2">
+            {{ f.title }}
+          </h3>
+          <p class="text-xs text-slate-600 leading-relaxed mb-5">
+            {{ f.desc }}
+          </p>
+
+          <ul class="space-y-2 text-xs text-slate-700">
+            {% for adv in f.advantages %}
+            <li class="flex items-start gap-2">
+              <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 mt-0.5">
+                <svg class="w-2.5 h-2.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </span>
+              <span class="leading-snug">{{ adv }}</span>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 3 : CALENDRIER DES PROCHAINES SESSIONS INTER-ENTREPRISES -->
+<section class="py-16 bg-slate-50/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+      <div>
+        <span class="text-xs font-black tracking-widest text-primary uppercase block mb-1">Calendrier Abidjan</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">
+          Prochaines sessions inter-entreprises
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mt-1">
+          Formez un ou deux collaborateurs sans attendre : réservez vos places sur nos sessions collectives programmées.
+        </p>
       </div>
 
-      <form method="post" action="{% url 'showcase:home' %}#contact-section" class="space-y-4">
+      <a href="#devis-section" class="btn btn-outline btn-primary btn-sm rounded-xl shrink-0">
+        <span>Inscrire un collaborateur</span>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {% for s in upcoming_sessions %}
+      <div class="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+              {{ s.status }}
+            </span>
+            <span class="text-[10px] text-slate-500 font-medium">{{ s.seats }}</span>
+          </div>
+
+          <h3 class="text-sm font-bold text-slate-900 mb-2 font-heading leading-snug">
+            {{ s.course }}
+          </h3>
+
+          <div class="space-y-1.5 text-xs text-slate-600 mb-4">
+            <div class="flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-primary shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+              <span>{{ s.date }}</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>{{ s.duration }}</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-slate-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+              <span>{{ s.location }}</span>
+            </div>
+          </div>
+        </div>
+
+        <button type="button"
+                class="btn btn-ghost btn-sm text-primary hover:bg-sky-50 rounded-xl w-full text-xs font-bold select-module-btn border border-primary/20"
+                data-module="{{ s.course }} (Session {{ s.date }})">
+          <span>Réserver cette session &rarr;</span>
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 4 : PARCOURS PÉDAGOGIQUE EN 4 ÉTAPES (MÉTHODE HADENA) -->
+<section class="py-16 bg-white border-t border-slate-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="text-xs font-black tracking-widest text-primary uppercase block mb-1">Rigueur &amp; Résultats</span>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">
+        Notre démarche pédagogique en 4 étapes
+      </h2>
+      <p class="text-xs sm:text-sm text-slate-600 mt-2">
+        Une méthodologie structurée pour garantir un transfert de compétences mesurable et immédiatement applicable.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {% for step in training_methodology %}
+      <div class="p-6 rounded-2xl bg-slate-50 border border-slate-200/90 flex flex-col justify-between relative group hover:border-primary/40 transition-colors">
+        <div>
+          <div class="text-2xl font-black text-primary/30 mb-3 font-heading group-hover:text-primary transition-colors">
+            {{ step.step }}
+          </div>
+          <h3 class="text-base font-bold text-slate-900 mb-2 font-heading">
+            {{ step.title }}
+          </h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            {{ step.desc }}
+          </p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<!-- SECTION 5 : FORMULAIRE DE DEMANDE DE PROGRAMME & DEVIS -->
+<section id="devis-section" class="py-16 lg:py-24 bg-slate-50/70 border-t border-slate-200/90 scroll-mt-24 relative">
+  <!-- Ancre de secours pour compatibilité -->
+  <span id="contact-section" class="absolute -top-24"></span>
+
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- Carte Principale du Formulaire -->
+    <div class="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200/90 shadow-xl mb-8">
+      <div class="text-center max-w-xl mx-auto mb-8">
+        <span class="text-xs font-black tracking-widest text-primary uppercase block mb-1">Devis &amp; Inscription</span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">
+          Demander un programme de formation
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed">
+          Précisez les thématiques et effectifs souhaités. Notre responsable pédagogique vous transmet une convention et une facture proforma sous 48 heures ouvrées.
+        </p>
+      </div>
+
+      <!-- Sélecteur rapide de thématique (Chips) -->
+      <div class="mb-6">
+        <label class="block text-xs font-bold text-slate-700 mb-2">Choisir une thématique rapide :</label>
+        <div class="flex flex-wrap gap-2">
+          {% for m in training_modules %}
+          <button type="button"
+                  class="chip-select-btn text-[11px] font-semibold px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-sky-50 hover:border-primary/50 hover:text-primary transition-all"
+                  data-theme="{{ m.title }}">
+            {{ m.title }}
+          </button>
+          {% endfor %}
+        </div>
+      </div>
+
+      <form method="post" action="{% url 'showcase:home' %}#devis-section" class="space-y-4" id="training-quote-form">
         {% csrf_token %}
         <div class="hidden" aria-hidden="true">{{ form.website }}</div>
+
+        <!-- Champ masqué avec valeur par défaut : Formation professionnelle -->
+        <input type="hidden" name="service" value="formation" id="id_service">
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div class="form-control">
@@ -176,29 +502,27 @@
             {{ form.full_name }}
           </div>
           <div class="form-control">
-            <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">Entreprise</span></label>
+            <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">Entreprise / Organisation</span></label>
             {{ form.company }}
           </div>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div class="form-control">
-            <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">E-mail *</span></label>
+            <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">E-mail professionnel *</span></label>
             {{ form.email }}
           </div>
           <div class="form-control">
-            <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">Téléphone *</span></label>
+            <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">Téléphone (WhatsApp) *</span></label>
             {{ form.phone }}
           </div>
         </div>
 
         <div class="form-control">
-          <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">Service concerné *</span></label>
-          {{ form.service }}
-        </div>
-
-        <div class="form-control">
-          <label class="label py-1"><span class="label-text text-xs font-bold text-slate-700">Thématiques et nombre de participants *</span></label>
+          <label class="label py-1 flex items-center justify-between">
+            <span class="label-text text-xs font-bold text-slate-700">Thématiques et nombre de participants *</span>
+            <span class="text-[10px] text-slate-400">Précisez vos besoins et contraintes de dates</span>
+          </label>
           {{ form.message }}
         </div>
 
@@ -206,18 +530,177 @@
           <label class="cursor-pointer flex items-start gap-2.5">
             {{ form.consent_gdpr }}
             <span class="text-[11px] text-slate-500 leading-tight">
-              J'accepte le traitement de mes données conformément à la politique de confidentialité.
+              J'accepte le traitement de mes données conformément à la politique de confidentialité de Hadena Limited.
             </span>
           </label>
         </div>
 
-        <button type="submit" class="btn btn-primary w-full text-white font-bold rounded-xl mt-3 shadow">
-          Recevoir le catalogue et devis de formation
+        <button type="submit" class="btn btn-primary w-full text-white font-bold rounded-xl mt-3 shadow-md hover:shadow-lg transition-all" id="submit-training-btn">
+          <span>Recevoir le catalogue et le devis de formation</span>
         </button>
       </form>
     </div>
 
+    <!-- Carte d'Assistance Express WhatsApp Pédagogique -->
+    <div class="bg-gradient-to-r from-emerald-50 via-teal-50 to-sky-50 rounded-2xl p-6 border border-emerald-200/80 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-4 text-center sm:text-left">
+        <div class="w-12 h-12 rounded-2xl bg-[#25D366] text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-500/20">
+          <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+            <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.04 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.11 7.5C8.94 7.5 8.67 7.57 8.44 7.81C8.21 8.06 7.56 8.67 7.56 9.91C7.56 11.16 8.47 12.36 8.6 12.53C8.73 12.7 10.39 15.26 12.92 16.35C13.52 16.61 14 16.77 14.36 16.89C14.97 17.08 15.52 17.05 15.96 16.99C16.45 16.91 17.47 16.37 17.68 15.77C17.9 15.17 17.9 14.66 17.83 14.55C17.76 14.44 17.59 14.37 17.34 14.25C17.09 14.12 15.86 13.51 15.63 13.43C15.4 13.34 15.23 13.3 15.06 13.55C14.89 13.8 14.41 14.37 14.26 14.55C14.12 14.72 13.97 14.74 13.72 14.62C13.47 14.49 12.41 14.14 11.15 13.02C10.17 12.15 9.51 11.07 9.38 10.85C9.25 10.63 9.37 10.51 9.49 10.39C9.6 10.28 9.74 10.1 9.87 9.95C10 9.8 10.04 9.69 10.12 9.52C10.2 9.35 10.16 9.2 10.1 9.08C10.04 8.95 9.56 7.78 9.36 7.29C9.16 6.81 8.96 6.87 8.81 6.87C8.67 6.86 8.5 6.86 8.33 6.86"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-bold text-slate-900 text-sm font-heading">
+            Une question sur nos formations ?
+          </h3>
+          <p class="text-xs text-slate-600 mt-0.5">
+            Échangez directement avec notre responsable pédagogique sur WhatsApp au <strong class="text-slate-900">+225 07 09 77 97 87</strong>.
+          </p>
+        </div>
+      </div>
+
+      <a href="https://wa.me/2250709779787?text=Bonjour%20Hadena%20Limited,%20je%20souhaite%20des%20informations%20sur%20vos%20programmes%20de%20formation%20professionnelle."
+         target="_blank"
+         rel="noopener noreferrer"
+         class="btn bg-[#25D366] hover:bg-[#20ba59] text-white border-none btn-sm rounded-xl px-5 flex items-center gap-2 font-bold shadow-md shadow-emerald-500/20 shrink-0">
+        <span>Échanger sur WhatsApp</span>
+      </a>
+    </div>
+
   </div>
 </section>
-{% endblock %}
 
+<!-- SECTION 6 : FAQ FORMATIONS PROFESSIONNELLES -->
+<section class="py-16 bg-white border-t border-slate-200">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center mb-10">
+      <span class="text-xs font-black tracking-widest text-primary uppercase block mb-1">Questions fréquentes</span>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 font-heading">
+        Foire aux questions sur nos formations
+      </h2>
+      <p class="text-xs sm:text-sm text-slate-600 mt-2">
+        Tout ce que vous devez savoir sur le financement, les attestations et l'organisation logistique.
+      </p>
+    </div>
+
+    <div class="space-y-4">
+      {% for faq in training_faqs %}
+      <details class="collapse collapse-plus bg-slate-50 border border-slate-200/90 rounded-2xl shadow-xs group">
+        <summary class="collapse-title text-sm sm:text-base font-bold text-slate-900 group-hover:text-primary transition-colors py-4 px-6 cursor-pointer">
+          {{ faq.question }}
+        </summary>
+        <div class="collapse-content px-6 pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-200/40 pt-3">
+          <p>{{ faq.answer }}</p>
+        </div>
+      </details>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA FINAL BANNER -->
+{% include "partials/_cta_banner.html" %}
+
+<!-- SCRIPT DE FILTRAGE PAR PROFIL & PRÉ-REMPLISSAGE DU FORMULAIRE -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Filtrage par profil métier
+    const filterButtons = document.querySelectorAll('.profile-filter-btn');
+    const moduleCards = document.querySelectorAll('.training-module-card');
+    const modulesContainer = document.getElementById('training-catalogue');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const profile = btn.getAttribute('data-profile');
+
+        // Style actif / inactif des boutons
+        filterButtons.forEach(b => {
+          b.classList.remove('bg-primary', 'text-white', 'border-primary', 'shadow-sm', 'shadow-primary/25');
+          b.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
+          const badge = b.querySelector('span:last-child');
+          if (badge) {
+            badge.classList.remove('bg-white/20', 'text-white');
+            badge.classList.add('bg-slate-100', 'text-slate-500');
+          }
+        });
+
+        btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+        btn.classList.add('bg-primary', 'text-white', 'border-primary', 'shadow-sm', 'shadow-primary/25');
+        const activeBadge = btn.querySelector('span:last-child');
+        if (activeBadge) {
+          activeBadge.classList.remove('bg-slate-100', 'text-slate-500');
+          activeBadge.classList.add('bg-white/20', 'text-white');
+        }
+
+        // Masquer / afficher les cartes
+        moduleCards.forEach(card => {
+          const cardProfile = card.getAttribute('data-profile');
+          if (profile === 'all' || cardProfile === profile) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+
+        // Remonter doucement vers le catalogue si l'utilisateur a défilé vers le bas
+        if (modulesContainer) {
+          const containerRect = modulesContainer.getBoundingClientRect();
+          if (containerRect.top < 80) {
+            modulesContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    });
+
+    // 2. Pré-remplissage interactif lors du clic sur "Demander ce programme" ou chip
+    const moduleButtons = document.querySelectorAll('.select-module-btn');
+    const chipButtons = document.querySelectorAll('.chip-select-btn');
+    const messageField = document.getElementById('id_message');
+    const devisSection = document.getElementById('devis-section');
+
+    const handlePreFill = (moduleTitle) => {
+      if (!moduleTitle) return;
+
+      // Défilement fluide vers le formulaire
+      if (devisSection) {
+        devisSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      // Pré-remplissage du champ
+      if (messageField) {
+        const prefix = `[Demande de formation : ${moduleTitle}]\n`;
+        if (!messageField.value.includes(moduleTitle)) {
+          if (messageField.value.trim() === '') {
+            messageField.value = `${prefix}Bonjour, je souhaite recevoir le programme détaillé et une proposition de devis pour la formation "${moduleTitle}".\n- Nombre de participants estimé : \n- Format envisagé (Intra dans nos locaux / Inter-entreprises) : \n- Période souhaitée : `;
+          } else {
+            messageField.value = `${prefix}\n${messageField.value}`;
+          }
+        }
+
+        // Focus et effet visuel
+        setTimeout(() => {
+          messageField.focus();
+          messageField.classList.add('ring-2', 'ring-primary', 'border-primary');
+          setTimeout(() => {
+            messageField.classList.remove('ring-2', 'ring-primary');
+          }, 1500);
+        }, 400);
+      }
+    };
+
+    moduleButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        handlePreFill(btn.getAttribute('data-module'));
+      });
+    });
+
+    chipButtons.forEach(chip => {
+      chip.addEventListener('click', () => {
+        handlePreFill(chip.getAttribute('data-theme'));
+      });
+    });
+  });
+</script>
+{% endblock %}

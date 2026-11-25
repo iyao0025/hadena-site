@@ -569,12 +569,335 @@ class ProductsView(View):
         return render(request, "showcase/products.html", context)
 
 
+TRAINING_MODULES = [
+    {
+        "id": "bureautique_collaboratif",
+        "title": "Bureautique & Outils Collaboratifs",
+        "short_desc": "Maîtrise avancée d'Excel, Word, PowerPoint et adoption fluide des outils cloud (Microsoft 365, Teams, OneDrive).",
+        "icon": "file-spreadsheet",
+        "badge_color": "emerald",
+        "profile": "collaborateurs",
+        "profile_label": "Collaborateurs",
+        "duration": "2 à 3 jours (14h à 21h)",
+        "duration_badge": "2 à 3 jours",
+        "level": "Tous niveaux",
+        "level_bars": 1,
+        "target_audience": "Assistants, cadres, équipes administratives & opérationnelles",
+        "format": "Intra ou Inter-entreprises",
+        "price_hint": "À partir de 150 000 FCFA / participant",
+        "objectives": [
+            "Automatiser les calculs complexes et tableaux de bord avec Excel (fonctions avancées, TCD)",
+            "Collaborer efficacement en temps réel sur Microsoft Teams et SharePoint",
+            "Gagner un temps précieux dans la rédaction et la mise en forme de documents d'entreprise",
+        ],
+        "prerequisites": "Utilisation courante d'un ordinateur sous Windows ou macOS.",
+        "course_outline": [
+            "Module 1 : Formules avancées, RechercheX, Si imbriqués et validation de données",
+            "Module 2 : Tableaux croisés dynamiques et mise en forme conditionnelle visuelle",
+            "Module 3 : Co-édition en direct sur OneDrive et gestion d'équipes sur Teams",
+            "Module 4 : Astuces de productivité et raccourcis professionnels indispensables",
+        ],
+        "cert_deliverable": "Attestation nominative Hadena Limited + Évaluation pratique des acquis",
+    },
+    {
+        "id": "cybersecurite_sensibilisation",
+        "title": "Cybersécurité & Bonnes Pratiques",
+        "short_desc": "Sensibilisation aux cybermenaces, réflexes face au phishing, gestion sécurisée des accès et protection des données sensibles.",
+        "icon": "shield-check",
+        "badge_color": "rose",
+        "profile": "collaborateurs",
+        "profile_label": "Collaborateurs",
+        "duration": "1 jour (7h)",
+        "duration_badge": "1 jour",
+        "level": "Sensibilisation",
+        "level_bars": 1,
+        "target_audience": "Ensemble des collaborateurs manipulant des postes et données d'entreprise",
+        "format": "Intra-entreprise sur site ou visio",
+        "price_hint": "Formule session groupe dès 350 000 FCFA",
+        "objectives": [
+            "Identifier immédiatement les courriels de phishing, spear-phishing et faux ordres de virement",
+            "Adopter les réflexes d'hygiène numérique (mots de passe robustes, MFA, verrouillage de session)",
+            "Savoir comment réagir et alerter en cas de comportement suspect ou d'incident de sécurité",
+        ],
+        "prerequisites": "Aucun prérequis technique.",
+        "course_outline": [
+            "Module 1 : Panorama des cybermenaces actuelles en Côte d'Ivoire et Afrique de l'Ouest",
+            "Module 2 : Anatomie d'une attaque par phishing et ateliers d'analyse de faux e-mails",
+            "Module 3 : Sécurité des mots de passe, coffres-forts numériques et double facteur (MFA)",
+            "Module 4 : Sécurité en déplacement, Wi-Fi publics, clés USB et procédure d'alerte interne",
+        ],
+        "cert_deliverable": "Attestation d'habilitation à l'hygiène numérique Hadena Limited",
+    },
+    {
+        "id": "data_power_bi",
+        "title": "Analyse de Données & Power BI",
+        "short_desc": "Collecte, modélisation de données (Power Query, DAX) et conception de tableaux de bord décisionnels interactifs percutants.",
+        "icon": "bar-chart-3",
+        "badge_color": "amber",
+        "profile": "collaborateurs",
+        "profile_label": "Collaborateurs & Décideurs",
+        "duration": "3 à 5 jours (21h à 35h)",
+        "duration_badge": "3 à 5 jours",
+        "level": "Intermédiaire à Avancé",
+        "level_bars": 2,
+        "target_audience": "Contrôleurs de gestion, analystes financiers, marketeurs, managers de pôle",
+        "format": "Intra ou Inter-entreprises",
+        "price_hint": "À partir de 275 000 FCFA / participant",
+        "objectives": [
+            "Importer et transformer des données de sources multiples avec Power Query",
+            "Maîtriser les formules DAX fondamentales (CALCULATE, RELATED, ratios temporels)",
+            "Créer des rapports interactifs dynamiques prêts pour le comité de direction",
+        ],
+        "prerequisites": "Bonne pratique préalable d'Excel (formules et Tableaux Croisés Dynamiques).",
+        "course_outline": [
+            "Module 1 : Découverte de l'écosystème Power BI Desktop et cycle décisionnel",
+            "Module 2 : Importation, nettoyage et modélisation en étoile dans Power Query",
+            "Module 3 : Les bases et subtilités du langage DAX pour les métriques clés",
+            "Module 4 : Data Visualisation : graphiques percutants, filtres croisés et publication sur le service cloud",
+        ],
+        "cert_deliverable": "Attestation Hadena Data Analytics + Préparation à l'examen Microsoft PL-300",
+    },
+    {
+        "id": "admin_systemes_reseaux",
+        "title": "Administration Systèmes & Réseaux",
+        "short_desc": "Déploiement et administration de Windows Server, Linux, virtualisation (VMware/Hyper-V) et équipements Cisco/Fortinet.",
+        "icon": "server",
+        "badge_color": "sky",
+        "profile": "techniciens",
+        "profile_label": "Techniciens & Admins",
+        "duration": "5 jours (35h)",
+        "duration_badge": "5 jours",
+        "level": "Avancé / Technique",
+        "level_bars": 3,
+        "target_audience": "Administrateurs réseaux, techniciens de maintenance, ingénieurs système",
+        "format": "Intra ou Inter-entreprises en lab dédié",
+        "price_hint": "À partir de 450 000 FCFA / participant",
+        "objectives": [
+            "Installer, configurer et sécuriser un contrôleur de domaine Active Directory et DNS/DHCP",
+            "Administrer des machines virtuelles et gérer le stockage haute disponibilité",
+            "Configurer des commutateurs VLAN, routage sécurisé et règles pare-feu de périmètre",
+        ],
+        "prerequisites": "Connaissances solides en informatique générale et notions de réseaux TCP/IP.",
+        "course_outline": [
+            "Module 1 : Déploiement Windows Server, rôles AD DS, GPO et gestion des habilitations",
+            "Module 2 : Fondamentaux Linux d'entreprise (gestion des services, droits, scripts shell)",
+            "Module 3 : Virtualisation d'infrastructure, hyperviseurs et stratégies de sauvegarde PRA",
+            "Module 4 : Configuration switches manageables, VLANs, Wi-Fi d'entreprise et pare-feu",
+        ],
+        "cert_deliverable": "Attestation d'expertise technique Hadena + Préparation CCNA / Microsoft AZ-800",
+    },
+    {
+        "id": "itil_gouvernance",
+        "title": "Gestion des Services IT (ITIL v4)",
+        "short_desc": "Structuration du Service Desk, gestion des incidents, problèmes et changements selon les standards internationaux ITIL v4.",
+        "icon": "workflow",
+        "badge_color": "indigo",
+        "profile": "managers",
+        "profile_label": "Managers & DSI",
+        "duration": "3 jours (21h)",
+        "duration_badge": "3 jours",
+        "level": "Intermédiaire / Cadre",
+        "level_bars": 2,
+        "target_audience": "DSI, Responsables informatiques, chefs de projets, superviseurs Helpdesk",
+        "format": "Intra ou Inter-entreprises",
+        "price_hint": "À partir de 350 000 FCFA / participant",
+        "objectives": [
+            "Comprendre et appliquer le Système de Valeur des Services (SVS) ITIL v4",
+            "Mettre en place un guichet unique (Service Desk) avec SLA garantis",
+            "Améliorer continuellement la satisfaction des directions métiers et des utilisateurs finaux",
+        ],
+        "prerequisites": "Expérience préalable en environnement informatique ou gestion de projet.",
+        "course_outline": [
+            "Module 1 : Les 4 dimensions et les 7 principes directeurs d'ITIL v4",
+            "Module 2 : Pratiques de gestion de services : Gestion des Incidents, Problèmes et Demandes",
+            "Module 3 : Pratiques de gestion générale : Amélioration continue et gestion des changements",
+            "Module 4 : Cas pratiques de modélisation de catalogue de services et préparation examen",
+        ],
+        "cert_deliverable": "Attestation Hadena Gouvernance IT + Préparation officielle certification ITIL v4 Foundation",
+    },
+    {
+        "id": "programme_sur_mesure",
+        "title": "Ingénierie de Formation sur Mesure",
+        "short_desc": "Conception de programmes personnalisés calqués sur vos logiciels métiers, vos processus internes et vos contraintes d'agenda.",
+        "icon": "sparkles",
+        "badge_color": "purple",
+        "profile": "managers",
+        "profile_label": "Directions & DRH",
+        "duration": "Flexible selon vos besoins",
+        "duration_badge": "Sur mesure",
+        "level": "Personnalisé",
+        "level_bars": 2,
+        "target_audience": "Directions générales, DRH, DSI souhaitant former des équipes complètes",
+        "format": "Sur site client ou en séminaire dédié",
+        "price_hint": "Proposition budgétaire détaillée sous 48h",
+        "objectives": [
+            "Adapter 100% des contenus aux cas d'usage réels et données fictives de votre secteur",
+            "Former vos collaborateurs directement sur vos outils propriétaires (ERP, CRM, portails)",
+            "Planifier des sessions en demi-journées ou week-ends pour préserver la continuité d'activité",
+        ],
+        "prerequisites": "Définis conjointement lors de l'entretien de cadrage pédagogique.",
+        "course_outline": [
+            "Étape 1 : Diagnostic des compétences initiales et identification des écarts opérationnels",
+            "Étape 2 : Co-conception des supports de cours personnalisés et des ateliers pratiques",
+            "Étape 3 : Animation dynamique par un consultant-formateur expert du domaine",
+            "Étape 4 : Évaluation post-formation et rapport d'impact remis à la direction",
+        ],
+        "cert_deliverable": "Attestation nominative d'entreprise personnalisée avec livret de synthèse",
+    },
+]
+
+TRAINING_PROFILES = [
+    {"id": "all", "label": "Tous les profils", "count": 6},
+    {"id": "collaborateurs", "label": "Collaborateurs & Utilisateurs", "count": 3},
+    {"id": "techniciens", "label": "Techniciens & Admins", "count": 1},
+    {"id": "managers", "label": "Managers & Décideurs", "count": 2},
+]
+
+TRAINING_FORMATS = [
+    {
+        "id": "intra",
+        "title": "Formation Intra-entreprise",
+        "badge": "Dans vos locaux ou sur site",
+        "icon": "building-2",
+        "desc": "Sessions privatisées exclusivement dédiées à vos équipes, organisées dans vos locaux à Abidjan ou partout en Côte d'Ivoire, avec adaptation des exemples à votre contexte d'affaires.",
+        "advantages": [
+            "Programme ajusté à vos outils et problématiques métiers",
+            "Dates et horaires fixés selon vos impératifs d'agenda",
+            "Tarif dégressif avantageux pour les groupes de 4 à 15 collaborateurs",
+            "Exercices pratiques directement sur vos équipements d'entreprise",
+        ],
+    },
+    {
+        "id": "inter",
+        "title": "Formation Inter-entreprises",
+        "badge": "Sessions collectives en centre",
+        "icon": "users",
+        "desc": "Sessions collectives en petits groupes (4 à 8 participants max) regroupant des professionnels issus de différentes entreprises dans des salles équipées modernes et climatisées à Abidjan.",
+        "advantages": [
+            "Idéal pour former 1 ou 2 collaborateurs sans mobiliser tout un service",
+            "Partage d'expériences enrichissant avec des pairs d'autres secteurs",
+            "Émulation de groupe et lab informatique individuel haute performance",
+            "Calendrier de dates régulières tout au long de l'année",
+        ],
+    },
+    {
+        "id": "accompagnement",
+        "title": "Accompagnement Post-formation",
+        "badge": "Ancrage des compétences",
+        "icon": "life-buoy",
+        "desc": "Parce qu'une formation ne s'arrête pas au dernier jour de cours, nos formateurs restent disponibles pour assister vos apprenants dans la mise en pratique réelle de leurs acquis.",
+        "advantages": [
+            "Supports de cours complets (PDF, mémentos, fichiers d'exercices corrigés)",
+            "Assistance téléassistance / questions-réponses durant 30 jours après la session",
+            "Évaluation des acquis à froid après 3 semaines de mise en pratique",
+            "Recommandations d'axes de progression remises au responsable formation/RH",
+        ],
+    },
+]
+
+UPCOMING_SESSIONS = [
+    {
+        "course": "Analyse de Données & Power BI",
+        "date": "15 au 18 Décembre 2026",
+        "duration": "4 jours (28h)",
+        "location": "Abidjan (Cocody)",
+        "seats": "3 places disponibles",
+        "status": "Inscriptions ouvertes",
+    },
+    {
+        "course": "Cybersécurité & Bonnes Pratiques",
+        "date": "08 Janvier 2027",
+        "duration": "1 jour (7h)",
+        "location": "Abidjan & Format Hybride",
+        "seats": "5 places disponibles",
+        "status": "Inscriptions ouvertes",
+    },
+    {
+        "course": "Administration Systèmes & Réseaux",
+        "date": "19 au 23 Janvier 2027",
+        "duration": "5 jours (35h)",
+        "location": "Abidjan (Lab Réseau)",
+        "seats": "2 places disponibles",
+        "status": "Dernières places",
+    },
+    {
+        "course": "Gestion des Services IT (ITIL v4)",
+        "date": "02 au 04 Février 2027",
+        "duration": "3 jours (21h)",
+        "location": "Abidjan (Cocody)",
+        "seats": "4 places disponibles",
+        "status": "Inscriptions ouvertes",
+    },
+]
+
+TRAINING_METHODOLOGY = [
+    {
+        "step": "01",
+        "title": "Diagnostic & Cadrage",
+        "desc": "Évaluation du niveau initial des participants et définition précise des compétences opérationnelles ciblées.",
+    },
+    {
+        "step": "02",
+        "title": "Cas Réels & Ateliers",
+        "desc": "80% de pratique, études de cas concrètes et mises en situation inspirées directement de votre secteur.",
+    },
+    {
+        "step": "03",
+        "title": "Évaluation & Attestation",
+        "desc": "Validation des acquis en fin de session et remise d'une attestation officielle nominative Hadena Limited.",
+    },
+    {
+        "step": "04",
+        "title": "Suivi à 30 jours",
+        "desc": "Support continu pendant un mois pour répondre aux questions lors de la mise en application sur le terrain.",
+    },
+]
+
+TRAINING_METRICS = [
+    {"target": 350, "prefix": "+", "suffix": "", "label": "Professionnels formés", "sub": "en entreprise à Abidjan"},
+    {"target": 98.4, "prefix": "", "suffix": "%", "label": "Taux de satisfaction", "sub": "évaluations à chaud"},
+    {"target": 80, "prefix": "", "suffix": "%", "label": "Pratique & Ateliers", "sub": "orientés cas d'usage réels"},
+    {"target": 100, "prefix": "", "suffix": "%", "label": "Attestation nominative", "sub": "délivrée à chaque participant"},
+]
+
+TRAINING_FAQS = [
+    {
+        "question": "Les formations délivrent-elles un certificat ou une attestation ?",
+        "answer": "Oui. Chaque participant ayant suivi la session avec assiduité et validé les ateliers pratiques reçoit une attestation officielle nominative délivrée par Hadena Limited, détaillant les compétences acquises et le volume horaire. Pour les parcours certifiants (ITIL v4, Power BI, Cisco), nous dispensons les modules de préparation officielle aux examens éditeurs reconnus à l'échelle internationale.",
+    },
+    {
+        "question": "Où se déroulent les formations (sur site ou en centre) ?",
+        "answer": "Nous proposons les deux formules selon vos contraintes : en formule Intra-entreprise directement dans vos locaux d'entreprise (à Abidjan ou dans toute la Côte d'Ivoire) avec notre matériel pédagogique mobile, ou en formule Inter-entreprises dans nos salles de séminaires climatisées et équipées à Cocody.",
+    },
+    {
+        "question": "Les formations peuvent-elles être prises en charge par le FDFP ?",
+        "answer": "Absolument. Hadena Limited fournit l'ensemble des pièces administratives et contractuelles requises pour la prise en charge FDFP : conventions de formation, plan de cours détaillé, factures proforma certifiées, feuilles d'émargement quotidiennes et bilans pédagogiques.",
+    },
+    {
+        "question": "Quel est le nombre de participants recommandé par session ?",
+        "answer": "Afin de garantir un suivi individualisé de haute qualité et une réelle progression de chacun, nos groupes inter-entreprises sont strictement plafonnés à 8 personnes. En formule intra-entreprise, l'effectif idéal se situe entre 4 et 12 collaborateurs par session.",
+    },
+    {
+        "question": "Le matériel informatique et les logiciels sont-ils fournis ?",
+        "answer": "Pour les sessions inter-entreprises, chaque participant dispose d'un ordinateur individuel configuré avec l'ensemble des logiciels et licences nécessaires. Pour les sessions intra-entreprise dans vos locaux, nos formateurs apportent les supports, clés d'exercices et peuvent configurer en amont les postes de vos apprenants.",
+    },
+]
+
+
 class TrainingView(View):
     """Page Formations professionnelles."""
 
     def get(self, request):
         form = ContactForm(initial={"service": "formation"})
         context = {
+            "training_modules": TRAINING_MODULES,
+            "training_profiles": TRAINING_PROFILES,
+            "training_formats": TRAINING_FORMATS,
+            "upcoming_sessions": UPCOMING_SESSIONS,
+            "training_methodology": TRAINING_METHODOLOGY,
+            "training_metrics": TRAINING_METRICS,
+            "training_faqs": TRAINING_FAQS,
+            "references": CLIENT_REFERENCES,
             "form": form,
             "page_title": "Formations informatiques professionnelles | Hadena Limited",
             "meta_description": "Montez en compétences avec nos formations pratiques en bureautique, sécurité, data et administration système à Abidjan.",

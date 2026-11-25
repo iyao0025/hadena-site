@@ -995,10 +995,27 @@ class SetCookieConsentView(View):
 
 
 class MentionsLegalesView(View):
-    """Mentions légales obligatoires."""
+    """Mentions légales et informations réglementaires conformes aux lois ivoiriennes et à l'ARTCI."""
 
     def get(self, request):
-        return render(request, "legal/mentions_legales.html")
+        context = {
+            "page_title": "Mentions Légales & Informations Réglementaires | Hadena Limited",
+            "meta_description": "Mentions légales de Hadena Limited SARL à Abidjan : identification juridique, hébergement haute sécurité, conformité ARTCI Loi 2013-450, propriété intellectuelle et cookies.",
+            "last_updated": "25 novembre 2026",
+            "version": "2.1",
+            "sections": [
+                {"id": "editeur", "title": "Éditeur du site", "icon": "building"},
+                {"id": "hebergement", "title": "Hébergement & Infrastructure", "icon": "server"},
+                {"id": "donnees-personnelles", "title": "Données Personnelles & ARTCI", "icon": "shield"},
+                {"id": "cookies", "title": "Cookies & Traceurs", "icon": "cookie"},
+                {"id": "propriete-intellectuelle", "title": "Propriété Intellectuelle", "icon": "copyright"},
+                {"id": "responsabilite", "title": "Limitation de Responsabilité", "icon": "scale"},
+                {"id": "liens-externes", "title": "Liens Hypertextes & Tiers", "icon": "link"},
+                {"id": "droit-applicable", "title": "Droit Applicable & Juridiction", "icon": "gavel"},
+                {"id": "credits", "title": "Crédits & Licences", "icon": "code"},
+            ],
+        }
+        return render(request, "legal/mentions_legales.html", context)
 
 
 class PrivacyPolicyView(View):
